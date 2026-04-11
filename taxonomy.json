@@ -1,0 +1,4168 @@
+{
+  "Credit reporting or other personal consumer reports": {
+    "Credit reporting": {
+      "Incorrect information on your report": [
+        "Public record information inaccurate",
+        "Account status incorrect",
+        "Information is missing that should be on the report",
+        "Old information reappears or never goes away",
+        "Information belongs to someone else",
+        "Personal information incorrect",
+        "General",
+        "Account information incorrect"
+      ],
+      "Problem with a credit reporting company's investigation into an existing problem": [
+        "Investigation took more than 30 days",
+        "Was not notified of investigation status or results",
+        "Problem with personal statement of dispute",
+        "Difficulty submitting a dispute or getting information about a dispute over the phone",
+        "Their investigation did not fix an error on your report"
+      ],
+      "Improper use of your report": [
+        "Reporting company used your report improperly",
+        "Report provided to employer without your written authorization",
+        "Received unsolicited financial product or insurance offers after opting out",
+        "Credit inquiries on your report that you don't recognize"
+      ],
+      "Problem with a company's investigation into an existing problem": [
+        "Investigation took more than 30 days",
+        "Was not notified of investigation status or results",
+        "Problem with personal statement of dispute",
+        "Difficulty submitting a dispute or getting information about a dispute over the phone",
+        "Their investigation did not fix an error on your report"
+      ],
+      "Problem with fraud alerts or security freezes": [
+        "General"
+      ],
+      "Unable to get your credit report or credit score": [
+        "Other problem getting your report or credit score",
+        "Problem getting your free annual credit report"
+      ],
+      "Credit monitoring or identity theft protection services": [
+        "Received unwanted marketing or advertising",
+        "Problem with product or service terms changing",
+        "Didn't receive services that were advertised",
+        "Billing dispute for services",
+        "Problem canceling credit monitoring or identify theft protection service"
+      ],
+      "Problem when making payments": [
+        "Problem during payment process"
+      ],
+      "Closing on a mortgage": [
+        "General"
+      ],
+      "Getting the loan": [
+        "General"
+      ],
+      "Getting a loan or lease": [
+        "Credit denial",
+        "Fraudulent loan"
+      ],
+      "Getting a loan": [
+        "General"
+      ],
+      "Closing your account": [
+        "Can't close your account"
+      ],
+      "Other features, terms, or problems": [
+        "Other problem",
+        "Privacy issues"
+      ],
+      "Dealing with your lender or servicer": [
+        "Received bad information about your loan"
+      ],
+      "Getting a credit card": [
+        "Card opened as result of identity theft or fraud"
+      ],
+      "Trouble during payment process": [
+        "General"
+      ],
+      "Problems at the end of the loan or lease": [
+        "Problem with paying off the loan"
+      ],
+      "Getting a line of credit": [
+        "General"
+      ],
+      "Struggling to repay your loan": [
+        "Problem with forgiveness, cancellation, or discharge"
+      ],
+      "Problem with the payoff process at the end of the loan": [
+        "General"
+      ],
+      "Advertising and marketing, including promotional offers": [
+        "Confusing or misleading advertising about the credit card"
+      ],
+      "Struggling to pay your loan": [
+        "Denied request to lower payments"
+      ],
+      "Problem with a purchase shown on your statement": [
+        "Card was charged for something you did not purchase with the card",
+        "Credit card company isn't resolving a dispute about a purchase on your statement"
+      ],
+      "Trouble using your card": [
+        "Can't use card to make purchases"
+      ]
+    },
+    "Other personal consumer report": {
+      "Improper use of your report": [
+        "Reporting company used your report improperly",
+        "Report provided to employer without your written authorization",
+        "Received unsolicited financial product or insurance offers after opting out"
+      ],
+      "Incorrect information on your report": [
+        "Public record information inaccurate",
+        "Old information reappears or never goes away",
+        "Information that should be on the report is missing",
+        "Information belongs to someone else",
+        "Personal information incorrect",
+        "Information is incorrect"
+      ],
+      "Problem with a company's investigation into an existing issue": [
+        "Investigation took more than 30 days",
+        "Was not notified of investigation status or results",
+        "Problem with personal statement of dispute",
+        "Difficulty submitting a dispute or getting information about a dispute over the phone",
+        "Their investigation did not fix an error on your report"
+      ],
+      "Identity theft protection or other monitoring services": [
+        "Received unwanted marketing or advertising",
+        "Problem with product or service terms changing",
+        "Didn't receive services that were advertised",
+        "Billing dispute for services",
+        "Problem canceling credit monitoring or identify theft protection service"
+      ]
+    },
+    "Credit repair services": {
+      "Fraud or scam": [
+        "General"
+      ],
+      "Confusing or missing disclosures": [
+        "General"
+      ],
+      "Excessive fees": [
+        "General"
+      ],
+      "Problem with customer service": [
+        "General"
+      ],
+      "Unexpected or other fees": [
+        "General"
+      ],
+      "Confusing or misleading advertising or marketing": [
+        "General"
+      ]
+    },
+    "General": {
+      "Incorrect information on credit report": [
+        "Account status",
+        "Account terms",
+        "Personal information",
+        "Public record",
+        "Information is not mine",
+        "Reinserted previously deleted info"
+      ],
+      "Credit reporting company's investigation": [
+        "Inadequate help over the phone",
+        "Problem with statement of dispute",
+        "No notice of investigation status/result",
+        "Investigation took too long"
+      ],
+      "Improper use of my credit report": [
+        "Received marketing offer after opted out",
+        "Report improperly shared by CRC",
+        "Report shared with employer w/o consent"
+      ],
+      "Unable to get credit report/credit score": [
+        "Problem getting my free annual report",
+        "Problem getting report or credit score"
+      ],
+      "Credit monitoring or identity protection": [
+        "Receiving unwanted marketing/advertising",
+        "Problem with fraud alerts",
+        "Billing dispute",
+        "Account terms and changes",
+        "Problem cancelling or closing account"
+      ]
+    },
+    "Conventional home mortgage": {
+      "Struggling to pay mortgage": [
+        "General"
+      ]
+    }
+  },
+  "Student loan": {
+    "Federal student loan servicing": {
+      "Dealing with your lender or servicer": [
+        "Don't agree with the fees charged",
+        "Problem with customer service",
+        "Need information about your loan balance or loan terms",
+        "Keep getting calls about your loan",
+        "Co-signer",
+        "Received bad information about your loan",
+        "Trouble with how payments are being handled"
+      ],
+      "Struggling to repay your loan": [
+        "Problem with your payment plan",
+        "Can't get other flexible options for repaying your loan",
+        "Can't temporarily delay making payments",
+        "Problem lowering your monthly payments",
+        "Problem with forgiveness, cancellation, or discharge",
+        "Bankruptcy"
+      ],
+      "Dealing with my lender or servicer": [
+        "Don't agree with fees charged",
+        "Received bad information about my loan",
+        "Trouble with how payments are handled",
+        "Having problems with customer service",
+        "Need information about my balance/terms",
+        "Keep getting calls about my loan"
+      ],
+      "Improper use of your report": [
+        "Reporting company used your report improperly",
+        "Report provided to employer without your written authorization",
+        "Received unsolicited financial product or insurance offers after opting out",
+        "Credit inquiries on your report that you don't recognize"
+      ],
+      "Problem with a company's investigation into an existing problem": [
+        "Investigation took more than 30 days",
+        "Was not notified of investigation status or results",
+        "Problem with personal statement of dispute",
+        "Difficulty submitting a dispute or getting information about a dispute over the phone",
+        "Their investigation did not fix an error on your report"
+      ],
+      "Incorrect information on your report": [
+        "Public record information inaccurate",
+        "Account status incorrect",
+        "Information is missing that should be on the report",
+        "Old information reappears or never goes away",
+        "Information belongs to someone else",
+        "Personal information incorrect",
+        "Account information incorrect"
+      ],
+      "Can't repay my loan": [
+        "Can't get flexible payment options",
+        "Can't decrease my monthly payments",
+        "Can't temporarily postpone payments"
+      ],
+      "Problem with a credit reporting company's investigation into an existing problem": [
+        "Investigation took more than 30 days",
+        "Was not notified of investigation status or results",
+        "Problem with personal statement of dispute",
+        "Difficulty submitting a dispute or getting information about a dispute over the phone",
+        "Their investigation did not fix an error on your report"
+      ],
+      "Credit monitoring or identity theft protection services": [
+        "Received unwanted marketing or advertising",
+        "Problem with product or service terms changing",
+        "Didn't receive services that were advertised",
+        "Billing dispute for services",
+        "Problem canceling credit monitoring or identify theft protection service"
+      ],
+      "Unable to get your credit report or credit score": [
+        "Other problem getting your report or credit score",
+        "Problem getting your free annual credit report"
+      ],
+      "Problem with fraud alerts or security freezes": [
+        "General"
+      ]
+    },
+    "Private student loan": {
+      "Dealing with your lender or servicer": [
+        "Don't agree with the fees charged",
+        "Problem with customer service",
+        "Need information about your loan balance or loan terms",
+        "Keep getting calls about your loan",
+        "Co-signer",
+        "Received bad information about your loan",
+        "Trouble with how payments are being handled"
+      ],
+      "Struggling to repay your loan": [
+        "Can't get other flexible options for repaying your loan",
+        "Can't temporarily delay making payments",
+        "Problem lowering your monthly payments",
+        "Bankruptcy"
+      ],
+      "Issue where my lender is my school": [
+        "Issues with fees connected to the loan",
+        "Cannot graduate, receive diploma, or get transcript due to money owed"
+      ],
+      "Incorrect information on your report": [
+        "Public record information inaccurate",
+        "Account status incorrect",
+        "Information is missing that should be on the report",
+        "Old information reappears or never goes away",
+        "Information belongs to someone else",
+        "Personal information incorrect",
+        "Account information incorrect"
+      ],
+      "Getting a loan": [
+        "Fraudulent loan",
+        "Confusing or misleading advertising",
+        "Loan opened without my consent or knowledge",
+        "Problem with signing the paperwork",
+        "Changes in terms mid-deal or after closing",
+        "Issues with financial aid services",
+        "Problem with the interest rate",
+        "Qualified for a better loan than the one offered",
+        "High pressure sales tactics or recruiting",
+        "Denied loan"
+      ],
+      "Problem with a credit reporting company's investigation into an existing problem": [
+        "Investigation took more than 30 days"
+      ],
+      "Issue with income share agreement": [
+        "Billing or statement issues",
+        "Dealing with provider of income share agreement",
+        "Marketing or disclosure issues",
+        "Payment issues"
+      ],
+      "Problem with a company's investigation into an existing problem": [
+        "Investigation took more than 30 days",
+        "Was not notified of investigation status or results",
+        "Problem with personal statement of dispute",
+        "Difficulty submitting a dispute or getting information about a dispute over the phone",
+        "Their investigation did not fix an error on your report"
+      ],
+      "Problem with fraud alerts or security freezes": [
+        "General"
+      ],
+      "Credit monitoring or identity theft protection services": [
+        "Didn't receive services that were advertised",
+        "Problem canceling credit monitoring or identify theft protection service",
+        "Billing dispute for services",
+        "Problem with product or service terms changing"
+      ],
+      "Improper use of your report": [
+        "Reporting company used your report improperly",
+        "Report provided to employer without your written authorization",
+        "Received unsolicited financial product or insurance offers after opting out",
+        "Credit inquiries on your report that you don't recognize"
+      ],
+      "Unable to get your credit report or credit score": [
+        "Other problem getting your report or credit score"
+      ]
+    },
+    "Non-federal student loan": {
+      "Dealing with my lender or servicer": [
+        "Don't agree with fees charged",
+        "Received bad information about my loan",
+        "Trouble with how payments are handled",
+        "Having problems with customer service",
+        "Need information about my balance/terms",
+        "Keep getting calls about my loan"
+      ],
+      "Can't repay my loan": [
+        "Can't get flexible payment options",
+        "Can't decrease my monthly payments",
+        "Can't temporarily postpone payments"
+      ],
+      "Getting a loan": [
+        "Qualify for a better loan than offered",
+        "Can't qualify for a loan"
+      ]
+    }
+  },
+  "Credit card or prepaid card": {
+    "General-purpose credit card or charge card": {
+      "Problem with a purchase shown on your statement": [
+        "Card was charged for something you did not purchase with the card",
+        "Credit card company isn't resolving a dispute about a purchase on your statement",
+        "Overcharged for something you did purchase with the card"
+      ],
+      "Trouble using your card": [
+        "Can't use card to make purchases",
+        "Account sold or transferred to another company",
+        "Credit card company won't increase or decrease your credit limit"
+      ],
+      "Advertising and marketing, including promotional offers": [
+        "Didn't receive advertised or promotional terms",
+        "Confusing or misleading advertising about the credit card"
+      ],
+      "Fees or interest": [
+        "Unexpected increase in interest rate",
+        "Problem with fees",
+        "Charged too much interest"
+      ],
+      "Incorrect information on your report": [
+        "Public record information inaccurate",
+        "Account status incorrect",
+        "Information is missing that should be on the report",
+        "Old information reappears or never goes away",
+        "Information belongs to someone else",
+        "Personal information incorrect",
+        "Account information incorrect"
+      ],
+      "Problem with a company's investigation into an existing problem": [
+        "Investigation took more than 30 days",
+        "Was not notified of investigation status or results",
+        "Problem with personal statement of dispute",
+        "Difficulty submitting a dispute or getting information about a dispute over the phone",
+        "Their investigation did not fix an error on your report"
+      ],
+      "Other features, terms, or problems": [
+        "Problem with customer service",
+        "Problem with rewards from credit card",
+        "Credit card company forcing arbitration",
+        "Problem with balance transfer",
+        "Privacy issues",
+        "Problem with convenience check",
+        "Other problem",
+        "Add-on products and services",
+        "Problem with cash advances"
+      ],
+      "Problem with a credit reporting company's investigation into an existing problem": [
+        "Investigation took more than 30 days",
+        "Was not notified of investigation status or results",
+        "Problem with personal statement of dispute",
+        "Difficulty submitting a dispute or getting information about a dispute over the phone",
+        "Their investigation did not fix an error on your report"
+      ],
+      "Getting a credit card": [
+        "Delay in processing application",
+        "Problem getting a working replacement card",
+        "Sent card you never applied for",
+        "Application denied",
+        "Card opened without my consent or knowledge",
+        "Card opened as result of identity theft or fraud"
+      ],
+      "Problem when making payments": [
+        "You never received your bill or did not know a payment was due",
+        "Problem during payment process"
+      ],
+      "Improper use of your report": [
+        "Reporting company used your report improperly",
+        "Report provided to employer without your written authorization",
+        "Received unsolicited financial product or insurance offers after opting out",
+        "Credit inquiries on your report that you don't recognize"
+      ],
+      "Closing your account": [
+        "Company closed your account",
+        "Can't close your account"
+      ],
+      "Struggling to pay your bill": [
+        "Filed for bankruptcy",
+        "Problem lowering your monthly payments",
+        "Credit card company won't work with you while you're going through financial hardship"
+      ],
+      "Credit monitoring or identity theft protection services": [
+        "Received unwanted marketing or advertising",
+        "Problem with product or service terms changing",
+        "Didn't receive services that were advertised",
+        "Billing dispute for services",
+        "Problem canceling credit monitoring or identify theft protection service"
+      ],
+      "Problem with fraud alerts or security freezes": [
+        "General"
+      ],
+      "Unable to get your credit report or credit score": [
+        "Other problem getting your report or credit score",
+        "Problem getting your free annual credit report"
+      ]
+    },
+    "General-purpose prepaid card": {
+      "Trouble using the card": [
+        "Trouble getting information about the card",
+        "Trouble using the card to pay a bill",
+        "Problem using the card to withdraw money from an ATM",
+        "Trouble using the card to spend money in a store or online",
+        "Problem adding money",
+        "Problem with a check written from your prepaid card account",
+        "Trouble using the card to send money to another person",
+        "Problem with direct deposit"
+      ],
+      "Problem with a purchase or transfer": [
+        "Overcharged for a purchase or transfer you did make with the card",
+        "Card company isn't resolving a dispute about a purchase or transfer",
+        "Charged for a purchase or transfer you did not make with the card"
+      ],
+      "Unexpected or other fees": [
+        "General"
+      ],
+      "Problem getting a card or closing an account": [
+        "Trouble getting a working replacement card",
+        "Trouble closing card",
+        "Don't want a card provided by your employer or the government",
+        "Trouble getting, activating, or registering a card"
+      ],
+      "Advertising": [
+        "Confusing or misleading advertising about the card",
+        "Changes in terms from what was offered or advertised"
+      ],
+      "Problem with overdraft": [
+        "Overdraft charges",
+        "Was signed up for overdraft on card, but don't want to be"
+      ]
+    },
+    "Store credit card": {
+      "Problem with a purchase shown on your statement": [
+        "Card was charged for something you did not purchase with the card",
+        "Credit card company isn't resolving a dispute about a purchase on your statement",
+        "Overcharged for something you did purchase with the card"
+      ],
+      "Fees or interest": [
+        "Unexpected increase in interest rate",
+        "Problem with fees",
+        "Charged too much interest"
+      ],
+      "Getting a credit card": [
+        "Delay in processing application",
+        "Problem getting a working replacement card",
+        "Application denied",
+        "Sent card you never applied for",
+        "Card opened without my consent or knowledge",
+        "Card opened as result of identity theft or fraud"
+      ],
+      "Problem when making payments": [
+        "You never received your bill or did not know a payment was due",
+        "Problem during payment process"
+      ],
+      "Closing your account": [
+        "Company closed your account",
+        "Can't close your account"
+      ],
+      "Trouble using your card": [
+        "Can't use card to make purchases",
+        "Account sold or transferred to another company",
+        "Credit card company won't increase or decrease your credit limit"
+      ],
+      "Other features, terms, or problems": [
+        "Problem with customer service",
+        "Problem with rewards from credit card",
+        "Credit card company forcing arbitration",
+        "Problem with balance transfer",
+        "Privacy issues",
+        "Problem with convenience check",
+        "Other problem",
+        "Add-on products and services",
+        "Problem with cash advances"
+      ],
+      "Advertising and marketing, including promotional offers": [
+        "Didn't receive advertised or promotional terms",
+        "Confusing or misleading advertising about the credit card"
+      ],
+      "Incorrect information on your report": [
+        "Public record information inaccurate",
+        "Account status incorrect",
+        "Information is missing that should be on the report",
+        "Old information reappears or never goes away",
+        "Information belongs to someone else",
+        "Personal information incorrect",
+        "Account information incorrect"
+      ],
+      "Improper use of your report": [
+        "Reporting company used your report improperly",
+        "Report provided to employer without your written authorization",
+        "Received unsolicited financial product or insurance offers after opting out",
+        "Credit inquiries on your report that you don't recognize"
+      ],
+      "Credit monitoring or identity theft protection services": [
+        "Received unwanted marketing or advertising",
+        "Problem with product or service terms changing",
+        "Didn't receive services that were advertised",
+        "Billing dispute for services",
+        "Problem canceling credit monitoring or identify theft protection service"
+      ],
+      "Struggling to pay your bill": [
+        "Filed for bankruptcy",
+        "Problem lowering your monthly payments",
+        "Credit card company won't work with you while you're going through financial hardship"
+      ],
+      "Problem with a credit reporting company's investigation into an existing problem": [
+        "Investigation took more than 30 days",
+        "Was not notified of investigation status or results",
+        "Problem with personal statement of dispute",
+        "Difficulty submitting a dispute or getting information about a dispute over the phone",
+        "Their investigation did not fix an error on your report"
+      ],
+      "Unable to get your credit report or credit score": [
+        "Other problem getting your report or credit score",
+        "Problem getting your free annual credit report"
+      ],
+      "Problem with a company's investigation into an existing problem": [
+        "Investigation took more than 30 days",
+        "Was not notified of investigation status or results",
+        "Problem with personal statement of dispute",
+        "Difficulty submitting a dispute or getting information about a dispute over the phone",
+        "Their investigation did not fix an error on your report"
+      ],
+      "Problem with fraud alerts or security freezes": [
+        "General"
+      ]
+    },
+    "Government benefit card": {
+      "Trouble using the card": [
+        "Trouble getting information about the card",
+        "Trouble using the card to pay a bill",
+        "Problem using the card to withdraw money from an ATM",
+        "Trouble using the card to spend money in a store or online",
+        "Problem adding money",
+        "Problem with a check written from your prepaid card account",
+        "Trouble using the card to send money to another person",
+        "Problem with direct deposit"
+      ],
+      "Problem with a purchase or transfer": [
+        "Overcharged for a purchase or transfer you did make with the card",
+        "Card company isn't resolving a dispute about a purchase or transfer",
+        "Charged for a purchase or transfer you did not make with the card"
+      ],
+      "Problem getting a card or closing an account": [
+        "Trouble getting a working replacement card",
+        "Trouble closing card",
+        "Don't want a card provided by your employer or the government",
+        "Trouble getting, activating, or registering a card"
+      ],
+      "Unexpected or other fees": [
+        "General"
+      ],
+      "Problem with overdraft": [
+        "Overdraft charges"
+      ],
+      "Advertising": [
+        "Confusing or misleading advertising about the card",
+        "Changes in terms from what was offered or advertised"
+      ]
+    },
+    "General": {
+      "Billing disputes": [
+        "General"
+      ],
+      "Closing/Cancelling account": [
+        "General"
+      ],
+      "Other": [
+        "General"
+      ],
+      "Transaction issue": [
+        "General"
+      ],
+      "Identity theft / Fraud / Embezzlement": [
+        "General"
+      ],
+      "Advertising and marketing": [
+        "General"
+      ],
+      "Balance transfer": [
+        "General"
+      ],
+      "Late fee": [
+        "General"
+      ],
+      "Rewards": [
+        "General"
+      ],
+      "Payoff process": [
+        "General"
+      ],
+      "Balance transfer fee": [
+        "General"
+      ],
+      "Billing statement": [
+        "General"
+      ],
+      "Other fee": [
+        "General"
+      ],
+      "Credit card protection / Debt protection": [
+        "General"
+      ],
+      "Delinquent account": [
+        "General"
+      ],
+      "Credit determination": [
+        "General"
+      ],
+      "Arbitration": [
+        "General"
+      ],
+      "Privacy": [
+        "General"
+      ],
+      "APR or interest rate": [
+        "General"
+      ],
+      "Customer service / Customer relations": [
+        "General"
+      ],
+      "Forbearance / Workout plans": [
+        "General"
+      ],
+      "Unsolicited issuance of credit card": [
+        "General"
+      ],
+      "Cash advance fee": [
+        "General"
+      ],
+      "Credit line increase/decrease": [
+        "General"
+      ],
+      "Bankruptcy": [
+        "General"
+      ],
+      "Application processing delay": [
+        "General"
+      ],
+      "Convenience checks": [
+        "General"
+      ],
+      "Cash advance": [
+        "General"
+      ],
+      "Sale of account": [
+        "General"
+      ],
+      "Overlimit fee": [
+        "General"
+      ]
+    },
+    "Payroll card": {
+      "Problem with a purchase or transfer": [
+        "Overcharged for a purchase or transfer you did make with the card",
+        "Card company isn't resolving a dispute about a purchase or transfer",
+        "Charged for a purchase or transfer you did not make with the card"
+      ],
+      "Trouble using the card": [
+        "Trouble getting information about the card",
+        "Trouble using the card to pay a bill",
+        "Problem using the card to withdraw money from an ATM",
+        "Trouble using the card to spend money in a store or online",
+        "Problem with a check written from your prepaid card account",
+        "Trouble using the card to send money to another person",
+        "Problem with direct deposit"
+      ],
+      "Unexpected or other fees": [
+        "General"
+      ],
+      "Problem getting a card or closing an account": [
+        "Trouble getting a working replacement card",
+        "Don't want a card provided by your employer or the government",
+        "Trouble getting, activating, or registering a card",
+        "Trouble closing card"
+      ],
+      "Problem with an overdraft": [
+        "Overdraft charges",
+        "Was signed up for overdraft on card, but don't want to be"
+      ],
+      "Advertising": [
+        "Confusing or misleading advertising about the card",
+        "Changes in terms from what was offered or advertised"
+      ]
+    },
+    "Gift card": {
+      "Problem with a purchase or transfer": [
+        "Overcharged for a purchase or transfer you did make with the card",
+        "Card company isn't resolving a dispute about a purchase or transfer",
+        "Charged for a purchase or transfer you did not make with the card"
+      ],
+      "Unexpected or other fees": [
+        "General"
+      ],
+      "Trouble using the card": [
+        "Trouble using the card to spend money in a store or online",
+        "Trouble getting information about the card",
+        "Trouble using the card to pay a bill",
+        "Trouble using the card to send money to another person"
+      ],
+      "Problem getting a card or closing an account": [
+        "Trouble getting a working replacement card",
+        "Trouble closing card",
+        "Trouble getting, activating, or registering a card"
+      ],
+      "Problem with overdraft": [
+        "Overdraft charges"
+      ],
+      "Advertising": [
+        "Confusing or misleading advertising about the card",
+        "Changes in terms from what was offered or advertised"
+      ]
+    },
+    "Student prepaid card": {
+      "Trouble using the card": [
+        "Trouble using the card to spend money in a store or online",
+        "Trouble getting information about the card"
+      ],
+      "Problem with a purchase or transfer": [
+        "Card company isn't resolving a dispute about a purchase or transfer",
+        "Charged for a purchase or transfer you did not make with the card"
+      ],
+      "Unexpected or other fees": [
+        "General"
+      ],
+      "Problem getting a card or closing an account": [
+        "Trouble getting, activating, or registering a card",
+        "Trouble closing card"
+      ],
+      "Advertising": [
+        "Confusing or misleading advertising about the card"
+      ]
+    }
+  },
+  "Debt collection": {
+    "Credit card debt": {
+      "False statements or representation": [
+        "Told you not to respond to a lawsuit they filed against you",
+        "Indicated you were committing crime by not paying debt",
+        "Attempted to collect wrong amount",
+        "Impersonated attorney, law enforcement, or government official"
+      ],
+      "Attempts to collect debt not owed": [
+        "Debt was already discharged in bankruptcy and is no longer owed",
+        "Debt was result of identity theft",
+        "Debt was paid",
+        "Debt is not yours"
+      ],
+      "Written notification about debt": [
+        "Didn't receive enough information to verify debt",
+        "Notification didn't disclose it was an attempt to collect a debt",
+        "Didn't receive notice of right to dispute"
+      ],
+      "Threatened to contact someone or share information improperly": [
+        "Talked to a third-party about your debt",
+        "Contacted your employer",
+        "Contacted you after you asked them to stop",
+        "Contacted you instead of your attorney"
+      ],
+      "Communication tactics": [
+        "Frequent or repeated calls",
+        "You told them to stop contacting you, but they keep trying",
+        "Called before 8am or after 9pm",
+        "Used obscene, profane, or other abusive language"
+      ],
+      "Took or threatened to take negative or legal action": [
+        "Threatened or suggested your credit would be damaged",
+        "Threatened to arrest you or take you to jail if you do not pay",
+        "Sued you without properly notifying you of lawsuit",
+        "Sued you in a state where you do not live or did not sign for the debt",
+        "Threatened to turn you in to immigration or deport you",
+        "Seized or attempted to seize your property",
+        "Threatened to sue you for very old debt",
+        "Collected or attempted to collect exempt funds"
+      ],
+      "Electronic communications": [
+        "Contacted before 8am or after 9pm",
+        "You told them to stop contacting you, but they keep trying",
+        "Frequent or repeated messages",
+        "Used obscene, profane, or other abusive language"
+      ]
+    },
+    "Mortgage debt": {
+      "Communication tactics": [
+        "Frequent or repeated calls",
+        "You told them to stop contacting you, but they keep trying",
+        "Called before 8am or after 9pm",
+        "Used obscene, profane, or other abusive language"
+      ],
+      "Attempts to collect debt not owed": [
+        "Debt was already discharged in bankruptcy and is no longer owed",
+        "Debt was result of identity theft",
+        "Debt was paid",
+        "Debt is not yours"
+      ],
+      "Written notification about debt": [
+        "Didn't receive enough information to verify debt",
+        "Notification didn't disclose it was an attempt to collect a debt",
+        "Didn't receive notice of right to dispute"
+      ],
+      "Took or threatened to take negative or legal action": [
+        "Threatened or suggested your credit would be damaged",
+        "Threatened to arrest you or take you to jail if you do not pay",
+        "Sued you without properly notifying you of lawsuit",
+        "Sued you in a state where you do not live or did not sign for the debt",
+        "Seized or attempted to seize your property",
+        "Threatened to sue you for very old debt",
+        "Collected or attempted to collect exempt funds"
+      ],
+      "False statements or representation": [
+        "Told you not to respond to a lawsuit they filed against you",
+        "Indicated you were committing crime by not paying debt",
+        "Attempted to collect wrong amount",
+        "Impersonated attorney, law enforcement, or government official"
+      ],
+      "Threatened to contact someone or share information improperly": [
+        "Talked to a third-party about your debt",
+        "Contacted you after you asked them to stop"
+      ],
+      "Electronic communications": [
+        "You told them to stop contacting you, but they keep trying",
+        "Frequent or repeated messages",
+        "Used obscene, profane, or other abusive language"
+      ]
+    },
+    "Payday loan debt": {
+      "Attempts to collect debt not owed": [
+        "Debt was already discharged in bankruptcy and is no longer owed",
+        "Debt was result of identity theft",
+        "Debt was paid",
+        "Debt is not yours"
+      ],
+      "False statements or representation": [
+        "Told you not to respond to a lawsuit they filed against you",
+        "Indicated you were committing crime by not paying debt",
+        "Attempted to collect wrong amount",
+        "Impersonated attorney, law enforcement, or government official"
+      ],
+      "Electronic communications": [
+        "Contacted before 8am or after 9pm",
+        "You told them to stop contacting you, but they keep trying",
+        "Frequent or repeated messages",
+        "Used obscene, profane, or other abusive language"
+      ],
+      "Took or threatened to take negative or legal action": [
+        "Threatened or suggested your credit would be damaged",
+        "Threatened to arrest you or take you to jail if you do not pay",
+        "Sued you without properly notifying you of lawsuit",
+        "Sued you in a state where you do not live or did not sign for the debt",
+        "Threatened to turn you in to immigration or deport you",
+        "Seized or attempted to seize your property",
+        "Threatened to sue you for very old debt",
+        "Collected or attempted to collect exempt funds"
+      ],
+      "Threatened to contact someone or share information improperly": [
+        "Talked to a third-party about your debt",
+        "Contacted your employer",
+        "Contacted you after you asked them to stop",
+        "Contacted you instead of your attorney"
+      ],
+      "Written notification about debt": [
+        "Didn't receive enough information to verify debt",
+        "Notification didn't disclose it was an attempt to collect a debt",
+        "Didn't receive notice of right to dispute"
+      ],
+      "Communication tactics": [
+        "Frequent or repeated calls",
+        "You told them to stop contacting you, but they keep trying",
+        "Called before 8am or after 9pm",
+        "Used obscene, profane, or other abusive language"
+      ]
+    },
+    "Other debt": {
+      "Communication tactics": [
+        "Frequent or repeated calls",
+        "You told them to stop contacting you, but they keep trying",
+        "Called before 8am or after 9pm",
+        "Used obscene, profane, or other abusive language"
+      ],
+      "Attempts to collect debt not owed": [
+        "Debt was already discharged in bankruptcy and is no longer owed",
+        "Debt was result of identity theft",
+        "Debt was paid",
+        "Debt is not yours"
+      ],
+      "False statements or representation": [
+        "Told you not to respond to a lawsuit they filed against you",
+        "Indicated you were committing crime by not paying debt",
+        "Attempted to collect wrong amount",
+        "Impersonated attorney, law enforcement, or government official"
+      ],
+      "Written notification about debt": [
+        "Didn't receive enough information to verify debt",
+        "Didn't receive notice of right to dispute",
+        "Notification didn't disclose it was an attempt to collect a debt"
+      ],
+      "Took or threatened to take negative or legal action": [
+        "Threatened or suggested your credit would be damaged",
+        "Threatened to arrest you or take you to jail if you do not pay",
+        "Sued you without properly notifying you of lawsuit",
+        "Sued you in a state where you do not live or did not sign for the debt",
+        "Threatened to turn you in to immigration or deport you",
+        "Seized or attempted to seize your property",
+        "Threatened to sue you for very old debt",
+        "Collected or attempted to collect exempt funds"
+      ],
+      "Threatened to contact someone or share information improperly": [
+        "Talked to a third-party about your debt",
+        "Contacted your employer",
+        "Contacted you after you asked them to stop",
+        "Contacted you instead of your attorney"
+      ],
+      "Electronic communications": [
+        "Contacted before 8am or after 9pm",
+        "You told them to stop contacting you, but they keep trying",
+        "Frequent or repeated messages",
+        "Used obscene, profane, or other abusive language"
+      ]
+    },
+    "Medical debt": {
+      "Attempts to collect debt not owed": [
+        "Debt was already discharged in bankruptcy and is no longer owed",
+        "Debt was result of identity theft",
+        "Debt was paid",
+        "Debt is not yours"
+      ],
+      "Written notification about debt": [
+        "Didn't receive enough information to verify debt",
+        "Notification didn't disclose it was an attempt to collect a debt",
+        "Didn't receive notice of right to dispute"
+      ],
+      "False statements or representation": [
+        "Told you not to respond to a lawsuit they filed against you",
+        "Indicated you were committing crime by not paying debt",
+        "Attempted to collect wrong amount",
+        "Impersonated attorney, law enforcement, or government official"
+      ],
+      "Took or threatened to take negative or legal action": [
+        "Threatened or suggested your credit would be damaged",
+        "Threatened to arrest you or take you to jail if you do not pay",
+        "Sued you without properly notifying you of lawsuit",
+        "Sued you in a state where you do not live or did not sign for the debt",
+        "Threatened to turn you in to immigration or deport you",
+        "Seized or attempted to seize your property",
+        "Threatened to sue you for very old debt",
+        "Collected or attempted to collect exempt funds"
+      ],
+      "Communication tactics": [
+        "Frequent or repeated calls",
+        "You told them to stop contacting you, but they keep trying",
+        "Called before 8am or after 9pm",
+        "Used obscene, profane, or other abusive language"
+      ],
+      "Threatened to contact someone or share information improperly": [
+        "Talked to a third-party about your debt",
+        "Contacted your employer",
+        "Contacted you after you asked them to stop",
+        "Contacted you instead of your attorney"
+      ],
+      "Electronic communications": [
+        "Contacted before 8am or after 9pm",
+        "You told them to stop contacting you, but they keep trying",
+        "Frequent or repeated messages",
+        "Used obscene, profane, or other abusive language"
+      ]
+    },
+    "I do not know": {
+      "Electronic communications": [
+        "Contacted before 8am or after 9pm",
+        "You told them to stop contacting you, but they keep trying",
+        "Frequent or repeated messages",
+        "Used obscene, profane, or other abusive language"
+      ],
+      "Attempts to collect debt not owed": [
+        "Debt was already discharged in bankruptcy and is no longer owed",
+        "Debt was result of identity theft",
+        "Debt was paid",
+        "Debt is not yours"
+      ],
+      "Took or threatened to take negative or legal action": [
+        "Threatened or suggested your credit would be damaged",
+        "Threatened to arrest you or take you to jail if you do not pay",
+        "Sued you in a state where you do not live or did not sign for the debt",
+        "Sued you without properly notifying you of lawsuit",
+        "Threatened to turn you in to immigration or deport you",
+        "Seized or attempted to seize your property",
+        "Threatened to sue you for very old debt",
+        "Collected or attempted to collect exempt funds"
+      ],
+      "Communication tactics": [
+        "Called outside of 8am-9pm",
+        "Called after sent written cease of comm",
+        "Frequent or repeated calls",
+        "Called before 8am or after 9pm",
+        "Used obscene/profane/abusive language",
+        "You told them to stop contacting you, but they keep trying",
+        "Used obscene, profane, or other abusive language",
+        "Threatened to take legal action"
+      ],
+      "False statements or representation": [
+        "Indicated you were committing crime by not paying debt",
+        "Impersonated attorney, law enforcement, or government official",
+        "Attempted to collect wrong amount",
+        "Told you not to respond to a lawsuit they filed against you",
+        "Indicated shouldn't respond to lawsuit",
+        "Impersonated an attorney or official",
+        "Indicated committed crime not paying"
+      ],
+      "Written notification about debt": [
+        "Didn't receive enough information to verify debt",
+        "Didn't receive notice of right to dispute",
+        "Notification didn't disclose it was an attempt to collect a debt"
+      ],
+      "Improper contact or sharing of info": [
+        "Contacted employer after asked not to",
+        "Contacted me after I asked not to",
+        "Talked to a third party about my debt",
+        "Contacted me instead of my attorney"
+      ],
+      "Cont'd attempts collect debt not owed": [
+        "Debt is not mine",
+        "Debt resulted from identity theft",
+        "Debt was paid",
+        "Debt was discharged in bankruptcy"
+      ],
+      "Threatened to contact someone or share information improperly": [
+        "Talked to a third-party about your debt",
+        "Contacted your employer",
+        "Contacted you after you asked them to stop",
+        "Contacted you instead of your attorney"
+      ],
+      "Taking/threatening an illegal action": [
+        "Sued w/o proper notification of suit",
+        "Seized/Attempted to seize property",
+        "Threatened to sue on too old debt",
+        "Attempted to/Collected exempt funds",
+        "Sued where didn't live/sign for debt",
+        "Threatened arrest/jail if do not pay"
+      ],
+      "Disclosure verification of debt": [
+        "Right to dispute notice not received",
+        "Not disclosed as an attempt to collect",
+        "Not given enough info to verify debt"
+      ]
+    },
+    "Private student loan debt": {
+      "False statements or representation": [
+        "Told you not to respond to a lawsuit they filed against you",
+        "Indicated you were committing crime by not paying debt",
+        "Attempted to collect wrong amount",
+        "Impersonated attorney, law enforcement, or government official"
+      ],
+      "Attempts to collect debt not owed": [
+        "Debt was already discharged in bankruptcy and is no longer owed",
+        "Debt was result of identity theft",
+        "Debt was paid",
+        "Debt is not yours"
+      ],
+      "Took or threatened to take negative or legal action": [
+        "Threatened or suggested your credit would be damaged",
+        "Threatened to arrest you or take you to jail if you do not pay",
+        "Sued you without properly notifying you of lawsuit",
+        "Sued you in a state where you do not live or did not sign for the debt",
+        "Threatened to turn you in to immigration or deport you",
+        "Seized or attempted to seize your property",
+        "Threatened to sue you for very old debt",
+        "Collected or attempted to collect exempt funds"
+      ],
+      "Written notification about debt": [
+        "Didn't receive enough information to verify debt",
+        "Notification didn't disclose it was an attempt to collect a debt",
+        "Didn't receive notice of right to dispute"
+      ],
+      "Threatened to contact someone or share information improperly": [
+        "Talked to a third-party about your debt",
+        "Contacted your employer",
+        "Contacted you after you asked them to stop",
+        "Contacted you instead of your attorney"
+      ],
+      "Communication tactics": [
+        "Called before 8am or after 9pm",
+        "You told them to stop contacting you, but they keep trying",
+        "Used obscene, profane, or other abusive language",
+        "Frequent or repeated calls"
+      ],
+      "Electronic communications": [
+        "You told them to stop contacting you, but they keep trying",
+        "Frequent or repeated messages"
+      ]
+    },
+    "Auto debt": {
+      "False statements or representation": [
+        "Told you not to respond to a lawsuit they filed against you",
+        "Indicated you were committing crime by not paying debt",
+        "Attempted to collect wrong amount",
+        "Impersonated attorney, law enforcement, or government official"
+      ],
+      "Attempts to collect debt not owed": [
+        "Debt was already discharged in bankruptcy and is no longer owed",
+        "Debt was result of identity theft",
+        "Debt was paid",
+        "Debt is not yours"
+      ],
+      "Written notification about debt": [
+        "Didn't receive enough information to verify debt",
+        "Notification didn't disclose it was an attempt to collect a debt",
+        "Didn't receive notice of right to dispute"
+      ],
+      "Took or threatened to take negative or legal action": [
+        "Threatened or suggested your credit would be damaged",
+        "Threatened to arrest you or take you to jail if you do not pay",
+        "Sued you without properly notifying you of lawsuit",
+        "Sued you in a state where you do not live or did not sign for the debt",
+        "Threatened to turn you in to immigration or deport you",
+        "Seized or attempted to seize your property",
+        "Threatened to sue you for very old debt",
+        "Collected or attempted to collect exempt funds"
+      ],
+      "Threatened to contact someone or share information improperly": [
+        "Talked to a third-party about your debt",
+        "Contacted your employer",
+        "Contacted you after you asked them to stop",
+        "Contacted you instead of your attorney"
+      ],
+      "Communication tactics": [
+        "Frequent or repeated calls",
+        "Frequent or repeated messages",
+        "Called before 8am or after 9pm",
+        "You told them to stop contacting you, but they keep trying",
+        "Used obscene, profane, or other abusive language"
+      ],
+      "Electronic communications": [
+        "Contacted before 8am or after 9pm",
+        "You told them to stop contacting you, but they keep trying",
+        "Frequent or repeated messages",
+        "Used obscene, profane, or other abusive language"
+      ]
+    },
+    "Federal student loan debt": {
+      "Communication tactics": [
+        "Frequent or repeated calls",
+        "You told them to stop contacting you, but they keep trying",
+        "Called before 8am or after 9pm",
+        "Used obscene, profane, or other abusive language"
+      ],
+      "Attempts to collect debt not owed": [
+        "Debt was already discharged in bankruptcy and is no longer owed",
+        "Debt was result of identity theft",
+        "Debt was paid",
+        "Debt is not yours"
+      ],
+      "Written notification about debt": [
+        "Didn't receive enough information to verify debt",
+        "Notification didn't disclose it was an attempt to collect a debt",
+        "Didn't receive notice of right to dispute"
+      ],
+      "False statements or representation": [
+        "Told you not to respond to a lawsuit they filed against you",
+        "Indicated you were committing crime by not paying debt",
+        "Attempted to collect wrong amount",
+        "Impersonated attorney, law enforcement, or government official"
+      ],
+      "Took or threatened to take negative or legal action": [
+        "Threatened or suggested your credit would be damaged",
+        "Threatened to arrest you or take you to jail if you do not pay",
+        "Sued you in a state where you do not live or did not sign for the debt",
+        "Sued you without properly notifying you of lawsuit",
+        "Seized or attempted to seize your property",
+        "Threatened to sue you for very old debt",
+        "Collected or attempted to collect exempt funds"
+      ],
+      "Threatened to contact someone or share information improperly": [
+        "Talked to a third-party about your debt",
+        "Contacted your employer",
+        "Contacted you after you asked them to stop"
+      ],
+      "Electronic communications": [
+        "Contacted before 8am or after 9pm",
+        "You told them to stop contacting you, but they keep trying",
+        "Frequent or repeated messages",
+        "Used obscene, profane, or other abusive language"
+      ]
+    },
+    "Telecommunications debt": {
+      "Threatened to contact someone or share information improperly": [
+        "Talked to a third-party about your debt",
+        "Contacted your employer",
+        "Contacted you after you asked them to stop"
+      ],
+      "Attempts to collect debt not owed": [
+        "Debt was already discharged in bankruptcy and is no longer owed",
+        "Debt was result of identity theft",
+        "Debt was paid",
+        "Debt is not yours"
+      ],
+      "Communication tactics": [
+        "Frequent or repeated calls",
+        "You told them to stop contacting you, but they keep trying",
+        "Called before 8am or after 9pm",
+        "Used obscene, profane, or other abusive language"
+      ],
+      "Written notification about debt": [
+        "Didn't receive enough information to verify debt",
+        "Notification didn't disclose it was an attempt to collect a debt",
+        "Didn't receive notice of right to dispute"
+      ],
+      "False statements or representation": [
+        "Told you not to respond to a lawsuit they filed against you",
+        "Indicated you were committing crime by not paying debt",
+        "Attempted to collect wrong amount",
+        "Impersonated attorney, law enforcement, or government official"
+      ],
+      "Electronic communications": [
+        "Contacted before 8am or after 9pm",
+        "You told them to stop contacting you, but they keep trying",
+        "Frequent or repeated messages",
+        "Used obscene, profane, or other abusive language"
+      ],
+      "Took or threatened to take negative or legal action": [
+        "Threatened or suggested your credit would be damaged",
+        "Threatened to arrest you or take you to jail if you do not pay",
+        "Sued you in a state where you do not live or did not sign for the debt",
+        "Sued you without properly notifying you of lawsuit",
+        "Threatened to turn you in to immigration or deport you",
+        "Seized or attempted to seize your property",
+        "Threatened to sue you for very old debt",
+        "Collected or attempted to collect exempt funds"
+      ]
+    },
+    "Rental debt": {
+      "Written notification about debt": [
+        "Didn't receive enough information to verify debt",
+        "Notification didn't disclose it was an attempt to collect a debt",
+        "Didn't receive notice of right to dispute"
+      ],
+      "Attempts to collect debt not owed": [
+        "Debt was already discharged in bankruptcy and is no longer owed",
+        "Debt was result of identity theft",
+        "Debt was paid",
+        "Debt is not yours"
+      ],
+      "False statements or representation": [
+        "Indicated you were committing crime by not paying debt",
+        "Attempted to collect wrong amount",
+        "Impersonated attorney, law enforcement, or government official",
+        "Told you not to respond to a lawsuit they filed against you"
+      ],
+      "Communication tactics": [
+        "Called before 8am or after 9pm",
+        "You told them to stop contacting you, but they keep trying",
+        "Used obscene, profane, or other abusive language",
+        "Frequent or repeated calls"
+      ],
+      "Took or threatened to take negative or legal action": [
+        "Threatened or suggested your credit would be damaged",
+        "Threatened to arrest you or take you to jail if you do not pay",
+        "Sued you without properly notifying you of lawsuit",
+        "Sued you in a state where you do not live or did not sign for the debt",
+        "Threatened to turn you in to immigration or deport you",
+        "Seized or attempted to seize your property",
+        "Threatened to sue you for very old debt",
+        "Collected or attempted to collect exempt funds"
+      ],
+      "Electronic communications": [
+        "Contacted before 8am or after 9pm",
+        "You told them to stop contacting you, but they keep trying",
+        "Frequent or repeated messages",
+        "Used obscene, profane, or other abusive language"
+      ],
+      "Threatened to contact someone or share information improperly": [
+        "Talked to a third-party about your debt",
+        "Contacted your employer",
+        "Contacted you after you asked them to stop",
+        "Contacted you instead of your attorney"
+      ]
+    },
+    "Other (i.e. phone, health club, etc.)": {
+      "Disclosure verification of debt": [
+        "Right to dispute notice not received",
+        "Not disclosed as an attempt to collect",
+        "Not given enough info to verify debt"
+      ],
+      "Cont'd attempts collect debt not owed": [
+        "Debt is not mine",
+        "Debt resulted from identity theft",
+        "Debt was paid",
+        "Debt was discharged in bankruptcy"
+      ],
+      "Improper contact or sharing of info": [
+        "Contacted employer after asked not to",
+        "Contacted me after I asked not to",
+        "Talked to a third party about my debt",
+        "Contacted me instead of my attorney"
+      ],
+      "False statements or representation": [
+        "Indicated committed crime not paying",
+        "Attempted to collect wrong amount",
+        "Impersonated an attorney or official",
+        "Indicated shouldn't respond to lawsuit"
+      ],
+      "Communication tactics": [
+        "Called after sent written cease of comm",
+        "Frequent or repeated calls",
+        "Used obscene/profane/abusive language",
+        "Called outside of 8am-9pm",
+        "Threatened to take legal action"
+      ],
+      "Taking/threatening an illegal action": [
+        "Seized/Attempted to seize property",
+        "Sued w/o proper notification of suit",
+        "Threatened to sue on too old debt",
+        "Attempted to/Collected exempt funds",
+        "Sued where didn't live/sign for debt",
+        "Threatened arrest/jail if do not pay"
+      ]
+    },
+    "Debt settlement": {
+      "Unauthorized withdrawals or charges": [
+        "General"
+      ],
+      "Confusing or misleading advertising or marketing": [
+        "General"
+      ],
+      "Didn't provide services promised": [
+        "General"
+      ],
+      "Problem with customer service": [
+        "General"
+      ],
+      "Charged upfront or unexpected fees": [
+        "General"
+      ],
+      "Confusing or missing disclosures": [
+        "General"
+      ]
+    },
+    "Payday loan": {
+      "Improper contact or sharing of info": [
+        "Contacted employer after asked not to",
+        "Contacted me after I asked not to",
+        "Talked to a third party about my debt",
+        "Contacted me instead of my attorney"
+      ],
+      "Cont'd attempts collect debt not owed": [
+        "Debt is not mine",
+        "Debt resulted from identity theft",
+        "Debt was paid",
+        "Debt was discharged in bankruptcy"
+      ],
+      "Disclosure verification of debt": [
+        "Not given enough info to verify debt",
+        "Not disclosed as an attempt to collect",
+        "Right to dispute notice not received"
+      ],
+      "False statements or representation": [
+        "Indicated committed crime not paying",
+        "Attempted to collect wrong amount",
+        "Impersonated an attorney or official",
+        "Indicated shouldn't respond to lawsuit"
+      ],
+      "Taking/threatening an illegal action": [
+        "Sued w/o proper notification of suit",
+        "Seized/Attempted to seize property",
+        "Threatened to sue on too old debt",
+        "Attempted to/Collected exempt funds",
+        "Sued where didn't live/sign for debt",
+        "Threatened arrest/jail if do not pay"
+      ],
+      "Communication tactics": [
+        "Called after sent written cease of comm",
+        "Frequent or repeated calls",
+        "Used obscene/profane/abusive language",
+        "Called outside of 8am-9pm",
+        "Threatened to take legal action"
+      ]
+    },
+    "Credit repair services": {
+      "Didn't provide services promised": [
+        "General"
+      ],
+      "Confusing or misleading advertising or marketing": [
+        "General"
+      ],
+      "Charged upfront or unexpected fees": [
+        "General"
+      ],
+      "Confusing or missing disclosures": [
+        "General"
+      ],
+      "Problem with customer service": [
+        "General"
+      ]
+    },
+    "Non-federal student loan": {
+      "Cont'd attempts collect debt not owed": [
+        "Debt is not mine",
+        "Debt resulted from identity theft",
+        "Debt was paid",
+        "Debt was discharged in bankruptcy"
+      ],
+      "False statements or representation": [
+        "Indicated committed crime not paying",
+        "Attempted to collect wrong amount",
+        "Impersonated an attorney or official"
+      ],
+      "Improper contact or sharing of info": [
+        "Contacted me after I asked not to",
+        "Contacted employer after asked not to",
+        "Talked to a third party about my debt",
+        "Contacted me instead of my attorney"
+      ],
+      "Taking/threatening an illegal action": [
+        "Sued w/o proper notification of suit",
+        "Seized/Attempted to seize property",
+        "Threatened to sue on too old debt",
+        "Attempted to/Collected exempt funds",
+        "Sued where didn't live/sign for debt",
+        "Threatened arrest/jail if do not pay"
+      ],
+      "Communication tactics": [
+        "Called after sent written cease of comm",
+        "Frequent or repeated calls",
+        "Used obscene/profane/abusive language",
+        "Called outside of 8am-9pm",
+        "Threatened to take legal action"
+      ],
+      "Disclosure verification of debt": [
+        "Right to dispute notice not received",
+        "Not disclosed as an attempt to collect",
+        "Not given enough info to verify debt"
+      ]
+    },
+    "Credit card": {
+      "Communication tactics": [
+        "Called after sent written cease of comm",
+        "Frequent or repeated calls",
+        "Used obscene/profane/abusive language",
+        "Called outside of 8am-9pm",
+        "Threatened to take legal action"
+      ],
+      "False statements or representation": [
+        "Indicated committed crime not paying",
+        "Attempted to collect wrong amount",
+        "Impersonated an attorney or official",
+        "Indicated shouldn't respond to lawsuit"
+      ],
+      "Cont'd attempts collect debt not owed": [
+        "Debt is not mine",
+        "Debt resulted from identity theft",
+        "Debt was paid",
+        "Debt was discharged in bankruptcy"
+      ],
+      "Disclosure verification of debt": [
+        "Right to dispute notice not received",
+        "Not disclosed as an attempt to collect",
+        "Not given enough info to verify debt"
+      ],
+      "Taking/threatening an illegal action": [
+        "Sued w/o proper notification of suit",
+        "Seized/Attempted to seize property",
+        "Threatened to sue on too old debt",
+        "Attempted to/Collected exempt funds",
+        "Sued where didn't live/sign for debt",
+        "Threatened arrest/jail if do not pay"
+      ],
+      "Improper contact or sharing of info": [
+        "Contacted employer after asked not to",
+        "Contacted me after I asked not to",
+        "Talked to a third party about my debt",
+        "Contacted me instead of my attorney"
+      ]
+    },
+    "Medical": {
+      "Disclosure verification of debt": [
+        "Right to dispute notice not received",
+        "Not disclosed as an attempt to collect",
+        "Not given enough info to verify debt"
+      ],
+      "Cont'd attempts collect debt not owed": [
+        "Debt is not mine",
+        "Debt resulted from identity theft",
+        "Debt was paid",
+        "Debt was discharged in bankruptcy"
+      ],
+      "False statements or representation": [
+        "Indicated committed crime not paying",
+        "Attempted to collect wrong amount",
+        "Impersonated an attorney or official",
+        "Indicated shouldn't respond to lawsuit"
+      ],
+      "Communication tactics": [
+        "Called after sent written cease of comm",
+        "Frequent or repeated calls",
+        "Used obscene/profane/abusive language",
+        "Called outside of 8am-9pm",
+        "Threatened to take legal action"
+      ],
+      "Taking/threatening an illegal action": [
+        "Seized/Attempted to seize property",
+        "Sued w/o proper notification of suit",
+        "Threatened to sue on too old debt",
+        "Attempted to/Collected exempt funds",
+        "Sued where didn't live/sign for debt",
+        "Threatened arrest/jail if do not pay"
+      ],
+      "Improper contact or sharing of info": [
+        "Contacted employer after asked not to",
+        "Contacted me after I asked not to",
+        "Talked to a third party about my debt",
+        "Contacted me instead of my attorney"
+      ]
+    },
+    "Mortgage": {
+      "Cont'd attempts collect debt not owed": [
+        "Debt was discharged in bankruptcy",
+        "Debt resulted from identity theft",
+        "Debt was paid",
+        "Debt is not mine"
+      ],
+      "Improper contact or sharing of info": [
+        "Contacted employer after asked not to",
+        "Contacted me after I asked not to",
+        "Talked to a third party about my debt",
+        "Contacted me instead of my attorney"
+      ],
+      "Disclosure verification of debt": [
+        "Right to dispute notice not received",
+        "Not disclosed as an attempt to collect",
+        "Not given enough info to verify debt"
+      ],
+      "Communication tactics": [
+        "Called after sent written cease of comm",
+        "Frequent or repeated calls",
+        "Used obscene/profane/abusive language",
+        "Called outside of 8am-9pm",
+        "Threatened to take legal action"
+      ],
+      "Taking/threatening an illegal action": [
+        "Seized/Attempted to seize property",
+        "Sued w/o proper notification of suit",
+        "Threatened to sue on too old debt",
+        "Attempted to/Collected exempt funds",
+        "Sued where didn't live/sign for debt",
+        "Threatened arrest/jail if do not pay"
+      ],
+      "False statements or representation": [
+        "Indicated committed crime not paying",
+        "Attempted to collect wrong amount",
+        "Impersonated an attorney or official",
+        "Indicated shouldn't respond to lawsuit"
+      ]
+    },
+    "Auto": {
+      "Taking/threatening an illegal action": [
+        "Sued w/o proper notification of suit",
+        "Seized/Attempted to seize property",
+        "Threatened to sue on too old debt",
+        "Attempted to/Collected exempt funds",
+        "Sued where didn't live/sign for debt",
+        "Threatened arrest/jail if do not pay"
+      ],
+      "Communication tactics": [
+        "Called after sent written cease of comm",
+        "Frequent or repeated calls",
+        "Used obscene/profane/abusive language",
+        "Called outside of 8am-9pm",
+        "Threatened to take legal action"
+      ],
+      "False statements or representation": [
+        "Indicated committed crime not paying",
+        "Attempted to collect wrong amount",
+        "Impersonated an attorney or official",
+        "Indicated shouldn't respond to lawsuit"
+      ],
+      "Cont'd attempts collect debt not owed": [
+        "Debt is not mine",
+        "Debt resulted from identity theft",
+        "Debt was paid",
+        "Debt was discharged in bankruptcy"
+      ],
+      "Disclosure verification of debt": [
+        "Right to dispute notice not received",
+        "Not disclosed as an attempt to collect",
+        "Not given enough info to verify debt"
+      ],
+      "Improper contact or sharing of info": [
+        "Contacted employer after asked not to",
+        "Contacted me after I asked not to",
+        "Talked to a third party about my debt",
+        "Contacted me instead of my attorney"
+      ]
+    },
+    "Federal student loan": {
+      "False statements or representation": [
+        "Indicated committed crime not paying",
+        "Attempted to collect wrong amount",
+        "Impersonated an attorney or official",
+        "Indicated shouldn't respond to lawsuit"
+      ],
+      "Communication tactics": [
+        "Called after sent written cease of comm",
+        "Frequent or repeated calls",
+        "Used obscene/profane/abusive language",
+        "Called outside of 8am-9pm",
+        "Threatened to take legal action"
+      ],
+      "Disclosure verification of debt": [
+        "Not given enough info to verify debt",
+        "Not disclosed as an attempt to collect",
+        "Right to dispute notice not received"
+      ],
+      "Cont'd attempts collect debt not owed": [
+        "Debt is not mine",
+        "Debt resulted from identity theft",
+        "Debt was paid",
+        "Debt was discharged in bankruptcy"
+      ],
+      "Taking/threatening an illegal action": [
+        "Sued w/o proper notification of suit",
+        "Seized/Attempted to seize property",
+        "Threatened to sue on too old debt",
+        "Attempted to/Collected exempt funds",
+        "Threatened arrest/jail if do not pay"
+      ],
+      "Improper contact or sharing of info": [
+        "Contacted me after I asked not to",
+        "Contacted employer after asked not to",
+        "Talked to a third party about my debt"
+      ]
+    },
+    "Mortgage modification or foreclosure avoidance": {
+      "Didn't provide services promised": [
+        "General"
+      ],
+      "Charged upfront or unexpected fees": [
+        "General"
+      ],
+      "Confusing or missing disclosures": [
+        "General"
+      ],
+      "Confusing or misleading advertising or marketing": [
+        "General"
+      ],
+      "Unauthorized withdrawals or charges": [
+        "General"
+      ],
+      "Problem with customer service": [
+        "General"
+      ]
+    },
+    "Student loan debt relief": {
+      "Didn't provide services promised": [
+        "General"
+      ],
+      "Unauthorized withdrawals or charges": [
+        "General"
+      ],
+      "Confusing or misleading advertising or marketing": [
+        "General"
+      ],
+      "Confusing or missing disclosures": [
+        "General"
+      ],
+      "Charged upfront or unexpected fees": [
+        "General"
+      ]
+    }
+  },
+  "Money transfer, virtual currency, or money service": {
+    "Mobile or digital wallet": {
+      "Fraud or scam": [
+        "General"
+      ],
+      "Problem adding money": [
+        "General"
+      ],
+      "Managing, opening, or closing your mobile wallet account": [
+        "General"
+      ],
+      "Overdraft, savings, or rewards features": [
+        "General"
+      ],
+      "Unauthorized transactions or other transaction problem": [
+        "General"
+      ],
+      "Unexpected or other fees": [
+        "General"
+      ],
+      "Trouble accessing funds in your mobile or digital wallet": [
+        "General"
+      ],
+      "Confusing or missing disclosures": [
+        "General"
+      ],
+      "Confusing or misleading advertising or marketing": [
+        "General"
+      ]
+    },
+    "Domestic (US) money transfer": {
+      "Other transaction problem": [
+        "General"
+      ],
+      "Money was not available when promised": [
+        "General"
+      ],
+      "Fraud or scam": [
+        "General"
+      ],
+      "Other service problem": [
+        "General"
+      ],
+      "Confusing or missing disclosures": [
+        "General"
+      ],
+      "Wrong amount charged or received": [
+        "General"
+      ],
+      "Other service issues": [
+        "General"
+      ],
+      "Unexpected or other fees": [
+        "General"
+      ],
+      "Other transaction issues": [
+        "General"
+      ],
+      "Incorrect/missing disclosures or info": [
+        "General"
+      ]
+    },
+    "Virtual currency": {
+      "Other service problem": [
+        "General"
+      ],
+      "Other transaction problem": [
+        "General"
+      ],
+      "Fraud or scam": [
+        "General"
+      ],
+      "Money was not available when promised": [
+        "General"
+      ],
+      "Confusing or missing disclosures": [
+        "General"
+      ],
+      "Wrong amount charged or received": [
+        "General"
+      ],
+      "Unexpected or other fees": [
+        "General"
+      ]
+    },
+    "Traveler's check or cashier's check": {
+      "Fraud or scam": [
+        "General"
+      ],
+      "Confusing or missing disclosures": [
+        "General"
+      ],
+      "Problem with customer service": [
+        "General"
+      ],
+      "Lost or stolen check": [
+        "General"
+      ],
+      "Unexpected or other fees": [
+        "General"
+      ],
+      "Confusing or misleading advertising or marketing": [
+        "General"
+      ]
+    },
+    "International money transfer": {
+      "Other transaction problem": [
+        "General"
+      ],
+      "Fraud or scam": [
+        "General"
+      ],
+      "Money was not available when promised": [
+        "General"
+      ],
+      "Other service problem": [
+        "General"
+      ],
+      "Wrong amount charged or received": [
+        "General"
+      ],
+      "Other service issues": [
+        "General"
+      ],
+      "Confusing or missing disclosures": [
+        "General"
+      ],
+      "Unexpected or other fees": [
+        "General"
+      ],
+      "Other transaction issues": [
+        "General"
+      ],
+      "Incorrect/missing disclosures or info": [
+        "General"
+      ]
+    },
+    "Debt settlement": {
+      "Problem with customer service": [
+        "General"
+      ],
+      "Confusing or misleading advertising or marketing": [
+        "General"
+      ],
+      "Unexpected or other fees": [
+        "General"
+      ],
+      "Fraud or scam": [
+        "General"
+      ],
+      "Confusing or missing disclosures": [
+        "General"
+      ]
+    },
+    "Check cashing service": {
+      "Problem with customer service": [
+        "General"
+      ],
+      "Unexpected or other fees": [
+        "General"
+      ],
+      "Fraud or scam": [
+        "General"
+      ],
+      "Confusing or missing disclosures": [
+        "General"
+      ],
+      "Confusing or misleading advertising or marketing": [
+        "General"
+      ]
+    },
+    "Money order": {
+      "Fraud or scam": [
+        "General"
+      ],
+      "Problem with customer service": [
+        "General"
+      ],
+      "Lost or stolen money order": [
+        "General"
+      ],
+      "Unexpected or other fees": [
+        "General"
+      ],
+      "Confusing or missing disclosures": [
+        "General"
+      ],
+      "Confusing or misleading advertising or marketing": [
+        "General"
+      ]
+    },
+    "Refund anticipation check": {
+      "Lost or stolen check": [
+        "General"
+      ],
+      "Fraud or scam": [
+        "General"
+      ],
+      "Confusing or misleading advertising or marketing": [
+        "General"
+      ],
+      "Problem with customer service": [
+        "General"
+      ],
+      "Unexpected or other fees": [
+        "General"
+      ],
+      "Confusing or missing disclosures": [
+        "General"
+      ]
+    },
+    "Money order, traveler's check or cashier's check": {
+      "Unexpected or other fees": [
+        "General"
+      ],
+      "Lost or stolen money order": [
+        "General"
+      ],
+      "Confusing or misleading advertising or marketing": [
+        "General"
+      ],
+      "Fraud or scam": [
+        "General"
+      ],
+      "Confusing or missing disclosures": [
+        "General"
+      ],
+      "Problem with customer service": [
+        "General"
+      ]
+    },
+    "Foreign currency exchange": {
+      "Problem with customer service": [
+        "General"
+      ],
+      "Confusing or missing disclosures": [
+        "General"
+      ],
+      "Fraud or scam": [
+        "General"
+      ],
+      "Incorrect exchange rate": [
+        "General"
+      ],
+      "Unexpected or other fees": [
+        "General"
+      ],
+      "Confusing or misleading advertising or marketing": [
+        "General"
+      ]
+    }
+  },
+  "Payday loan, title loan, personal loan, or advance loan": {
+    "Payday loan": {
+      "Problem with a credit reporting company's investigation into an existing problem": [
+        "Investigation took more than 30 days",
+        "Their investigation did not fix an error on your report",
+        "Was not notified of investigation status or results"
+      ],
+      "Can't contact lender or servicer": [
+        "General"
+      ],
+      "Problem with fraud alerts or security freezes": [
+        "General"
+      ],
+      "Charged fees or interest you didn't expect": [
+        "General"
+      ],
+      "Money was taken from your bank account on the wrong day or for the wrong amount": [
+        "General"
+      ],
+      "Was approved for a loan, but didn't receive the money": [
+        "General"
+      ],
+      "Struggling to pay your loan": [
+        "General"
+      ],
+      "Problem with the payoff process at the end of the loan": [
+        "General"
+      ],
+      "Loan payment wasn't credited to your account": [
+        "General"
+      ],
+      "Received a loan you didn't apply for": [
+        "General"
+      ],
+      "Incorrect information on your report": [
+        "Public record information inaccurate",
+        "Account status incorrect",
+        "Information is missing that should be on the report",
+        "Old information reappears or never goes away",
+        "Information belongs to someone else",
+        "Personal information incorrect",
+        "Account information incorrect"
+      ],
+      "Can't stop withdrawals from your bank account": [
+        "General"
+      ],
+      "Credit monitoring or identity theft protection services": [
+        "Received unwanted marketing or advertising",
+        "Problem with product or service terms changing",
+        "Didn't receive services that were advertised",
+        "Billing dispute for services",
+        "Problem canceling credit monitoring or identify theft protection service"
+      ],
+      "Improper use of your report": [
+        "Reporting company used your report improperly",
+        "Report provided to employer without your written authorization",
+        "Received unsolicited financial product or insurance offers after opting out",
+        "Credit inquiries on your report that you don't recognize"
+      ],
+      "Problem with a company's investigation into an existing problem": [
+        "Investigation took more than 30 days",
+        "Was not notified of investigation status or results",
+        "Problem with personal statement of dispute",
+        "Difficulty submitting a dispute or getting information about a dispute over the phone",
+        "Their investigation did not fix an error on your report"
+      ],
+      "Unable to get your credit report or credit score": [
+        "Other problem getting your report or credit score",
+        "Problem getting your free annual credit report"
+      ]
+    },
+    "Personal line of credit": {
+      "Improper use of your report": [
+        "Reporting company used your report improperly",
+        "Report provided to employer without your written authorization",
+        "Received unsolicited financial product or insurance offers after opting out",
+        "Credit inquiries on your report that you don't recognize"
+      ],
+      "Getting a line of credit": [
+        "General"
+      ],
+      "Problem with the payoff process at the end of the loan": [
+        "General"
+      ],
+      "Problem with cash advance": [
+        "General"
+      ],
+      "Struggling to pay your loan": [
+        "General"
+      ],
+      "Problem with a company's investigation into an existing problem": [
+        "Investigation took more than 30 days",
+        "Was not notified of investigation status or results",
+        "Problem with personal statement of dispute",
+        "Difficulty submitting a dispute or getting information about a dispute over the phone",
+        "Their investigation did not fix an error on your report"
+      ],
+      "Charged fees or interest you didn't expect": [
+        "General"
+      ],
+      "Problem with additional add-on products or services": [
+        "General"
+      ],
+      "Credit limit changed": [
+        "General"
+      ],
+      "Problem when making payments": [
+        "General"
+      ],
+      "Incorrect information on your report": [
+        "Public record information inaccurate",
+        "Account status incorrect",
+        "Information is missing that should be on the report",
+        "Old information reappears or never goes away",
+        "Information belongs to someone else",
+        "Personal information incorrect",
+        "Account information incorrect"
+      ],
+      "Problem with a credit reporting company's investigation into an existing problem": [
+        "Problem with personal statement of dispute",
+        "Difficulty submitting a dispute or getting information about a dispute over the phone",
+        "Their investigation did not fix an error on your report",
+        "Was not notified of investigation status or results"
+      ],
+      "Problem with fraud alerts or security freezes": [
+        "General"
+      ],
+      "Credit monitoring or identity theft protection services": [
+        "Received unwanted marketing or advertising",
+        "Problem with product or service terms changing",
+        "Didn't receive services that were advertised",
+        "Billing dispute for services",
+        "Problem canceling credit monitoring or identify theft protection service"
+      ],
+      "Unable to get your credit report or credit score": [
+        "Other problem getting your report or credit score",
+        "Problem getting your free annual credit report"
+      ]
+    },
+    "Installment loan": {
+      "Getting the loan": [
+        "General"
+      ],
+      "Charged fees or interest you didn't expect": [
+        "General"
+      ],
+      "Struggling to pay your loan": [
+        "General"
+      ],
+      "Problem with additional add-on products or services": [
+        "General"
+      ],
+      "Problem with a company's investigation into an existing problem": [
+        "Investigation took more than 30 days",
+        "Was not notified of investigation status or results",
+        "Problem with personal statement of dispute",
+        "Difficulty submitting a dispute or getting information about a dispute over the phone",
+        "Their investigation did not fix an error on your report"
+      ],
+      "Improper use of your report": [
+        "Reporting company used your report improperly",
+        "Report provided to employer without your written authorization",
+        "Received unsolicited financial product or insurance offers after opting out",
+        "Credit inquiries on your report that you don't recognize"
+      ],
+      "Incorrect information on your report": [
+        "Public record information inaccurate",
+        "Account status incorrect",
+        "Information is missing that should be on the report",
+        "Old information reappears or never goes away",
+        "Information belongs to someone else",
+        "Personal information incorrect",
+        "Account information incorrect"
+      ],
+      "Problem when making payments": [
+        "General"
+      ],
+      "Problem with the payoff process at the end of the loan": [
+        "General"
+      ],
+      "Problem with fraud alerts or security freezes": [
+        "General"
+      ],
+      "Problem with a credit reporting company's investigation into an existing problem": [
+        "Investigation took more than 30 days",
+        "Was not notified of investigation status or results",
+        "Problem with personal statement of dispute",
+        "Difficulty submitting a dispute or getting information about a dispute over the phone",
+        "Their investigation did not fix an error on your report"
+      ],
+      "Credit monitoring or identity theft protection services": [
+        "Received unwanted marketing or advertising",
+        "Problem with product or service terms changing",
+        "Didn't receive services that were advertised",
+        "Billing dispute for services",
+        "Problem canceling credit monitoring or identify theft protection service"
+      ],
+      "Unable to get your credit report or credit score": [
+        "Other problem getting your report or credit score"
+      ]
+    },
+    "Title loan": {
+      "Vehicle was repossessed or sold the vehicle": [
+        "General"
+      ],
+      "Received a loan you didn't apply for": [
+        "General"
+      ],
+      "Charged fees or interest you didn't expect": [
+        "General"
+      ],
+      "Vehicle was damaged or destroyed the vehicle": [
+        "General"
+      ],
+      "Problem with a credit reporting company's investigation into an existing problem": [
+        "Difficulty submitting a dispute or getting information about a dispute over the phone",
+        "Their investigation did not fix an error on your report",
+        "Was not notified of investigation status or results"
+      ],
+      "Problem with the payoff process at the end of the loan": [
+        "General"
+      ],
+      "Can't contact lender or servicer": [
+        "General"
+      ],
+      "Struggling to pay your loan": [
+        "General"
+      ],
+      "Was approved for a loan, but didn't receive money": [
+        "General"
+      ],
+      "Loan payment wasn't credited to your account": [
+        "General"
+      ],
+      "Incorrect information on your report": [
+        "Account status incorrect",
+        "Information is missing that should be on the report",
+        "Old information reappears or never goes away",
+        "Information belongs to someone else",
+        "Personal information incorrect",
+        "Account information incorrect"
+      ],
+      "Money was taken from your bank account on the wrong day or for the wrong amount": [
+        "General"
+      ],
+      "Improper use of your report": [
+        "Reporting company used your report improperly",
+        "Report provided to employer without your written authorization",
+        "Credit inquiries on your report that you don't recognize"
+      ],
+      "Can't stop withdrawals from your bank account": [
+        "General"
+      ],
+      "Problem with a company's investigation into an existing problem": [
+        "Difficulty submitting a dispute or getting information about a dispute over the phone",
+        "Was not notified of investigation status or results",
+        "Their investigation did not fix an error on your report"
+      ],
+      "Unable to get your credit report or credit score": [
+        "Other problem getting your report or credit score"
+      ],
+      "Problem with fraud alerts or security freezes": [
+        "General"
+      ],
+      "Credit monitoring or identity theft protection services": [
+        "Problem canceling credit monitoring or identify theft protection service"
+      ]
+    },
+    "Other advances of future income": {
+      "Confusing or misleading advertising or marketing": [
+        "General"
+      ],
+      "Confusing or missing disclosures": [
+        "General"
+      ],
+      "Problems receiving the advance": [
+        "General"
+      ],
+      "Issues with repayment": [
+        "General"
+      ],
+      "Unexpected fees": [
+        "General"
+      ]
+    },
+    "General": {
+      "Charged fees or interest I didn't expect": [
+        "General"
+      ],
+      "Applied for loan/did not receive money": [
+        "General"
+      ],
+      "Charged bank acct wrong day or amt": [
+        "General"
+      ],
+      "Can't stop charges to bank account": [
+        "General"
+      ],
+      "Received a loan I didn't apply for": [
+        "General"
+      ],
+      "Can't contact lender": [
+        "General"
+      ],
+      "Payment to acct not credited": [
+        "General"
+      ],
+      "Problem with a credit reporting company's investigation into an existing problem": [
+        "Difficulty submitting a dispute or getting information about a dispute over the phone"
+      ]
+    },
+    "Earned wage access": {
+      "Unexpected fees": [
+        "General"
+      ],
+      "Confusing or misleading advertising or marketing": [
+        "General"
+      ],
+      "Issues with repayment": [
+        "General"
+      ],
+      "Problems receiving the advance": [
+        "General"
+      ],
+      "Confusing or missing disclosures": [
+        "General"
+      ]
+    },
+    "Pawn loan": {
+      "Improper use of your report": [
+        "Reporting company used your report improperly"
+      ],
+      "Property was sold": [
+        "General"
+      ],
+      "Property was damaged or destroyed property": [
+        "General"
+      ],
+      "Received a loan you didn't apply for": [
+        "General"
+      ],
+      "Charged fees or interest you didn't expect": [
+        "General"
+      ],
+      "Can't contact lender or servicer": [
+        "General"
+      ],
+      "Was approved for a loan, but didn't receive the money": [
+        "General"
+      ],
+      "Incorrect information on your report": [
+        "Old information reappears or never goes away",
+        "Account information incorrect"
+      ],
+      "Problem with a company's investigation into an existing problem": [
+        "Was not notified of investigation status or results"
+      ],
+      "Unable to get your credit report or credit score": [
+        "Other problem getting your report or credit score"
+      ]
+    },
+    "Tax refund anticipation loan or check": {
+      "Confusing or misleading advertising or marketing": [
+        "General"
+      ],
+      "Unexpected fees": [
+        "General"
+      ],
+      "Lost or stolen refund": [
+        "General"
+      ],
+      "Problems receiving the advance": [
+        "General"
+      ],
+      "Confusing or missing disclosures": [
+        "General"
+      ],
+      "Issues with repayment": [
+        "General"
+      ]
+    }
+  },
+  "Mortgage": {
+    "Conventional home mortgage": {
+      "Struggling to pay mortgage": [
+        "Foreclosure",
+        "Trying to communicate with the company to fix an issue related to modification, forbearance, short sale, deed-in-lieu, bankruptcy, or foreclosure",
+        "General",
+        "Applying for or obtaining a modification, forbearance plan, short sale, or deed-in-lieu",
+        "An existing modification, forbearance plan, short sale, or other loss mitigation relief"
+      ],
+      "Trouble during payment process": [
+        "Private mortgage insurance (PMI)",
+        "Payment process",
+        "Interest rate",
+        "Trying to communicate with the company to fix an issue while managing or servicing your loan",
+        "Paying off the loan",
+        "Fees charged",
+        "Escrow, taxes, or insurance",
+        "General",
+        "Loan sold or transferred to another company",
+        "Lien release"
+      ],
+      "Closing on a mortgage": [
+        "Delays with the closing process",
+        "Fees or costs after closing",
+        "Changes in loan terms during or after closing",
+        "Trying to communicate with the company to fix an issue with the loan closing",
+        "Setting up an escrow account for taxes and insurance",
+        "Closing disclosure or other related disclosures",
+        "General"
+      ],
+      "Applying for a mortgage or refinancing an existing mortgage": [
+        "Delays in the application process",
+        "Fees or costs during the application process",
+        "Loan estimate or other related disclosures",
+        "Application denials",
+        "Changes in loan terms during the application process",
+        "Trying to communicate with the company to fix an issue with the application process",
+        "Confusing or misleading advertising or marketing",
+        "General",
+        "Negative impact of inaccurate appraisal"
+      ],
+      "Problem with a company's investigation into an existing problem": [
+        "Investigation took more than 30 days",
+        "Was not notified of investigation status or results",
+        "Problem with personal statement of dispute",
+        "Difficulty submitting a dispute or getting information about a dispute over the phone",
+        "Their investigation did not fix an error on your report"
+      ],
+      "Problem with a credit reporting company's investigation into an existing problem": [
+        "Investigation took more than 30 days"
+      ],
+      "Improper use of your report": [
+        "Reporting company used your report improperly",
+        "Report provided to employer without your written authorization",
+        "Received unsolicited financial product or insurance offers after opting out",
+        "Credit inquiries on your report that you don't recognize"
+      ],
+      "Incorrect information on your report": [
+        "Public record information inaccurate",
+        "Account status incorrect",
+        "Information is missing that should be on the report",
+        "Old information reappears or never goes away",
+        "Information belongs to someone else",
+        "Personal information incorrect",
+        "Account information incorrect"
+      ],
+      "Unable to get your credit report or credit score": [
+        "Other problem getting your report or credit score"
+      ],
+      "Credit monitoring or identity theft protection services": [
+        "Received unwanted marketing or advertising",
+        "Problem with product or service terms changing",
+        "Didn't receive services that were advertised",
+        "Billing dispute for services",
+        "Problem canceling credit monitoring or identify theft protection service"
+      ],
+      "Problem with fraud alerts or security freezes": [
+        "General"
+      ]
+    },
+    "FHA mortgage": {
+      "Closing on a mortgage": [
+        "Delays with the closing process",
+        "Fees or costs after closing",
+        "Changes in loan terms during or after closing",
+        "Trying to communicate with the company to fix an issue with the loan closing",
+        "Setting up an escrow account for taxes and insurance",
+        "Closing disclosure or other related disclosures",
+        "General"
+      ],
+      "Trouble during payment process": [
+        "Private mortgage insurance (PMI)",
+        "Payment process",
+        "Interest rate",
+        "Trying to communicate with the company to fix an issue while managing or servicing your loan",
+        "Paying off the loan",
+        "Fees charged",
+        "Escrow, taxes, or insurance",
+        "General",
+        "Loan sold or transferred to another company",
+        "Lien release"
+      ],
+      "Loan modification,collection,foreclosure": [
+        "General"
+      ],
+      "Improper use of your report": [
+        "Reporting company used your report improperly",
+        "Report provided to employer without your written authorization",
+        "Received unsolicited financial product or insurance offers after opting out",
+        "Credit inquiries on your report that you don't recognize"
+      ],
+      "Loan servicing, payments, escrow account": [
+        "General"
+      ],
+      "Struggling to pay mortgage": [
+        "Foreclosure",
+        "Trying to communicate with the company to fix an issue related to modification, forbearance, short sale, deed-in-lieu, bankruptcy, or foreclosure",
+        "General",
+        "Applying for or obtaining a modification, forbearance plan, short sale, or deed-in-lieu",
+        "An existing modification, forbearance plan, short sale, or other loss mitigation relief"
+      ],
+      "Credit decision / Underwriting": [
+        "General"
+      ],
+      "Applying for a mortgage or refinancing an existing mortgage": [
+        "Delays in the application process",
+        "Fees or costs during the application process",
+        "Loan estimate or other related disclosures",
+        "Application denials",
+        "Changes in loan terms during the application process",
+        "Trying to communicate with the company to fix an issue with the application process",
+        "Confusing or misleading advertising or marketing",
+        "General",
+        "Negative impact of inaccurate appraisal"
+      ],
+      "Incorrect information on your report": [
+        "Public record information inaccurate",
+        "Account status incorrect",
+        "Information is missing that should be on the report",
+        "Old information reappears or never goes away",
+        "Information belongs to someone else",
+        "Personal information incorrect",
+        "Account information incorrect"
+      ],
+      "Settlement process and costs": [
+        "General"
+      ],
+      "Application, originator, mortgage broker": [
+        "General"
+      ],
+      "Problem with a company's investigation into an existing problem": [
+        "Investigation took more than 30 days",
+        "Was not notified of investigation status or results",
+        "Problem with personal statement of dispute",
+        "Difficulty submitting a dispute or getting information about a dispute over the phone",
+        "Their investigation did not fix an error on your report"
+      ],
+      "Problem with a credit reporting company's investigation into an existing problem": [
+        "Investigation took more than 30 days",
+        "Was not notified of investigation status or results",
+        "Problem with personal statement of dispute",
+        "Difficulty submitting a dispute or getting information about a dispute over the phone",
+        "Their investigation did not fix an error on your report"
+      ],
+      "Unable to get your credit report or credit score": [
+        "Other problem getting your report or credit score",
+        "Problem getting your free annual credit report"
+      ],
+      "Credit monitoring or identity theft protection services": [
+        "Received unwanted marketing or advertising",
+        "Problem with product or service terms changing",
+        "Didn't receive services that were advertised",
+        "Billing dispute for services",
+        "Problem canceling credit monitoring or identify theft protection service"
+      ],
+      "Problem with fraud alerts or security freezes": [
+        "General"
+      ]
+    },
+    "Home equity loan or line of credit (HELOC)": {
+      "Trouble during payment process": [
+        "Private mortgage insurance (PMI)",
+        "Payment process",
+        "Interest rate",
+        "Trying to communicate with the company to fix an issue while managing or servicing your loan",
+        "Paying off the loan",
+        "Fees charged",
+        "Escrow, taxes, or insurance",
+        "General",
+        "Loan sold or transferred to another company",
+        "Lien release"
+      ],
+      "Struggling to pay mortgage": [
+        "Foreclosure",
+        "Trying to communicate with the company to fix an issue related to modification, forbearance, short sale, deed-in-lieu, bankruptcy, or foreclosure",
+        "General",
+        "Applying for or obtaining a modification, forbearance plan, short sale, or deed-in-lieu",
+        "An existing modification, forbearance plan, short sale, or other loss mitigation relief"
+      ],
+      "Closing on a mortgage": [
+        "Delays with the closing process",
+        "Fees or costs after closing",
+        "Changes in loan terms during or after closing",
+        "Trying to communicate with the company to fix an issue with the loan closing",
+        "Setting up an escrow account for taxes and insurance",
+        "Closing disclosure or other related disclosures",
+        "General"
+      ],
+      "Applying for a mortgage or refinancing an existing mortgage": [
+        "Delays in the application process",
+        "Fees or costs during the application process",
+        "Loan estimate or other related disclosures",
+        "Application denials",
+        "Changes in loan terms during the application process",
+        "Trying to communicate with the company to fix an issue with the application process",
+        "Confusing or misleading advertising or marketing",
+        "General",
+        "Negative impact of inaccurate appraisal"
+      ],
+      "Improper use of your report": [
+        "Reporting company used your report improperly",
+        "Received unsolicited financial product or insurance offers after opting out",
+        "Credit inquiries on your report that you don't recognize"
+      ],
+      "Incorrect information on your report": [
+        "Public record information inaccurate",
+        "Account status incorrect",
+        "Information is missing that should be on the report",
+        "Old information reappears or never goes away",
+        "Information belongs to someone else",
+        "Personal information incorrect",
+        "Account information incorrect"
+      ],
+      "Problem with fraud alerts or security freezes": [
+        "General"
+      ],
+      "Problem with a credit reporting company's investigation into an existing problem": [
+        "Investigation took more than 30 days"
+      ],
+      "Problem with a company's investigation into an existing problem": [
+        "Investigation took more than 30 days",
+        "Was not notified of investigation status or results",
+        "Problem with personal statement of dispute",
+        "Difficulty submitting a dispute or getting information about a dispute over the phone",
+        "Their investigation did not fix an error on your report"
+      ],
+      "Unable to get your credit report or credit score": [
+        "Other problem getting your report or credit score",
+        "Problem getting your free annual credit report"
+      ],
+      "Credit monitoring or identity theft protection services": [
+        "Received unwanted marketing or advertising",
+        "Billing dispute for services",
+        "Problem with product or service terms changing"
+      ]
+    },
+    "VA mortgage": {
+      "Applying for a mortgage or refinancing an existing mortgage": [
+        "Delays in the application process",
+        "Fees or costs during the application process",
+        "Loan estimate or other related disclosures",
+        "Application denials",
+        "Changes in loan terms during the application process",
+        "Trying to communicate with the company to fix an issue with the application process",
+        "Confusing or misleading advertising or marketing",
+        "General",
+        "Negative impact of inaccurate appraisal"
+      ],
+      "Trouble during payment process": [
+        "Private mortgage insurance (PMI)",
+        "Payment process",
+        "Interest rate",
+        "Trying to communicate with the company to fix an issue while managing or servicing your loan",
+        "Paying off the loan",
+        "Fees charged",
+        "Escrow, taxes, or insurance",
+        "General",
+        "Loan sold or transferred to another company",
+        "Lien release"
+      ],
+      "Struggling to pay mortgage": [
+        "Foreclosure",
+        "Trying to communicate with the company to fix an issue related to modification, forbearance, short sale, deed-in-lieu, bankruptcy, or foreclosure",
+        "General",
+        "Applying for or obtaining a modification, forbearance plan, short sale, or deed-in-lieu",
+        "An existing modification, forbearance plan, short sale, or other loss mitigation relief"
+      ],
+      "Closing on a mortgage": [
+        "Delays with the closing process",
+        "Fees or costs after closing",
+        "Changes in loan terms during or after closing",
+        "Trying to communicate with the company to fix an issue with the loan closing",
+        "Setting up an escrow account for taxes and insurance",
+        "Closing disclosure or other related disclosures",
+        "General"
+      ],
+      "Settlement process and costs": [
+        "General"
+      ],
+      "Loan servicing, payments, escrow account": [
+        "General"
+      ],
+      "Credit monitoring or identity theft protection services": [
+        "Received unwanted marketing or advertising",
+        "Billing dispute for services"
+      ],
+      "Application, originator, mortgage broker": [
+        "General"
+      ],
+      "Incorrect information on your report": [
+        "Public record information inaccurate",
+        "Account status incorrect",
+        "Information is missing that should be on the report",
+        "Old information reappears or never goes away",
+        "Information belongs to someone else",
+        "Personal information incorrect",
+        "Account information incorrect"
+      ],
+      "Improper use of your report": [
+        "Reporting company used your report improperly",
+        "Received unsolicited financial product or insurance offers after opting out",
+        "Credit inquiries on your report that you don't recognize"
+      ],
+      "Loan modification,collection,foreclosure": [
+        "General"
+      ],
+      "Credit decision / Underwriting": [
+        "General"
+      ],
+      "Problem with a credit reporting company's investigation into an existing problem": [
+        "Investigation took more than 30 days",
+        "Was not notified of investigation status or results",
+        "Problem with personal statement of dispute",
+        "Difficulty submitting a dispute or getting information about a dispute over the phone",
+        "Their investigation did not fix an error on your report"
+      ],
+      "Problem with a company's investigation into an existing problem": [
+        "Investigation took more than 30 days",
+        "Was not notified of investigation status or results",
+        "Problem with personal statement of dispute",
+        "Difficulty submitting a dispute or getting information about a dispute over the phone",
+        "Their investigation did not fix an error on your report"
+      ],
+      "Unable to get your credit report or credit score": [
+        "Other problem getting your report or credit score"
+      ],
+      "Problem with fraud alerts or security freezes": [
+        "General"
+      ]
+    },
+    "Conventional fixed mortgage": {
+      "Loan modification,collection,foreclosure": [
+        "General"
+      ],
+      "Application, originator, mortgage broker": [
+        "General"
+      ],
+      "Loan servicing, payments, escrow account": [
+        "General"
+      ],
+      "Settlement process and costs": [
+        "General"
+      ],
+      "Credit decision / Underwriting": [
+        "General"
+      ]
+    },
+    "Other mortgage": {
+      "Loan servicing, payments, escrow account": [
+        "General"
+      ],
+      "Loan modification,collection,foreclosure": [
+        "General"
+      ],
+      "Settlement process and costs": [
+        "General"
+      ],
+      "Application, originator, mortgage broker": [
+        "General"
+      ],
+      "Credit decision / Underwriting": [
+        "General"
+      ]
+    },
+    "Other type of mortgage": {
+      "Struggling to pay mortgage": [
+        "Foreclosure",
+        "Trying to communicate with the company to fix an issue related to modification, forbearance, short sale, deed-in-lieu, bankruptcy, or foreclosure",
+        "General",
+        "Applying for or obtaining a modification, forbearance plan, short sale, or deed-in-lieu",
+        "An existing modification, forbearance plan, short sale, or other loss mitigation relief"
+      ],
+      "Trouble during payment process": [
+        "Private mortgage insurance (PMI)",
+        "Payment process",
+        "Interest rate",
+        "Trying to communicate with the company to fix an issue while managing or servicing your loan",
+        "Paying off the loan",
+        "Fees charged",
+        "Escrow, taxes, or insurance",
+        "General",
+        "Loan sold or transferred to another company",
+        "Lien release"
+      ],
+      "Incorrect information on your report": [
+        "Public record information inaccurate",
+        "Account status incorrect",
+        "Information is missing that should be on the report",
+        "Old information reappears or never goes away",
+        "Information belongs to someone else",
+        "Personal information incorrect",
+        "Account information incorrect"
+      ],
+      "Problem with a company's investigation into an existing problem": [
+        "Problem with personal statement of dispute",
+        "Investigation took more than 30 days",
+        "Difficulty submitting a dispute or getting information about a dispute over the phone",
+        "Their investigation did not fix an error on your report"
+      ],
+      "Applying for a mortgage or refinancing an existing mortgage": [
+        "Delays in the application process",
+        "Fees or costs during the application process",
+        "Loan estimate or other related disclosures",
+        "Application denials",
+        "Changes in loan terms during the application process",
+        "Trying to communicate with the company to fix an issue with the application process",
+        "Confusing or misleading advertising or marketing",
+        "General",
+        "Negative impact of inaccurate appraisal"
+      ],
+      "Closing on a mortgage": [
+        "Delays with the closing process",
+        "Fees or costs after closing",
+        "Changes in loan terms during or after closing",
+        "Trying to communicate with the company to fix an issue with the loan closing",
+        "Setting up an escrow account for taxes and insurance",
+        "Closing disclosure or other related disclosures",
+        "General"
+      ],
+      "Improper use of your report": [
+        "Reporting company used your report improperly",
+        "Received unsolicited financial product or insurance offers after opting out",
+        "Credit inquiries on your report that you don't recognize"
+      ],
+      "Problem with a credit reporting company's investigation into an existing problem": [
+        "Investigation took more than 30 days",
+        "Was not notified of investigation status or results",
+        "Problem with personal statement of dispute",
+        "Difficulty submitting a dispute or getting information about a dispute over the phone",
+        "Their investigation did not fix an error on your report"
+      ],
+      "Credit monitoring or identity theft protection services": [
+        "Received unwanted marketing or advertising",
+        "Didn't receive services that were advertised",
+        "Problem with product or service terms changing"
+      ],
+      "Unable to get your credit report or credit score": [
+        "Other problem getting your report or credit score"
+      ],
+      "Problem with fraud alerts or security freezes": [
+        "General"
+      ]
+    },
+    "Manufactured home loan": {
+      "Struggling to pay mortgage": [
+        "Trying to communicate with the company to fix an issue related to modification, forbearance, short sale, deed-in-lieu, bankruptcy, or foreclosure",
+        "Applying for or obtaining a modification, forbearance plan, short sale, or deed-in-lieu",
+        "Foreclosure",
+        "An existing modification, forbearance plan, short sale, or other loss mitigation relief"
+      ],
+      "Closing on a mortgage": [
+        "Delays with the closing process",
+        "Fees or costs after closing",
+        "Changes in loan terms during or after closing",
+        "Trying to communicate with the company to fix an issue with the loan closing",
+        "Closing disclosure or other related disclosures"
+      ],
+      "Trouble during payment process": [
+        "Private mortgage insurance (PMI)",
+        "Payment process",
+        "Interest rate",
+        "Trying to communicate with the company to fix an issue while managing or servicing your loan",
+        "Paying off the loan",
+        "Fees charged",
+        "Escrow, taxes, or insurance",
+        "Loan sold or transferred to another company",
+        "Lien release"
+      ],
+      "Applying for a mortgage or refinancing an existing mortgage": [
+        "Delays in the application process",
+        "Fees or costs during the application process",
+        "Loan estimate or other related disclosures",
+        "Application denials",
+        "Changes in loan terms during the application process",
+        "Trying to communicate with the company to fix an issue with the application process",
+        "Confusing or misleading advertising or marketing"
+      ],
+      "Incorrect information on your report": [
+        "Account status incorrect",
+        "Information is missing that should be on the report",
+        "Old information reappears or never goes away",
+        "Information belongs to someone else",
+        "Account information incorrect"
+      ],
+      "Problem with a company's investigation into an existing problem": [
+        "Problem with personal statement of dispute",
+        "Difficulty submitting a dispute or getting information about a dispute over the phone",
+        "Their investigation did not fix an error on your report"
+      ],
+      "Improper use of your report": [
+        "Reporting company used your report improperly"
+      ],
+      "Problem with fraud alerts or security freezes": [
+        "General"
+      ],
+      "Unable to get your credit report or credit score": [
+        "Other problem getting your report or credit score"
+      ]
+    },
+    "Reverse mortgage": {
+      "Application, originator, mortgage broker": [
+        "General"
+      ],
+      "Trouble during payment process": [
+        "Private mortgage insurance (PMI)",
+        "Payment process",
+        "Interest rate",
+        "Paying off the loan",
+        "Trying to communicate with the company to fix an issue while managing or servicing your loan",
+        "Fees charged",
+        "Escrow, taxes, or insurance",
+        "General",
+        "Loan sold or transferred to another company",
+        "Lien release"
+      ],
+      "Closing on a mortgage": [
+        "Delays with the closing process",
+        "Fees or costs after closing",
+        "Changes in loan terms during or after closing",
+        "Trying to communicate with the company to fix an issue with the loan closing",
+        "Setting up an escrow account for taxes and insurance",
+        "Closing disclosure or other related disclosures",
+        "General"
+      ],
+      "Applying for a mortgage or refinancing an existing mortgage": [
+        "Delays in the application process",
+        "Fees or costs during the application process",
+        "Loan estimate or other related disclosures",
+        "Application denials",
+        "Changes in loan terms during the application process",
+        "Trying to communicate with the company to fix an issue with the application process",
+        "Confusing or misleading advertising or marketing",
+        "General",
+        "Negative impact of inaccurate appraisal"
+      ],
+      "Loan servicing, payments, escrow account": [
+        "General"
+      ],
+      "Struggling to pay mortgage": [
+        "Foreclosure",
+        "Trying to communicate with the company to fix an issue related to modification, forbearance, short sale, deed-in-lieu, bankruptcy, or foreclosure",
+        "General",
+        "Applying for or obtaining a modification, forbearance plan, short sale, or deed-in-lieu",
+        "An existing modification, forbearance plan, short sale, or other loss mitigation relief"
+      ],
+      "Loan modification,collection,foreclosure": [
+        "General"
+      ],
+      "Settlement process and costs": [
+        "General"
+      ],
+      "Problem with a credit reporting company's investigation into an existing problem": [
+        "Difficulty submitting a dispute or getting information about a dispute over the phone"
+      ],
+      "Credit decision / Underwriting": [
+        "General"
+      ],
+      "Incorrect information on your report": [
+        "Public record information inaccurate",
+        "Account status incorrect",
+        "Account information incorrect",
+        "Information belongs to someone else"
+      ],
+      "Problem with a company's investigation into an existing problem": [
+        "Problem with personal statement of dispute",
+        "Their investigation did not fix an error on your report",
+        "Was not notified of investigation status or results"
+      ],
+      "Unable to get your credit report or credit score": [
+        "Other problem getting your report or credit score"
+      ],
+      "Credit monitoring or identity theft protection services": [
+        "Problem canceling credit monitoring or identify theft protection service"
+      ]
+    },
+    "Conventional adjustable mortgage (ARM)": {
+      "Loan modification,collection,foreclosure": [
+        "General"
+      ],
+      "Application, originator, mortgage broker": [
+        "General"
+      ],
+      "Credit decision / Underwriting": [
+        "General"
+      ],
+      "Loan servicing, payments, escrow account": [
+        "General"
+      ],
+      "Settlement process and costs": [
+        "General"
+      ]
+    },
+    "USDA mortgage": {
+      "Struggling to pay mortgage": [
+        "Trying to communicate with the company to fix an issue related to modification, forbearance, short sale, deed-in-lieu, bankruptcy, or foreclosure",
+        "Applying for or obtaining a modification, forbearance plan, short sale, or deed-in-lieu",
+        "Foreclosure",
+        "An existing modification, forbearance plan, short sale, or other loss mitigation relief"
+      ],
+      "Trouble during payment process": [
+        "Payment process",
+        "Paying off the loan",
+        "Trying to communicate with the company to fix an issue while managing or servicing your loan",
+        "Fees charged",
+        "Escrow, taxes, or insurance",
+        "Loan sold or transferred to another company"
+      ],
+      "Applying for a mortgage or refinancing an existing mortgage": [
+        "Delays in the application process",
+        "Application denials",
+        "Changes in loan terms during the application process",
+        "Trying to communicate with the company to fix an issue with the application process",
+        "Confusing or misleading advertising or marketing",
+        "Negative impact of inaccurate appraisal"
+      ],
+      "Closing on a mortgage": [
+        "Delays with the closing process",
+        "Fees or costs after closing",
+        "Changes in loan terms during or after closing",
+        "Trying to communicate with the company to fix an issue with the loan closing",
+        "Closing disclosure or other related disclosures"
+      ],
+      "Problem with a company's investigation into an existing problem": [
+        "Difficulty submitting a dispute or getting information about a dispute over the phone",
+        "Their investigation did not fix an error on your report"
+      ],
+      "Incorrect information on your report": [
+        "Old information reappears or never goes away",
+        "Account status incorrect",
+        "Information is missing that should be on the report",
+        "Account information incorrect"
+      ],
+      "Improper use of your report": [
+        "Credit inquiries on your report that you don't recognize"
+      ]
+    },
+    "Home equity loan or line of credit": {
+      "Application, originator, mortgage broker": [
+        "General"
+      ],
+      "Loan servicing, payments, escrow account": [
+        "General"
+      ],
+      "Loan modification,collection,foreclosure": [
+        "General"
+      ],
+      "Settlement process and costs": [
+        "General"
+      ],
+      "Credit decision / Underwriting": [
+        "General"
+      ]
+    }
+  },
+  "Checking or savings account": {
+    "Checking account": {
+      "Problem with a lender or other company charging your account": [
+        "Can't stop withdrawals from your account",
+        "Money was taken from your account on the wrong day or for the wrong amount",
+        "Transaction was not authorized"
+      ],
+      "Managing an account": [
+        "Banking errors",
+        "Problem making or receiving payments",
+        "Problem using a debit or ATM card",
+        "Cashing a check",
+        "Problem accessing account",
+        "Fee problem",
+        "Deposits and withdrawals",
+        "Funds not handled or disbursed as instructed"
+      ],
+      "Closing an account": [
+        "Company closed your account",
+        "Funds not received from closed account",
+        "Can't close your account",
+        "Fees charged for closing account"
+      ],
+      "Problem caused by your funds being low": [
+        "Non-sufficient funds and associated fees",
+        "Bounced checks or returned payments",
+        "Late or other fees",
+        "Overdrafts and overdraft fees"
+      ],
+      "Opening an account": [
+        "Unable to open an account",
+        "Account opened without my consent or knowledge",
+        "Confusing or missing disclosures",
+        "Account opened as a result of fraud",
+        "Didn't receive terms that were advertised"
+      ],
+      "Account opening, closing, or management": [
+        "General"
+      ],
+      "Using a debit or ATM card": [
+        "General"
+      ],
+      "Problems caused by my funds being low": [
+        "General"
+      ],
+      "Deposits and withdrawals": [
+        "General"
+      ],
+      "Credit monitoring or identity theft protection services": [
+        "Received unwanted marketing or advertising",
+        "Problem with product or service terms changing",
+        "Didn't receive services that were advertised",
+        "Billing dispute for services",
+        "Problem canceling credit monitoring or identify theft protection service"
+      ],
+      "Incorrect information on your report": [
+        "Public record information inaccurate",
+        "Account status incorrect",
+        "Information is missing that should be on the report",
+        "Old information reappears or never goes away",
+        "Information belongs to someone else",
+        "Personal information incorrect",
+        "Account information incorrect"
+      ],
+      "Problem with a company's investigation into an existing problem": [
+        "Investigation took more than 30 days",
+        "Was not notified of investigation status or results",
+        "Problem with personal statement of dispute",
+        "Difficulty submitting a dispute or getting information about a dispute over the phone",
+        "Their investigation did not fix an error on your report"
+      ],
+      "Making/receiving payments, sending money": [
+        "General"
+      ],
+      "Improper use of your report": [
+        "Reporting company used your report improperly",
+        "Report provided to employer without your written authorization",
+        "Received unsolicited financial product or insurance offers after opting out",
+        "Credit inquiries on your report that you don't recognize"
+      ],
+      "Problem with a credit reporting company's investigation into an existing problem": [
+        "Investigation took more than 30 days",
+        "Was not notified of investigation status or results",
+        "Problem with personal statement of dispute",
+        "Difficulty submitting a dispute or getting information about a dispute over the phone",
+        "Their investigation did not fix an error on your report"
+      ],
+      "Problem with fraud alerts or security freezes": [
+        "General"
+      ],
+      "Unable to get your credit report or credit score": [
+        "Other problem getting your report or credit score",
+        "Problem getting your free annual credit report"
+      ]
+    },
+    "Savings account": {
+      "Managing an account": [
+        "Banking errors",
+        "Problem making or receiving payments",
+        "Problem using a debit or ATM card",
+        "Cashing a check",
+        "Problem accessing account",
+        "Fee problem",
+        "Deposits and withdrawals",
+        "Funds not handled or disbursed as instructed"
+      ],
+      "Closing an account": [
+        "Funds not received from closed account",
+        "Company closed your account",
+        "Can't close your account",
+        "Fees charged for closing account"
+      ],
+      "Deposits and withdrawals": [
+        "General"
+      ],
+      "Account opening, closing, or management": [
+        "General"
+      ],
+      "Problem with a lender or other company charging your account": [
+        "Can't stop withdrawals from your account",
+        "Money was taken from your account on the wrong day or for the wrong amount",
+        "Transaction was not authorized"
+      ],
+      "Improper use of your report": [
+        "Reporting company used your report improperly",
+        "Credit inquiries on your report that you don't recognize"
+      ],
+      "Problem caused by your funds being low": [
+        "Late or other fees",
+        "Non-sufficient funds and associated fees",
+        "Bounced checks or returned payments",
+        "Overdrafts and overdraft fees"
+      ],
+      "Opening an account": [
+        "Unable to open an account",
+        "Account opened without my consent or knowledge",
+        "Confusing or missing disclosures",
+        "Account opened as a result of fraud",
+        "Didn't receive terms that were advertised"
+      ],
+      "Making/receiving payments, sending money": [
+        "General"
+      ],
+      "Incorrect information on your report": [
+        "Account status incorrect",
+        "Old information reappears or never goes away",
+        "Information belongs to someone else",
+        "Personal information incorrect",
+        "Account information incorrect"
+      ],
+      "Problems caused by my funds being low": [
+        "General"
+      ],
+      "Using a debit or ATM card": [
+        "General"
+      ],
+      "Problem with a credit reporting company's investigation into an existing problem": [
+        "Their investigation did not fix an error on your report"
+      ],
+      "Problem with fraud alerts or security freezes": [
+        "General"
+      ],
+      "Problem with a company's investigation into an existing problem": [
+        "Investigation took more than 30 days",
+        "Their investigation did not fix an error on your report",
+        "Was not notified of investigation status or results",
+        "Difficulty submitting a dispute or getting information about a dispute over the phone"
+      ],
+      "Credit monitoring or identity theft protection services": [
+        "Received unwanted marketing or advertising",
+        "Didn't receive services that were advertised"
+      ],
+      "Unable to get your credit report or credit score": [
+        "Problem getting your free annual credit report"
+      ]
+    },
+    "Other banking product or service": {
+      "Opening an account": [
+        "Unable to open an account",
+        "Account opened without my consent or knowledge",
+        "Confusing or missing disclosures",
+        "Account opened as a result of fraud",
+        "Didn't receive terms that were advertised"
+      ],
+      "Managing an account": [
+        "Banking errors",
+        "Problem making or receiving payments",
+        "Problem using a debit or ATM card",
+        "Cashing a check",
+        "Problem accessing account",
+        "Fee problem",
+        "Deposits and withdrawals",
+        "Funds not handled or disbursed as instructed"
+      ],
+      "Problem with a lender or other company charging your account": [
+        "Can't stop withdrawals from your account",
+        "Money was taken from your account on the wrong day or for the wrong amount",
+        "Transaction was not authorized"
+      ],
+      "Closing an account": [
+        "Funds not received from closed account",
+        "Company closed your account",
+        "Can't close your account",
+        "Fees charged for closing account"
+      ],
+      "Problem caused by your funds being low": [
+        "Late or other fees",
+        "Bounced checks or returned payments",
+        "Non-sufficient funds and associated fees",
+        "Overdrafts and overdraft fees"
+      ],
+      "Unable to get your credit report or credit score": [
+        "Other problem getting your report or credit score",
+        "Problem getting your free annual credit report"
+      ],
+      "Improper use of your report": [
+        "Reporting company used your report improperly",
+        "Report provided to employer without your written authorization",
+        "Received unsolicited financial product or insurance offers after opting out",
+        "Credit inquiries on your report that you don't recognize"
+      ],
+      "Problem with a company's investigation into an existing problem": [
+        "Investigation took more than 30 days",
+        "Was not notified of investigation status or results",
+        "Problem with personal statement of dispute",
+        "Difficulty submitting a dispute or getting information about a dispute over the phone",
+        "Their investigation did not fix an error on your report"
+      ],
+      "Problem with fraud alerts or security freezes": [
+        "General"
+      ],
+      "Incorrect information on your report": [
+        "Public record information inaccurate",
+        "Account status incorrect",
+        "Information is missing that should be on the report",
+        "Old information reappears or never goes away",
+        "Information belongs to someone else",
+        "Personal information incorrect",
+        "Account information incorrect"
+      ],
+      "Credit monitoring or identity theft protection services": [
+        "Received unwanted marketing or advertising",
+        "Problem with product or service terms changing",
+        "Didn't receive services that were advertised",
+        "Billing dispute for services",
+        "Problem canceling credit monitoring or identify theft protection service"
+      ],
+      "Problem with a credit reporting company's investigation into an existing problem": [
+        "Investigation took more than 30 days"
+      ]
+    },
+    "CD (Certificate of Deposit)": {
+      "Managing an account": [
+        "Banking errors",
+        "Problem with renewal",
+        "Deposits or withdrawals",
+        "Problem accessing account",
+        "Funds not handled or disbursed as instructed",
+        "Problem with fees or penalties"
+      ],
+      "Closing an account": [
+        "Funds not received from closed account",
+        "Company closed your account",
+        "Can't close your account",
+        "Fees charged for closing account"
+      ],
+      "Problem with a company's investigation into an existing problem": [
+        "Problem with personal statement of dispute",
+        "Investigation took more than 30 days",
+        "Difficulty submitting a dispute or getting information about a dispute over the phone",
+        "Their investigation did not fix an error on your report"
+      ],
+      "Opening an account": [
+        "Unable to open an account",
+        "Account opened without my consent or knowledge",
+        "Confusing or missing disclosures",
+        "Account opened as a result of fraud",
+        "Didn't receive terms that were advertised"
+      ],
+      "Improper use of your report": [
+        "Reporting company used your report improperly"
+      ],
+      "Problem with fraud alerts or security freezes": [
+        "General"
+      ],
+      "Incorrect information on your report": [
+        "Account status incorrect",
+        "Old information reappears or never goes away",
+        "Account information incorrect"
+      ],
+      "Credit monitoring or identity theft protection services": [
+        "Billing dispute for services"
+      ],
+      "Problem with a credit reporting company's investigation into an existing problem": [
+        "Investigation took more than 30 days"
+      ],
+      "Unable to get your credit report or credit score": [
+        "Other problem getting your report or credit score"
+      ]
+    },
+    "Other bank product/service": {
+      "Making/receiving payments, sending money": [
+        "General"
+      ],
+      "Deposits and withdrawals": [
+        "General"
+      ],
+      "Account opening, closing, or management": [
+        "General"
+      ],
+      "Problems caused by my funds being low": [
+        "General"
+      ],
+      "Using a debit or ATM card": [
+        "General"
+      ]
+    },
+    "(CD) Certificate of deposit": {
+      "Account opening, closing, or management": [
+        "General"
+      ],
+      "Deposits and withdrawals": [
+        "General"
+      ],
+      "Problems caused by my funds being low": [
+        "General"
+      ],
+      "Making/receiving payments, sending money": [
+        "General"
+      ],
+      "Using a debit or ATM card": [
+        "General"
+      ]
+    },
+    "Cashing a check without an account": {
+      "Deposits and withdrawals": [
+        "General"
+      ],
+      "Account opening, closing, or management": [
+        "General"
+      ],
+      "Making/receiving payments, sending money": [
+        "General"
+      ],
+      "Using a debit or ATM card": [
+        "General"
+      ],
+      "Problems caused by my funds being low": [
+        "General"
+      ]
+    },
+    "General": {
+      "Incorrect information on your report": [
+        "Personal information incorrect",
+        "Account status incorrect",
+        "Information belongs to someone else",
+        "Account information incorrect"
+      ],
+      "Problem with a credit reporting company's investigation into an existing problem": [
+        "Problem with personal statement of dispute",
+        "Their investigation did not fix an error on your report",
+        "Was not notified of investigation status or results"
+      ],
+      "Credit monitoring or identity theft protection services": [
+        "Received unwanted marketing or advertising",
+        "Billing dispute for services"
+      ],
+      "Getting a line of credit": [
+        "General"
+      ]
+    }
+  },
+  "Vehicle loan or lease": {
+    "Loan": {
+      "Managing the loan or lease": [
+        "Problem with additional products or services purchased with the loan",
+        "Billing problem",
+        "Problem with fees charged",
+        "Problem with the interest rate",
+        "Loan sold or transferred to another company"
+      ],
+      "Incorrect information on your report": [
+        "Public record information inaccurate",
+        "Account status incorrect",
+        "Information is missing that should be on the report",
+        "Old information reappears or never goes away",
+        "Information belongs to someone else",
+        "Personal information incorrect",
+        "Account information incorrect"
+      ],
+      "Struggling to pay your loan": [
+        "Lender trying to repossess or disable the vehicle",
+        "Problem after you declared or threatened to declare bankruptcy",
+        "Denied request to lower payments",
+        "Loan balance remaining after the vehicle is repossessed and sold"
+      ],
+      "Problem with a credit reporting company's investigation into an existing problem": [
+        "Investigation took more than 30 days"
+      ],
+      "Getting a loan or lease": [
+        "Problem with additional add-on products or services purchased with the loan",
+        "Fraudulent loan",
+        "Loan opened without my consent or knowledge",
+        "Problem with a trade-in",
+        "Problem with signing the paperwork",
+        "Confusing or misleading advertising or marketing",
+        "Changes in terms mid-deal or after closing",
+        "Credit denial",
+        "High-pressure sales tactics",
+        "Did not receive car title"
+      ],
+      "Repossession": [
+        "Lender trying to repossess or disable the vehicle",
+        "Voluntary repossession",
+        "Loan balance remaining after the vehicle is repossessed and sold",
+        "Notice to repossess",
+        "Deficiency balance after repossession",
+        "Account reinstatement or redemption after repossession",
+        "Damage caused or loss of personal items in vehicle during the actual repossession",
+        "Company communicating payment assistance or payment extension options",
+        "Company explaining amount owed"
+      ],
+      "Problems at the end of the loan or lease": [
+        "Unable to receive car title or other problem after the loan is paid off",
+        "Problem with paying off the loan",
+        "Problem related to refinancing",
+        "Problem while selling or giving up the vehicle"
+      ],
+      "Problem with a company's investigation into an existing problem": [
+        "Investigation took more than 30 days",
+        "Was not notified of investigation status or results",
+        "Problem with personal statement of dispute",
+        "Difficulty submitting a dispute or getting information about a dispute over the phone",
+        "Their investigation did not fix an error on your report"
+      ],
+      "Unable to get your credit report or credit score": [
+        "Other problem getting your report or credit score",
+        "Problem getting your free annual credit report"
+      ],
+      "Improper use of your report": [
+        "Reporting company used your report improperly",
+        "Report provided to employer without your written authorization",
+        "Received unsolicited financial product or insurance offers after opting out",
+        "Credit inquiries on your report that you don't recognize"
+      ],
+      "Credit monitoring or identity theft protection services": [
+        "Received unwanted marketing or advertising",
+        "Problem with product or service terms changing",
+        "Didn't receive services that were advertised",
+        "Billing dispute for services",
+        "Problem canceling credit monitoring or identify theft protection service"
+      ],
+      "Problem with fraud alerts or security freezes": [
+        "General"
+      ]
+    },
+    "Lease": {
+      "Repossession": [
+        "Lender trying to repossess or disable the vehicle",
+        "Voluntary repossession",
+        "Loan balance remaining after the vehicle is repossessed and sold",
+        "Notice to repossess",
+        "Deficiency balance after repossession",
+        "Account reinstatement or redemption after repossession",
+        "Damage caused or loss of personal items in vehicle during the actual repossession",
+        "Company communicating payment assistance or payment extension options",
+        "Company explaining amount owed"
+      ],
+      "Problems at the end of the loan or lease": [
+        "Excess mileage, damage, or wear fees, or other problem after the lease is finished",
+        "Problem extending the lease",
+        "Problem when attempting to purchase vehicle at the end of the lease",
+        "Problem while selling or giving up the vehicle",
+        "Termination fees or other problem when ending the lease early",
+        "Problem with paying off the loan",
+        "Unable to receive car title or other problem after the loan is paid off",
+        "Problem related to refinancing"
+      ],
+      "Managing the loan or lease": [
+        "Problem with additional products or services purchased with the loan",
+        "Billing problem",
+        "Problem with fees charged",
+        "Problem with the interest rate",
+        "Loan sold or transferred to another company"
+      ],
+      "Problem with a credit reporting company's investigation into an existing problem": [
+        "Investigation took more than 30 days",
+        "Was not notified of investigation status or results",
+        "Problem with personal statement of dispute",
+        "Difficulty submitting a dispute or getting information about a dispute over the phone",
+        "Their investigation did not fix an error on your report"
+      ],
+      "Getting a loan or lease": [
+        "Problem with additional add-on products or services purchased with the loan",
+        "Fraudulent loan",
+        "Confusing or misleading advertising",
+        "Loan opened without my consent or knowledge",
+        "Problem with a trade-in",
+        "Problem with signing the paperwork",
+        "Confusing or misleading advertising or marketing",
+        "Changes in terms mid-deal or after closing",
+        "Credit denial",
+        "High-pressure sales tactics"
+      ],
+      "Incorrect information on your report": [
+        "Public record information inaccurate",
+        "Account status incorrect",
+        "Information is missing that should be on the report",
+        "Old information reappears or never goes away",
+        "Information belongs to someone else",
+        "Personal information incorrect",
+        "Account information incorrect"
+      ],
+      "Problem with a company's investigation into an existing problem": [
+        "Investigation took more than 30 days",
+        "Was not notified of investigation status or results",
+        "Problem with personal statement of dispute",
+        "Difficulty submitting a dispute or getting information about a dispute over the phone",
+        "Their investigation did not fix an error on your report"
+      ],
+      "Struggling to pay your loan": [
+        "Lender trying to repossess or disable the vehicle",
+        "Problem after you declared or threatened to declare bankruptcy",
+        "Denied request to lower payments",
+        "Loan balance remaining after the vehicle is repossessed and sold"
+      ],
+      "Improper use of your report": [
+        "Reporting company used your report improperly",
+        "Report provided to employer without your written authorization",
+        "Received unsolicited financial product or insurance offers after opting out",
+        "Credit inquiries on your report that you don't recognize"
+      ],
+      "Credit monitoring or identity theft protection services": [
+        "Problem canceling credit monitoring or identify theft protection service",
+        "Didn't receive services that were advertised",
+        "Billing dispute for services",
+        "Problem with product or service terms changing"
+      ],
+      "Unable to get your credit report or credit score": [
+        "Other problem getting your report or credit score"
+      ],
+      "Problem with fraud alerts or security freezes": [
+        "General"
+      ]
+    },
+    "Vehicle loan": {
+      "Taking out the loan or lease": [
+        "General"
+      ],
+      "Problems when you are unable to pay": [
+        "General"
+      ],
+      "Shopping for a loan or lease": [
+        "General"
+      ],
+      "Managing the loan or lease": [
+        "General"
+      ]
+    },
+    "Installment loan": {
+      "Managing the loan or lease": [
+        "General"
+      ],
+      "Problems when you are unable to pay": [
+        "General"
+      ],
+      "Taking out the loan or lease": [
+        "General"
+      ],
+      "Shopping for a loan or lease": [
+        "General"
+      ],
+      "Shopping for a line of credit": [
+        "General"
+      ]
+    },
+    "Vehicle lease": {
+      "Managing the loan or lease": [
+        "General"
+      ],
+      "Taking out the loan or lease": [
+        "General"
+      ],
+      "Problems when you are unable to pay": [
+        "General"
+      ],
+      "Shopping for a loan or lease": [
+        "General"
+      ]
+    },
+    "Title loan": {
+      "Charged fees or interest I didn't expect": [
+        "General"
+      ],
+      "Lender repossessed or sold the vehicle": [
+        "General"
+      ],
+      "Can't contact lender": [
+        "General"
+      ],
+      "Problem with a credit reporting company's investigation into an existing problem": [
+        "Investigation took more than 30 days",
+        "Difficulty submitting a dispute or getting information about a dispute over the phone",
+        "Their investigation did not fix an error on your report",
+        "Was not notified of investigation status or results"
+      ],
+      "Applied for loan/did not receive money": [
+        "General"
+      ],
+      "Received a loan I didn't apply for": [
+        "General"
+      ],
+      "Incorrect information on your report": [
+        "Account status incorrect",
+        "Personal information incorrect",
+        "Information belongs to someone else",
+        "Account information incorrect"
+      ],
+      "Payment to acct not credited": [
+        "General"
+      ],
+      "Can't stop charges to bank account": [
+        "General"
+      ],
+      "Improper use of your report": [
+        "Reporting company used your report improperly",
+        "Report provided to employer without your written authorization",
+        "Received unsolicited financial product or insurance offers after opting out",
+        "Credit inquiries on your report that you don't recognize"
+      ],
+      "Charged bank acct wrong day or amt": [
+        "General"
+      ],
+      "Lender damaged or destroyed vehicle": [
+        "General"
+      ]
+    },
+    "Pawn loan": {
+      "Charged fees or interest I didn't expect": [
+        "General"
+      ],
+      "Can't contact lender": [
+        "General"
+      ],
+      "Applied for loan/did not receive money": [
+        "General"
+      ],
+      "Can't stop charges to bank account": [
+        "General"
+      ],
+      "Payment to acct not credited": [
+        "General"
+      ],
+      "Lender sold the property": [
+        "General"
+      ],
+      "Lender damaged or destroyed property": [
+        "General"
+      ]
+    },
+    "Personal line of credit": {
+      "Account terms and changes": [
+        "General"
+      ],
+      "Managing the line of credit": [
+        "General"
+      ],
+      "Problems when you are unable to pay": [
+        "General"
+      ],
+      "Shopping for a line of credit": [
+        "General"
+      ]
+    }
+  },
+  "Prepaid card": {
+    "General-purpose prepaid card": {
+      "Problem getting a card or closing an account": [
+        "Trouble getting a working replacement card",
+        "Trouble closing card",
+        "Don't want a card provided by your employer or the government",
+        "Trouble getting, activating, or registering a card"
+      ],
+      "Trouble using the card": [
+        "Trouble getting information about the card",
+        "Trouble using the card to pay a bill",
+        "Problem using the card to withdraw money from an ATM",
+        "Trouble using the card to spend money in a store or online",
+        "Problem adding money",
+        "Problem with a check written from your prepaid card account",
+        "Trouble using the card to send money to another person",
+        "Problem with direct deposit"
+      ],
+      "Unexpected or other fees": [
+        "General"
+      ],
+      "Problem with a purchase or transfer": [
+        "Overcharged for a purchase or transfer you did make with the card",
+        "Card company isn't resolving a dispute about a purchase or transfer",
+        "Charged for a purchase or transfer you did not make with the card"
+      ],
+      "Advertising": [
+        "Confusing or misleading advertising about the card",
+        "Changes in terms from what was offered or advertised"
+      ],
+      "Problem with overdraft": [
+        "Overdraft charges",
+        "Was signed up for overdraft on card, but don't want to be"
+      ]
+    },
+    "Government benefit card": {
+      "Trouble using the card": [
+        "Trouble getting information about the card",
+        "Trouble using the card to pay a bill",
+        "Problem using the card to withdraw money from an ATM",
+        "Trouble using the card to spend money in a store or online",
+        "Problem adding money",
+        "Problem with a check written from your prepaid card account",
+        "Trouble using the card to send money to another person",
+        "Problem with direct deposit"
+      ],
+      "Problem getting a card or closing an account": [
+        "Don't want a card provided by your employer or the government",
+        "Trouble closing card",
+        "Trouble getting a working replacement card",
+        "Trouble getting, activating, or registering a card"
+      ],
+      "Problem with a purchase or transfer": [
+        "Overcharged for a purchase or transfer you did make with the card",
+        "Card company isn't resolving a dispute about a purchase or transfer",
+        "Charged for a purchase or transfer you did not make with the card"
+      ],
+      "Unexpected or other fees": [
+        "General"
+      ],
+      "Advertising": [
+        "Confusing or misleading advertising about the card",
+        "Changes in terms from what was offered or advertised"
+      ],
+      "Problem with overdraft": [
+        "Overdraft charges"
+      ]
+    },
+    "Payroll card": {
+      "Problem with a purchase or transfer": [
+        "Overcharged for a purchase or transfer you did make with the card",
+        "Card company isn't resolving a dispute about a purchase or transfer",
+        "Charged for a purchase or transfer you did not make with the card"
+      ],
+      "Problem getting a card or closing an account": [
+        "Trouble getting a working replacement card",
+        "Don't want a card provided by your employer or the government",
+        "Trouble getting, activating, or registering a card",
+        "Trouble closing card"
+      ],
+      "Unexpected or other fees": [
+        "General"
+      ],
+      "Unauthorized transactions/trans. issues": [
+        "General"
+      ],
+      "Adding money": [
+        "General"
+      ],
+      "Fraud or scam": [
+        "General"
+      ],
+      "Managing, opening, or closing account": [
+        "General"
+      ],
+      "Advertising": [
+        "Confusing or misleading advertising about the card",
+        "Changes in terms from what was offered or advertised"
+      ],
+      "Trouble using the card": [
+        "Trouble using the card to pay a bill",
+        "Trouble getting information about the card",
+        "Problem using the card to withdraw money from an ATM",
+        "Trouble using the card to spend money in a store or online",
+        "Problem with a check written from your prepaid card account",
+        "Trouble using the card to send money to another person",
+        "Problem with direct deposit"
+      ],
+      "Advertising, marketing or disclosures": [
+        "General"
+      ],
+      "Overdraft, savings or rewards features": [
+        "General"
+      ],
+      "Fees": [
+        "General"
+      ],
+      "Problem with overdraft": [
+        "Overdraft charges",
+        "Was signed up for overdraft on card, but don't want to be"
+      ]
+    },
+    "Electronic Benefit Transfer / EBT card": {
+      "Fees": [
+        "General"
+      ],
+      "Managing, opening, or closing account": [
+        "General"
+      ],
+      "Fraud or scam": [
+        "General"
+      ]
+    },
+    "Gift card": {
+      "Trouble using the card": [
+        "Trouble using the card to spend money in a store or online",
+        "Trouble getting information about the card",
+        "Trouble using the card to pay a bill",
+        "Trouble using the card to send money to another person"
+      ],
+      "Problem with a purchase or transfer": [
+        "Overcharged for a purchase or transfer you did make with the card",
+        "Card company isn't resolving a dispute about a purchase or transfer",
+        "Charged for a purchase or transfer you did not make with the card"
+      ],
+      "Unexpected or other fees": [
+        "General"
+      ],
+      "Problem getting a card or closing an account": [
+        "Trouble getting a working replacement card",
+        "Trouble getting, activating, or registering a card",
+        "Trouble closing card"
+      ],
+      "Advertising": [
+        "Confusing or misleading advertising about the card",
+        "Changes in terms from what was offered or advertised"
+      ]
+    },
+    "Transit card": {
+      "Unauthorized transactions/trans. issues": [
+        "General"
+      ],
+      "Fraud or scam": [
+        "General"
+      ],
+      "Adding money": [
+        "General"
+      ],
+      "Managing, opening, or closing account": [
+        "General"
+      ]
+    },
+    "ID prepaid card": {
+      "Fraud or scam": [
+        "General"
+      ],
+      "Unauthorized transactions/trans. issues": [
+        "General"
+      ],
+      "Adding money": [
+        "General"
+      ],
+      "Managing, opening, or closing account": [
+        "General"
+      ],
+      "Fees": [
+        "General"
+      ],
+      "Overdraft, savings or rewards features": [
+        "General"
+      ],
+      "Advertising, marketing or disclosures": [
+        "General"
+      ]
+    },
+    "General purpose card": {
+      "Adding money": [
+        "General"
+      ],
+      "Managing, opening, or closing account": [
+        "General"
+      ],
+      "Unauthorized transactions/trans. issues": [
+        "General"
+      ],
+      "Fees": [
+        "General"
+      ],
+      "Fraud or scam": [
+        "General"
+      ],
+      "Overdraft, savings or rewards features": [
+        "General"
+      ],
+      "Advertising, marketing or disclosures": [
+        "General"
+      ]
+    },
+    "Gift or merchant card": {
+      "Managing, opening, or closing account": [
+        "General"
+      ],
+      "Unauthorized transactions/trans. issues": [
+        "General"
+      ],
+      "Fraud or scam": [
+        "General"
+      ],
+      "Fees": [
+        "General"
+      ],
+      "Adding money": [
+        "General"
+      ],
+      "Overdraft, savings or rewards features": [
+        "General"
+      ],
+      "Advertising, marketing or disclosures": [
+        "General"
+      ]
+    },
+    "Mobile wallet": {
+      "Unauthorized transactions/trans. issues": [
+        "General"
+      ],
+      "Managing, opening, or closing account": [
+        "General"
+      ],
+      "Advertising, marketing or disclosures": [
+        "General"
+      ],
+      "Fraud or scam": [
+        "General"
+      ],
+      "Overdraft, savings or rewards features": [
+        "General"
+      ],
+      "Adding money": [
+        "General"
+      ],
+      "Fees": [
+        "General"
+      ]
+    },
+    "Government benefit payment card": {
+      "Unauthorized transactions/trans. issues": [
+        "General"
+      ],
+      "Managing, opening, or closing account": [
+        "General"
+      ],
+      "Fraud or scam": [
+        "General"
+      ],
+      "Fees": [
+        "General"
+      ],
+      "Adding money": [
+        "General"
+      ],
+      "Overdraft, savings or rewards features": [
+        "General"
+      ]
+    },
+    "Other special purpose card": {
+      "Unauthorized transactions/trans. issues": [
+        "General"
+      ],
+      "Managing, opening, or closing account": [
+        "General"
+      ],
+      "Advertising, marketing or disclosures": [
+        "General"
+      ],
+      "Fraud or scam": [
+        "General"
+      ],
+      "Fees": [
+        "General"
+      ],
+      "Adding money": [
+        "General"
+      ]
+    },
+    "Student prepaid card": {
+      "Problem with a purchase or transfer": [
+        "Card company isn't resolving a dispute about a purchase or transfer"
+      ],
+      "Unexpected or other fees": [
+        "General"
+      ],
+      "Advertising": [
+        "Confusing or misleading advertising about the card"
+      ],
+      "Problem getting a card or closing an account": [
+        "Trouble getting a working replacement card"
+      ]
+    }
+  },
+  "Other financial service": {
+    "Credit repair": {
+      "Unexpected/Other fees": [
+        "General"
+      ],
+      "Fraud or scam": [
+        "General"
+      ],
+      "Customer service/Customer relations": [
+        "General"
+      ],
+      "Disclosures": [
+        "General"
+      ],
+      "Advertising and marketing": [
+        "General"
+      ],
+      "Excessive fees": [
+        "General"
+      ]
+    },
+    "Traveler\u2019s/Cashier\u2019s checks": {
+      "Lost or stolen check": [
+        "General"
+      ],
+      "Customer service/Customer relations": [
+        "General"
+      ],
+      "Fraud or scam": [
+        "General"
+      ],
+      "Unexpected/Other fees": [
+        "General"
+      ]
+    },
+    "Check cashing": {
+      "Unexpected/Other fees": [
+        "General"
+      ],
+      "Fraud or scam": [
+        "General"
+      ],
+      "Advertising and marketing": [
+        "General"
+      ],
+      "Customer service/Customer relations": [
+        "General"
+      ],
+      "Excessive fees": [
+        "General"
+      ],
+      "Disclosures": [
+        "General"
+      ]
+    },
+    "Debt settlement": {
+      "Unexpected/Other fees": [
+        "General"
+      ],
+      "Fraud or scam": [
+        "General"
+      ],
+      "Advertising and marketing": [
+        "General"
+      ],
+      "Disclosures": [
+        "General"
+      ],
+      "Customer service/Customer relations": [
+        "General"
+      ],
+      "Excessive fees": [
+        "General"
+      ]
+    },
+    "Refund anticipation check": {
+      "Excessive fees": [
+        "General"
+      ],
+      "Customer service/Customer relations": [
+        "General"
+      ],
+      "Lost or stolen check": [
+        "General"
+      ],
+      "Fraud or scam": [
+        "General"
+      ],
+      "Unexpected/Other fees": [
+        "General"
+      ],
+      "Disclosures": [
+        "General"
+      ]
+    },
+    "Money order": {
+      "Fraud or scam": [
+        "General"
+      ],
+      "Lost or stolen money order": [
+        "General"
+      ],
+      "Advertising and marketing": [
+        "General"
+      ],
+      "Customer service/Customer relations": [
+        "General"
+      ],
+      "Excessive fees": [
+        "General"
+      ],
+      "Unexpected/Other fees": [
+        "General"
+      ]
+    },
+    "Foreign currency exchange": {
+      "Advertising and marketing": [
+        "General"
+      ],
+      "Customer service/Customer relations": [
+        "General"
+      ],
+      "Excessive fees": [
+        "General"
+      ],
+      "Incorrect exchange rate": [
+        "General"
+      ],
+      "Fraud or scam": [
+        "General"
+      ]
+    }
+  }
+}
