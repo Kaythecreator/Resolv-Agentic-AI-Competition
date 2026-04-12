@@ -290,6 +290,118 @@ Alternatively, use `st.dataframe` with `on_select="rerun"` (Streamlit >= 1.35) f
 a more polished look — but the `st.button` per row approach is simpler and works on
 all versions.
 
+### Human-in-the-Loop Buttons on Table Rows
+
+For any row where `status == "needs_review"`, render two extra buttons directly in the
+row — **Approve** and **Edit** — so the reviewer never has to open the detail view just
+to action a complaint.
+
+```python
+for complaint_id, data in st.session_state.complaints.items():
+    # ... render all data columns ...
+
+    # Action column — last column
+    with action_col:
+        if data["status"] == "needs_review":
+            approve_col, edit_col, view_col = st.columns(3)
+
+            with approve_col:
+                if st.button("✅ Approve", key=f"approve_{complaint_id}"):
+                    resume_pipeline(complaint_id)   # see below
+                    st.rerun()
+
+            with edit_col:
+                if st.button("✏️ Edit", key=f"edit_{complaint_id}"):
+                    st.session_state[f"editing_{complaint_id}"] = True
+                    st.rerun()
+
+            with view_col:
+                if st.button("View", key=f"view_{complaint_id}"):
+                    st.session_state.selected_complaint = complaint_id
+        else:
+            if st.button("View", key=f"view_{complaint_id}"):
+                st.session_state.selected_complaint = complaint_id
+```
+
+#### Inline Edit Form
+
+When `st.session_state[f"editing_{complaint_id}"]` is `True`, render an edit form
+directly below that row (use `st.expander` or an indented `st.container`):
+
+```python
+if st.session_state.get(f"editing_{complaint_id}"):
+    with st.container(border=True):
+        st.markdown(f"**Editing Complaint {complaint_id}** — adjust values before approving")
+        st.caption(f"Review reasons: {', '.join(data['state'].get('review_reasons', []))}")
+
+        new_severity   = st.number_input("Severity (1–10)",   min_value=1, max_value=10,
+                                          value=data["state"].get("severity", 5),
+                                          key=f"sev_{complaint_id}")
+        new_compliance = st.number_input("Compliance (1–10)", min_value=1, max_value=10,
+                                          value=data["state"].get("compliance", 5),
+                                          key=f"comp_{complaint_id}")
+        new_team       = st.text_input("Team",
+                                        value=data["state"].get("team", ""),
+                                        key=f"team_{complaint_id}")
+
+        confirm_col, cancel_col = st.columns(2)
+
+        with confirm_col:
+            if st.button("✅ Approve with Changes", key=f"confirm_{complaint_id}"):
+                overrides = {}
+                if new_severity   != data["state"].get("severity"):   overrides["severity"]   = new_severity
+                if new_compliance != data["state"].get("compliance"): overrides["compliance"] = new_compliance
+                if new_team       != data["state"].get("team"):        overrides["team"]       = new_team
+                resume_pipeline(complaint_id, overrides=overrides)
+                st.session_state.pop(f"editing_{complaint_id}", None)
+                st.rerun()
+
+        with cancel_col:
+            if st.button("✖ Cancel", key=f"cancel_{complaint_id}"):
+                # Cancel just closes the edit form — complaint stays in needs_review
+                st.session_state.pop(f"editing_{complaint_id}", None)
+                st.rerun()
+```
+
+> Cancel does NOT reject the complaint. It simply closes the edit form and
+> returns the row to showing the **Approve** / **Edit** / **View** buttons.
+
+#### `resume_pipeline` helper
+
+This function lives in `state_store.py`. It optionally applies state overrides, then
+resumes the LangGraph stream in a new background thread:
+
+```python
+def resume_pipeline(complaint_id: str, overrides: dict = None):
+    entry = st.session_state.complaints[complaint_id]
+    graph  = entry["graph"]
+    config = entry["thread_config"]
+
+    if overrides:
+        graph.update_state(config, overrides)
+        entry["state"].update(overrides)
+
+    update_complaint(complaint_id, {"status": "processing"})
+
+    def _resume():
+        try:
+            for event in graph.stream(None, config=config):
+                for node_name, node_output in event.items():
+                    entry["agent_log"].append({
+                        "agent":  AGENT_DISPLAY_NAMES.get(node_name, node_name),
+                        "node":   node_name,
+                        "status": "complete",
+                        "output": node_output
+                    })
+                    entry["state"].update(node_output)
+            save_complaint_to_db(complaint_id)   # persist to SQLite once fully done
+            update_complaint(complaint_id, {"status": "complete"})
+        except Exception as e:
+            update_complaint(complaint_id, {"status": "error", "error": str(e)})
+
+    threading.Thread(target=_resume, daemon=True).start()
+```
+
 ### Status Badge Styling
 
 Use `st.markdown` with inline HTML for colored badges:
@@ -475,34 +587,47 @@ Show these fields in labeled sections using `st.metric` or `st.info` boxes:
 
 #### Human Review Panel
 
-If `status == "needs_review"`, render this panel prominently in an `st.warning` box:
+If `status == "needs_review"`, render this panel prominently in an `st.warning` box
+at the top of the detail view, above the agent progress cards:
 
 ```
 ⚠️  This complaint requires human review before proceeding.
 
 Reasons: [list the review_reasons]
 
-[ Approve ]   [ Edit & Approve ]
+[ ✅ Approve ]   [ ✏️ Edit ]
 ```
 
-**Approve button** → resume the graph:
+**Approve button** → calls `resume_pipeline(complaint_id)` (same helper used by the
+table row buttons — defined in `state_store.py`). Pipeline resumes in a background
+thread, status returns to `"processing"`, detail view auto-refreshes every 1 second
+until complete.
+
+**Edit button** → sets `st.session_state[f"editing_detail_{complaint_id}"] = True`
+and reruns. This renders the same edit form inline below the warning box:
+
 ```python
-for event in graph.stream(None, config=config):
-    # stream remaining nodes
-```
-Then update status to "complete".
+if st.session_state.get(f"editing_detail_{complaint_id}"):
+    with st.container(border=True):
+        new_severity   = st.number_input(...)
+        new_compliance = st.number_input(...)
+        new_team       = st.text_input(...)
 
-**Edit & Approve button** → show input fields to override:
-- Severity (number input)
-- Compliance (number input)
-- Team (text input)
-
-Then call:
-```python
-graph.update_state(config, {"severity": new_sev, ...})
-for event in graph.stream(None, config=config):
-    pass
+        confirm_col, cancel_col = st.columns(2)
+        with confirm_col:
+            if st.button("✅ Approve with Changes"):
+                resume_pipeline(complaint_id, overrides={...})
+                st.session_state.pop(f"editing_detail_{complaint_id}", None)
+                st.rerun()
+        with cancel_col:
+            if st.button("✖ Cancel"):
+                # Closes the edit form only — complaint stays in needs_review
+                st.session_state.pop(f"editing_detail_{complaint_id}", None)
+                st.rerun()
 ```
+
+Cancel closes the edit form and returns to showing the **Approve** / **Edit** buttons.
+It does NOT reject or discard the complaint.
 
 ### Auto-Refresh While Processing
 
@@ -643,21 +768,31 @@ User opens app
     │
     └─ Has complaints → shows dashboard table
             │
-            ├─ Clicks "+ Add Complaint"
+            ├─ Clicks "+ Add Complaint" → modal opens
             │       │
-            │       ├─ Tab 1: Manual form (cascading taxonomy dropdowns)
-            │       │       └─ Submit → add to store → start background thread → open detail view
+            │       ├─ "Add Individual Complaint" → form with cascading taxonomy dropdowns
+            │       │       └─ Submit → add to SQLite (pending) → start background thread → open detail view
             │       │
-            │       └─ Tab 2: CSV upload → parse → add all rows → start threads → close form
+            │       └─ "Upload CSV" → file uploader → parse rows → add each to SQLite → start threads
             │
-            └─ Clicks "View" on a complaint row → opens detail view
+            ├─ Row status = needs_review → shows [ ✅ Approve ] [ ✏️ Edit ] buttons inline on the row
+            │       │
+            │       ├─ Approve → resume_pipeline() → status back to processing → completes → saved to SQLite
+            │       │
+            │       └─ Edit → inline edit form (severity, compliance, team)
+            │               ├─ Approve with Changes → apply overrides → resume_pipeline() → saved to SQLite
+            │               └─ Cancel → closes form → row returns to showing Approve / Edit buttons
+            │
+            └─ Clicks "View" on any row → opens detail view
                     │
                     ├─ Status = processing
                     │       └─ Shows agent cards with live status → auto-refreshes every 1s
                     │
                     ├─ Status = needs_review
-                    │       └─ Shows agent output + human review panel (Approve / Edit & Approve)
+                    │       └─ Warning panel at top with [ ✅ Approve ] [ ✏️ Edit ] buttons
+                    │               └─ Same Approve / Edit / Cancel behavior as table row
                     │
                     └─ Status = complete
                             └─ Shows all agent cards (all ✅) + full final output panel
+                               (loaded from SQLite if page was refreshed)
 ```
