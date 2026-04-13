@@ -3,6 +3,7 @@ from __future__ import annotations
 import atexit
 import json
 import os
+import re
 import time
 from collections import defaultdict
 from contextvars import ContextVar
@@ -250,6 +251,88 @@ def _retrieve_regulations(state: State, limit: int = 4):
     return regulation_store.similarity_search(query, k=limit)
 
 
+def _normalize_text(s: str) -> str:
+    return " ".join(s.split()).strip().lower()
+
+
+def _infer_part_filters(valid_product: str, valid_sub_product: str) -> list[str]:
+    p = (valid_product or "").lower()
+    sp = (valid_sub_product or "").lower()
+    if "credit reporting" in p or "credit reporting" in sp:
+        return ["12 CFR Part 1022"]
+    if "debt collection" in p or "debt collection" in sp:
+        return ["12 CFR Part 1006"]
+    if "money transfer" in p or "electronic" in p or "wallet" in p or "wallet" in sp:
+        return ["12 CFR Part 1005"]
+    if "mortgage" in p or "real estate settlement" in p:
+        return ["12 CFR Part 1024"]
+    if "credit card" in sp or "loan" in p or "line of credit" in sp:
+        return ["12 CFR Part 1026", "12 CFR Part 1002"]
+    return []
+
+
+def _build_compliance_base_query(state: State) -> str:
+    return (
+        f"Product: {state['valid_product']}\n"
+        f"Sub-product: {state['valid_sub_product']}\n"
+        f"Issue: {state['valid_issue']}\n"
+        f"Sub-issue: {state['valid_sub_issue']}\n"
+        f"Narrative: {state['narrative']}"
+    )
+
+
+def _rewrite_regulation_query(state: State) -> str:
+    base_query = _build_compliance_base_query(state)
+    rewrite_prompt = f"""
+Rewrite this complaint into ONE concise CFPB legal retrieval query.
+Rules:
+- Use only facts present in the complaint.
+- Include likely regulation keywords only if supported.
+- Max 30 words.
+- Return only the query text.
+
+Complaint:
+{base_query}
+""".strip()
+    try:
+        rewritten = llm.invoke(rewrite_prompt).content.strip()
+        return rewritten or base_query
+    except Exception:
+        return base_query
+
+
+def _dedupe_results(results):
+    seen = set()
+    deduped = []
+    for item in results:
+        citation = item.metadata.get("citation", "")
+        text_key = _normalize_text(item.page_content[:300])
+        key = (citation, text_key)
+        if key in seen:
+            continue
+        seen.add(key)
+        deduped.append(item)
+    return deduped
+
+
+def _retrieve_compliance_regulations(state: State, k: int = 6, fetch_k: int = 40, lambda_mult: float = 0.4):
+    query = _rewrite_regulation_query(state)
+    parts = _infer_part_filters(state["valid_product"], state["valid_sub_product"])
+    search_kwargs = {
+        "query": query,
+        "k": k,
+        "fetch_k": fetch_k,
+        "lambda_mult": lambda_mult,
+    }
+    if parts:
+        search_kwargs["filter"] = {"part": parts[0]} if len(parts) == 1 else {"$or": [{"part": x} for x in parts]}
+    try:
+        raw_results = regulation_store.max_marginal_relevance_search(**search_kwargs)
+    except Exception:
+        raw_results = _retrieve_regulations(state, limit=k)
+    return query, _dedupe_results(raw_results)
+
+
 def _infer_regulation_family(state: State) -> str:
     text = " ".join(
         [
@@ -299,7 +382,7 @@ def _render_reg_context(results) -> str:
 
 
 def get_rag_results(state: State, limit: int = 4) -> list[dict[str, str]]:
-    results = _retrieve_regulations(state, limit=limit)
+    _, results = _retrieve_compliance_regulations(state, k=limit, fetch_k=max(limit * 8, 20), lambda_mult=0.4)
     return [
         {
             "regulation": str(item.metadata.get("regulation", "")),
@@ -308,6 +391,24 @@ def get_rag_results(state: State, limit: int = 4) -> list[dict[str, str]]:
         }
         for item in results
     ]
+
+
+def get_rag_debug_payload(state: State, limit: int = 4) -> dict[str, object]:
+    query, results = _retrieve_compliance_regulations(state, k=limit, fetch_k=max(limit * 8, 20), lambda_mult=0.4)
+    return {
+        "rag_query": query,
+        "rag_results": [
+            {
+                "regulation": str(item.metadata.get("regulation", "")),
+                "citation": str(item.metadata.get("citation", "")),
+                "part": str(item.metadata.get("part", "")),
+                "block_index": item.metadata.get("block_index"),
+                "subchunk_index": item.metadata.get("subchunk_index"),
+                "text": item.page_content,
+            }
+            for item in results
+        ],
+    }
 
 
 def _select_regulatory_snippets(state: State, limit: int = 4) -> list[dict[str, str]]:
@@ -508,7 +609,7 @@ Rate the severity 1-10 and explain your reasoning in 1-2 sentences.
 def compliance_assessment(state: State):
     structured_llm = llm.with_structured_output(ComplianceOutput)
     inferred_family = _infer_regulation_family(state)
-    relevant_regs = _retrieve_regulations_for_family(state, inferred_family)
+    _, relevant_regs = _retrieve_compliance_regulations(state, k=6, fetch_k=40, lambda_mult=0.4)
     reg_context = _render_reg_context(relevant_regs)
 
     result = structured_llm.invoke(

@@ -7,7 +7,7 @@ import time
 import streamlit as st
 import streamlit.components.v1 as components
 
-from app.agent_pipeline import get_rag_results
+from app.agent_pipeline import get_rag_debug_payload
 from app.state_store import AGENT_DISPLAY_NAMES, get_complaint, get_debug_events_for_complaint, restart_complaint, resume_pipeline
 from app.taxonomy_helpers import (
     get_internal_teams,
@@ -565,18 +565,20 @@ def _log_rag_context_to_browser(complaint_id: str, entry: dict):
     reflection_logs = [item for item in entry.get("agent_log", []) if item.get("node") == "reflection_agent"]
     if reflection_logs:
         latest_reflection = reflection_logs[-1].get("output")
-    rag_results = []
+    rag_debug_payload = {"rag_query": "", "rag_results": []}
     if state.get("valid_issue") and state.get("valid_sub_issue") and raw.get("narrative"):
         try:
-            rag_results = get_rag_results(
+            rag_debug_payload = get_rag_debug_payload(
                 {
                     "valid_issue": state.get("valid_issue"),
                     "valid_sub_issue": state.get("valid_sub_issue"),
+                    "valid_product": state.get("valid_product") or raw.get("product"),
+                    "valid_sub_product": state.get("valid_sub_product") or raw.get("sub_product"),
                     "narrative": raw.get("narrative"),
                 }
             )
         except Exception as exc:
-            rag_results = [{"error": str(exc)}]
+            rag_debug_payload = {"rag_query": "", "rag_results": [{"error": str(exc)}]}
     payload = {
         "complaint_id": complaint_id,
         "status": entry.get("status"),
@@ -588,8 +590,8 @@ def _log_rag_context_to_browser(complaint_id: str, entry: dict):
         "applicable_regulation": state.get("applicable_regulation"),
         "citation": state.get("citation"),
         "compliance_explanation": state.get("compliance_explanation"),
-        "rag_query": f"{state.get('valid_issue', '')} {state.get('valid_sub_issue', '')} {raw.get('narrative', '')}".strip(),
-        "rag_results": rag_results,
+        "rag_query": rag_debug_payload.get("rag_query", ""),
+        "rag_results": rag_debug_payload.get("rag_results", []),
         "final_email": state.get("customer_email"),
         "reflection_agent": latest_reflection
         or {
