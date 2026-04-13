@@ -1,8 +1,8 @@
 from __future__ import annotations
 
+import os
 import html
 import json
-import time
 
 import streamlit as st
 import streamlit.components.v1 as components
@@ -65,35 +65,53 @@ OUTPUT_LABELS = {
 
 def render_detail_view(complaint_id: str):
     _inject_icon_styles()
-    entry = get_complaint(complaint_id)
-    if not entry:
-        st.error("Complaint not found.")
-        return
+    if "debug_console_logs" not in st.session_state:
+        st.session_state.debug_console_logs = os.environ.get("STREAMLIT_DEBUG_PAYLOADS", "").lower() in {"1", "true", "yes", "on"}
 
-    if st.button("Back to Dashboard"):
-        st.session_state.selected_complaint = None
-        st.rerun()
+    initial_entry = get_complaint(complaint_id)
+    run_every = 2 if initial_entry and initial_entry["status"] == "processing" else None
 
-    st.subheader(f"Complaint {complaint_id}")
-    st.markdown(_complaint_metrics_caption(entry), unsafe_allow_html=True)
-    st.caption(f"Status: {entry['status']}")
+    @st.fragment(run_every=run_every)
+    def _detail_fragment():
+        entry = get_complaint(complaint_id)
+        if not entry:
+            st.error("Complaint not found.")
+            return
 
-    if entry["status"] == "needs_review":
-        _render_review_panel(complaint_id, entry)
-    elif entry.get("can_restart"):
-        _render_restart_panel(complaint_id, entry)
+        if entry["status"] != "needs_review":
+            st.session_state.pop(f"review_action_in_flight_{complaint_id}", None)
 
-    left, right = st.columns([2, 3])
-    with left:
-        _render_outputs(entry)
-    with right:
-        _render_progress(entry)
+        header_left, header_right = st.columns([6, 2])
+        with header_left:
+            if st.button("Back to Dashboard"):
+                st.session_state.selected_complaint = None
+                st.rerun()
+        with header_right:
+            st.toggle("Debug console logs", key="debug_console_logs")
 
-    _log_rag_context_to_browser(complaint_id, entry)
+        st.subheader(f"Complaint {complaint_id}")
+        st.markdown(_complaint_metrics_caption(entry), unsafe_allow_html=True)
+        st.caption(f"Status: {entry['status']}")
 
-    if entry["status"] == "processing":
-        time.sleep(2)
-        st.rerun()
+        action_message = st.session_state.get(f"review_action_in_flight_{complaint_id}")
+        if action_message and entry["status"] in {"processing", "pending"}:
+            st.info(action_message)
+
+        if entry["status"] == "needs_review":
+            _render_review_panel(complaint_id, entry)
+        elif entry.get("can_restart"):
+            _render_restart_panel(complaint_id, entry)
+
+        left, right = st.columns([2, 3])
+        with left:
+            _render_outputs(entry)
+        with right:
+            _render_progress(entry)
+
+        if st.session_state.get("debug_console_logs"):
+            _log_rag_context_to_browser(complaint_id, entry)
+
+    _detail_fragment()
 
 
 def _render_review_panel(complaint_id: str, entry: dict):
@@ -114,6 +132,7 @@ def _render_review_panel(complaint_id: str, entry: dict):
             return
         btn1, btn2 = st.columns(2)
         if btn1.button("Approve", key=f"detail_approve_{complaint_id}", use_container_width=True):
+            st.session_state[f"review_action_in_flight_{complaint_id}"] = "Applying approval and resuming complaint..."
             resume_pipeline(complaint_id)
             st.rerun()
         if btn2.button("Edit", key=f"detail_edit_{complaint_id}", use_container_width=True):
@@ -209,6 +228,7 @@ def _render_review_panel(complaint_id: str, entry: dict):
                     overrides["priority"] = new_priority
                 if new_sla != state.get("sla_days"):
                     overrides["sla_days"] = new_sla
+                st.session_state[f"review_action_in_flight_{complaint_id}"] = "Applying changes and resuming complaint..."
                 resume_pipeline(complaint_id, overrides=overrides or None)
                 st.session_state.pop(f"editing_detail_{complaint_id}", None)
                 st.rerun()
@@ -224,6 +244,7 @@ def _render_final_approval_panel(complaint_id: str, entry: dict):
             st.write("Reasons: " + ", ".join(reasons))
         btn1, btn2 = st.columns(2)
         if btn1.button("Approve Final Response", key=f"detail_final_approve_{complaint_id}", use_container_width=True):
+            st.session_state[f"review_action_in_flight_{complaint_id}"] = "Approving final response..."
             resume_pipeline(complaint_id)
             st.rerun()
         if btn2.button("Edit Response", key=f"detail_final_edit_{complaint_id}", use_container_width=True):
@@ -252,6 +273,7 @@ def _render_final_approval_panel(complaint_id: str, entry: dict):
                     overrides["remediation_steps"] = new_resolution
                 if new_email != state.get("customer_email"):
                     overrides["customer_email"] = new_email
+                st.session_state[f"review_action_in_flight_{complaint_id}"] = "Applying final edits and resuming complaint..."
                 resume_pipeline(complaint_id, overrides=overrides or None)
                 st.session_state.pop(f"editing_final_detail_{complaint_id}", None)
                 st.rerun()
@@ -518,7 +540,7 @@ def _metric_for_log(entry: dict, log: dict) -> dict | None:
 
 
 def _complaint_metrics_caption(entry: dict) -> str:
-    has_final_langsmith_metrics = entry.get("status") != "processing" and bool(entry.get("metrics_last_synced_at"))
+    has_final_langsmith_metrics = entry.get("status") in {"complete", "error"} and bool(entry.get("metrics_last_synced_at"))
     latency = _format_latency(entry.get("total_latency_seconds")) if has_final_langsmith_metrics else "—"
     tokens = _format_tokens(entry.get("total_tokens")) if has_final_langsmith_metrics else "—"
     cost = _format_cost(entry.get("total_cost")) if has_final_langsmith_metrics else "—"
@@ -565,8 +587,8 @@ def _log_rag_context_to_browser(complaint_id: str, entry: dict):
     reflection_logs = [item for item in entry.get("agent_log", []) if item.get("node") == "reflection_agent"]
     if reflection_logs:
         latest_reflection = reflection_logs[-1].get("output")
-    rag_debug_payload = {"rag_query": "", "rag_results": []}
-    if state.get("valid_issue") and state.get("valid_sub_issue") and raw.get("narrative"):
+    rag_debug_payload = {"rag_query": state.get("rag_query", ""), "rag_results": state.get("rag_results", []) or []}
+    if not rag_debug_payload["rag_results"] and state.get("valid_issue") and state.get("valid_sub_issue") and raw.get("narrative"):
         try:
             rag_debug_payload = get_rag_debug_payload(
                 {
@@ -575,6 +597,8 @@ def _log_rag_context_to_browser(complaint_id: str, entry: dict):
                     "valid_product": state.get("valid_product") or raw.get("product"),
                     "valid_sub_product": state.get("valid_sub_product") or raw.get("sub_product"),
                     "narrative": raw.get("narrative"),
+                    "rag_query": state.get("rag_query"),
+                    "rag_results": state.get("rag_results"),
                 }
             )
         except Exception as exc:

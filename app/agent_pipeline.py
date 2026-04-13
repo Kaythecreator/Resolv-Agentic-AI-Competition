@@ -78,6 +78,8 @@ class State(TypedDict, total=False):
     compliance_explanation: str
     applicable_regulation: str
     citation: str
+    rag_query: str
+    rag_results: list[dict[str, str | int | None]]
     compliance_citation_confidence: float
     compliance_requires_human_review: bool
     combined_results: str
@@ -388,6 +390,17 @@ def _render_reg_context(results) -> str:
 
 
 def get_rag_results(state: State, limit: int = 4) -> list[dict[str, str]]:
+    cached = state.get("rag_results")
+    if isinstance(cached, list) and cached:
+        return [
+            {
+                "regulation": str(item.get("regulation", "")),
+                "citation": str(item.get("citation", "")),
+                "text": str(item.get("text", "")),
+            }
+            for item in cached[:limit]
+            if isinstance(item, dict)
+        ]
     _, results = _retrieve_compliance_regulations(state, k=limit, fetch_k=max(limit * 8, 20), lambda_mult=0.4)
     return [
         {
@@ -400,6 +413,24 @@ def get_rag_results(state: State, limit: int = 4) -> list[dict[str, str]]:
 
 
 def get_rag_debug_payload(state: State, limit: int = 4) -> dict[str, object]:
+    cached_query = state.get("rag_query")
+    cached_results = state.get("rag_results")
+    if isinstance(cached_results, list) and cached_results:
+        return {
+            "rag_query": str(cached_query or ""),
+            "rag_results": [
+                {
+                    "regulation": str(item.get("regulation", "")),
+                    "citation": str(item.get("citation", "")),
+                    "part": str(item.get("part", "")),
+                    "block_index": item.get("block_index"),
+                    "subchunk_index": item.get("subchunk_index"),
+                    "text": str(item.get("text", "")),
+                }
+                for item in cached_results[:limit]
+                if isinstance(item, dict)
+            ],
+        }
     query, results = _retrieve_compliance_regulations(state, k=limit, fetch_k=max(limit * 8, 20), lambda_mult=0.4)
     return {
         "rag_query": query,
@@ -615,7 +646,7 @@ Rate the severity 1-10 and explain your reasoning in 1-2 sentences.
 def compliance_assessment(state: State):
     structured_llm = compliance_llm.with_structured_output(ComplianceOutput)
     inferred_family = _infer_regulation_family(state)
-    _, relevant_regs = _retrieve_compliance_regulations(state, k=6, fetch_k=40, lambda_mult=0.4)
+    rewritten_query, relevant_regs = _retrieve_compliance_regulations(state, k=6, fetch_k=40, lambda_mult=0.4)
     reg_context = _render_reg_context(relevant_regs)
 
     result = structured_llm.invoke(
@@ -661,6 +692,18 @@ Return:
         "compliance_explanation": result.compliance_explanation,
         "applicable_regulation": result.applicable_regulation,
         "citation": result.citation,
+        "rag_query": rewritten_query,
+        "rag_results": [
+            {
+                "regulation": str(item.metadata.get("regulation", "")),
+                "citation": str(item.metadata.get("citation", "")),
+                "part": str(item.metadata.get("part", "")),
+                "block_index": item.metadata.get("block_index"),
+                "subchunk_index": item.metadata.get("subchunk_index"),
+                "text": item.page_content,
+            }
+            for item in relevant_regs
+        ],
         "compliance_citation_confidence": result.citation_confidence,
         "compliance_requires_human_review": result.requires_human_review,
     }

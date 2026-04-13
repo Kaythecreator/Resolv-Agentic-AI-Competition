@@ -70,7 +70,6 @@ def list_complaints() -> dict:
 
 def get_complaint(complaint_id: str) -> dict | None:
     sync_from_db()
-    _refresh_metrics_if_needed(complaint_id)
     with _STORE_LOCK:
         entry = _COMPLAINTS.get(complaint_id)
         return _snapshot_entry(entry, complaint_id) if entry else None
@@ -430,9 +429,8 @@ def _hydrate_record(record: dict) -> dict:
 
 def _snapshot_entry(entry: dict, complaint_id: str) -> dict:
     config = deepcopy(entry.get("thread_config", {}))
-    checkpoint_exists = has_checkpoint(config)
-    status = _effective_status(entry, config)
-    active_review_node = _active_review_node(entry["graph"], config)
+    checkpoint_exists, active_review_node = _graph_review_snapshot(entry["graph"], config)
+    status = "needs_review" if active_review_node else entry.get("status")
     legacy_non_resumable = status in {"needs_review", "error"} and bool(entry.get("agent_log")) and not checkpoint_exists
     return {
         "input": deepcopy(entry.get("input", {})),
@@ -461,27 +459,31 @@ def _snapshot_entry(entry: dict, complaint_id: str) -> dict:
 
 
 def _effective_status(entry: dict, config: dict) -> str:
-    status = entry.get("status")
-    if _active_review_node(entry["graph"], config):
-        return "needs_review"
-    return status
+    _, active_review_node = _graph_review_snapshot(entry["graph"], config)
+    return "needs_review" if active_review_node else entry.get("status")
 
 
 def _active_review_node(graph, config: dict) -> str | None:
+    _, active_review_node = _graph_review_snapshot(graph, config)
+    return active_review_node
+
+
+def _graph_review_snapshot(graph, config: dict) -> tuple[bool, str | None]:
+    checkpoint_exists = has_checkpoint(config)
     try:
         graph_state = graph.get_state(config)
         next_nodes = tuple(getattr(graph_state, "next", ()) or ())
         for node in next_nodes:
             if node in {"human_input", "final_approval"}:
-                return node
+                return checkpoint_exists, node
         interrupts = getattr(graph_state, "interrupts", ()) or ()
         if interrupts:
             for node in ("human_input", "final_approval"):
                 if node in next_nodes:
-                    return node
+                    return checkpoint_exists, node
     except Exception:
-        return None
-    return None
+        return checkpoint_exists, None
+    return checkpoint_exists, None
 
 
 def _log_event(
@@ -608,18 +610,6 @@ def _sync_metrics_cache(complaint_id: str, trace_id: str | None = None):
     _recompute_metric_totals(complaint_id)
     if updated or synced_at:
         save_complaint_to_db(complaint_id)
-
-
-def _refresh_metrics_if_needed(complaint_id: str):
-    with _STORE_LOCK:
-        entry = _COMPLAINTS.get(complaint_id)
-        if not entry:
-            return
-        trace_ids = list(entry.get("trace_ids", []))
-        should_resync = entry.get("status") != "processing" and bool(trace_ids)
-    if should_resync:
-        for trace_id in trace_ids:
-            _sync_metrics_cache(complaint_id, trace_id=trace_id)
 
 
 def _current_total_latency(entry: dict) -> float | None:
