@@ -35,7 +35,13 @@ if not OPENAI_API_KEY:
 if os.environ.get("LANGSMITH_API_KEY") or os.environ.get("LANGCHAIN_API_KEY"):
     os.environ.setdefault("LANGSMITH_TRACING", "true")
 
-llm = ChatOpenAI(model="gpt-5.4-mini", temperature=0.7, api_key=OPENAI_API_KEY)
+OPENAI_MODEL = os.environ.get("OPENAI_MODEL", "gpt-5.4-mini")
+OPENAI_COMPLIANCE_MODEL = os.environ.get("OPENAI_COMPLIANCE_MODEL", "gpt-5.4")
+OPENAI_EMAIL_MODEL = os.environ.get("OPENAI_EMAIL_MODEL", "gpt-5.4")
+
+llm = ChatOpenAI(model=OPENAI_MODEL, temperature=0.7, api_key=OPENAI_API_KEY)
+compliance_llm = ChatOpenAI(model=OPENAI_COMPLIANCE_MODEL, temperature=0.7, api_key=OPENAI_API_KEY)
+email_llm = ChatOpenAI(model=OPENAI_EMAIL_MODEL, temperature=0.7, api_key=OPENAI_API_KEY)
 
 with (BASE_DIR / "taxonomy.json").open("r", encoding="utf-8") as handle:
     taxonomy = json.load(handle)
@@ -607,7 +613,7 @@ Rate the severity 1-10 and explain your reasoning in 1-2 sentences.
 
 @traceable
 def compliance_assessment(state: State):
-    structured_llm = llm.with_structured_output(ComplianceOutput)
+    structured_llm = compliance_llm.with_structured_output(ComplianceOutput)
     inferred_family = _infer_regulation_family(state)
     _, relevant_regs = _retrieve_compliance_regulations(state, k=6, fetch_k=40, lambda_mult=0.4)
     reg_context = _render_reg_context(relevant_regs)
@@ -787,7 +793,7 @@ def create_resolution(state: State):
 
 @traceable
 def create_customer_email(state: State):
-    structured_llm = llm.with_structured_output(CustomerEmailSectionsOutput)
+    structured_llm = email_llm.with_structured_output(CustomerEmailSectionsOutput)
     feedback_section = "No prior review failures."
     if state.get("reflection_feedback"):
         feedback_section = (

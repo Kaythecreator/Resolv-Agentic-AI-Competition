@@ -92,6 +92,12 @@ Required:
 
 Optional but recommended for tracing/metrics:
 
+- `OPENAI_MODEL`
+  Defaults to `gpt-5.4-mini` for the main complaint pipeline.
+- `OPENAI_COMPLIANCE_MODEL`
+  Defaults to `gpt-5.4` and is used only for compliance assessment.
+- `OPENAI_EMAIL_MODEL`
+  Defaults to `gpt-5.4` and is used only for customer email generation.
 - `LANGSMITH_API_KEY`
 - `LANGCHAIN_API_KEY`
   If `LANGSMITH_API_KEY` is set, the app will also set `LANGCHAIN_API_KEY` automatically when needed.
