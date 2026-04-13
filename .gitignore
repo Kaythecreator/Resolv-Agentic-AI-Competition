@@ -1,1 +1,7 @@
 .env
+__pycache__/
+.venv/
+complaints.db
+langgraph_checkpoints.db
+langgraph_checkpoints.db-shm
+langgraph_checkpoints.db-wal
