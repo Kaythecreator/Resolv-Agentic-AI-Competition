@@ -1,11 +1,23 @@
 from __future__ import annotations
 
 import html
+import json
 import time
 
 import streamlit as st
+import streamlit.components.v1 as components
 
+from app.agent_pipeline import get_rag_results
 from app.state_store import AGENT_DISPLAY_NAMES, get_complaint, get_debug_events_for_complaint, restart_complaint, resume_pipeline
+from app.taxonomy_helpers import (
+    get_internal_teams,
+    get_issues,
+    get_priorities,
+    get_products,
+    get_sla_options,
+    get_sub_issues,
+    get_sub_products,
+)
 from app.ui.icons import phosphor_icon
 
 
@@ -16,8 +28,7 @@ PIPELINE_ROWS = [
     ["assign_role"],
     ["review_router"],
     ["human_input", "auto_proceed"],
-    ["create_resolution", "create_customer_email"],
-    ["reflection_agent"],
+    ["create_resolution"],
 ]
 LOOP_START_NODE = "create_resolution"
 
@@ -78,12 +89,19 @@ def render_detail_view(complaint_id: str):
     with right:
         _render_progress(entry)
 
+    _log_rag_context_to_browser(complaint_id, entry)
+
     if entry["status"] == "processing":
         time.sleep(2)
         st.rerun()
 
 
 def _render_review_panel(complaint_id: str, entry: dict):
+    review_node = entry.get("active_review_node") or "human_input"
+    if review_node == "final_approval":
+        _render_final_approval_panel(complaint_id, entry)
+        return
+
     reasons = entry["state"].get("review_reasons", [])
     with st.warning("This complaint requires human review before proceeding."):
         if reasons:
@@ -105,39 +123,140 @@ def _render_review_panel(complaint_id: str, entry: dict):
     if st.session_state.get(f"editing_detail_{complaint_id}"):
         state = entry["state"]
         with st.container(border=True):
-            new_severity = st.number_input(
-                "Severity (1-10)",
-                min_value=1,
-                max_value=10,
-                value=int(state.get("severity", 5) or 5),
+            current_product = state.get("valid_product") or entry["input"].get("product") or ""
+            product_options = get_products()
+            product_index = product_options.index(current_product) if current_product in product_options else 0
+            new_product = st.selectbox("Product", product_options, index=product_index, key=f"detail_product_{complaint_id}")
+
+            sub_product_options = get_sub_products(new_product)
+            current_sub_product = state.get("valid_sub_product") or entry["input"].get("sub_product") or ""
+            sub_product_index = sub_product_options.index(current_sub_product) if current_sub_product in sub_product_options else 0
+            new_sub_product = st.selectbox(
+                "Sub-Product",
+                sub_product_options,
+                index=sub_product_index,
+                key=f"detail_sub_product_{complaint_id}",
+            )
+
+            issue_options = get_issues(new_product, new_sub_product)
+            current_issue = state.get("valid_issue") or entry["input"].get("issue") or ""
+            issue_index = issue_options.index(current_issue) if current_issue in issue_options else 0
+            new_issue = st.selectbox("Issue", issue_options, index=issue_index, key=f"detail_issue_{complaint_id}")
+
+            sub_issue_options = get_sub_issues(new_product, new_sub_product, new_issue)
+            current_sub_issue = state.get("valid_sub_issue") or entry["input"].get("sub_issue") or ""
+            sub_issue_index = sub_issue_options.index(current_sub_issue) if current_sub_issue in sub_issue_options else 0
+            new_sub_issue = st.selectbox(
+                "Sub-Issue",
+                sub_issue_options,
+                index=sub_issue_index,
+                key=f"detail_sub_issue_{complaint_id}",
+            )
+
+            severity_options = list(range(1, 11))
+            current_severity = int(state.get("severity", 5) or 5)
+            new_severity = st.selectbox(
+                "Severity",
+                severity_options,
+                index=severity_options.index(current_severity),
                 key=f"detail_severity_{complaint_id}",
             )
-            new_compliance = st.number_input(
-                "Compliance (1-10)",
-                min_value=1,
-                max_value=10,
-                value=int(state.get("compliance", 5) or 5),
+            current_compliance = int(state.get("compliance", 5) or 5)
+            new_compliance = st.selectbox(
+                "Compliance",
+                severity_options,
+                index=severity_options.index(current_compliance),
                 key=f"detail_compliance_{complaint_id}",
             )
-            new_team = st.text_input(
-                "Team",
-                value=state.get("team", ""),
-                key=f"detail_team_{complaint_id}",
+
+            team_options = get_internal_teams()
+            current_team = state.get("team", "") or team_options[0]
+            team_index = team_options.index(current_team) if current_team in team_options else 0
+            new_team = st.selectbox("Team", team_options, index=team_index, key=f"detail_team_{complaint_id}")
+
+            priority_options = get_priorities()
+            current_priority = state.get("priority", "") or priority_options[0]
+            priority_index = priority_options.index(current_priority) if current_priority in priority_options else 0
+            new_priority = st.selectbox(
+                "Priority",
+                priority_options,
+                index=priority_index,
+                key=f"detail_priority_{complaint_id}",
             )
+
+            sla_options = get_sla_options()
+            current_sla = int(state.get("sla_days", sla_options[0]) or sla_options[0])
+            sla_index = sla_options.index(current_sla) if current_sla in sla_options else 0
+            new_sla = st.selectbox("SLA (business days)", sla_options, index=sla_index, key=f"detail_sla_{complaint_id}")
             c1, c2 = st.columns(2)
             if c1.button("Approve with Changes", key=f"detail_confirm_{complaint_id}", use_container_width=True):
                 overrides = {}
+                if new_product != state.get("valid_product"):
+                    overrides["valid_product"] = new_product
+                if new_sub_product != state.get("valid_sub_product"):
+                    overrides["valid_sub_product"] = new_sub_product
+                if new_issue != state.get("valid_issue"):
+                    overrides["valid_issue"] = new_issue
+                if new_sub_issue != state.get("valid_sub_issue"):
+                    overrides["valid_sub_issue"] = new_sub_issue
                 if new_severity != state.get("severity"):
                     overrides["severity"] = new_severity
                 if new_compliance != state.get("compliance"):
                     overrides["compliance"] = new_compliance
                 if new_team != state.get("team"):
                     overrides["team"] = new_team
+                if new_priority != state.get("priority"):
+                    overrides["priority"] = new_priority
+                if new_sla != state.get("sla_days"):
+                    overrides["sla_days"] = new_sla
                 resume_pipeline(complaint_id, overrides=overrides or None)
                 st.session_state.pop(f"editing_detail_{complaint_id}", None)
                 st.rerun()
             if c2.button("Cancel", key=f"detail_cancel_{complaint_id}", use_container_width=True):
                 st.session_state.pop(f"editing_detail_{complaint_id}", None)
+                st.rerun()
+
+
+def _render_final_approval_panel(complaint_id: str, entry: dict):
+    reasons = entry["state"].get("final_approval_reasons", [])
+    with st.warning("This complaint requires final outbound approval before completion."):
+        if reasons:
+            st.write("Reasons: " + ", ".join(reasons))
+        btn1, btn2 = st.columns(2)
+        if btn1.button("Approve Final Response", key=f"detail_final_approve_{complaint_id}", use_container_width=True):
+            resume_pipeline(complaint_id)
+            st.rerun()
+        if btn2.button("Edit Response", key=f"detail_final_edit_{complaint_id}", use_container_width=True):
+            st.session_state[f"editing_final_detail_{complaint_id}"] = True
+            st.rerun()
+
+    if st.session_state.get(f"editing_final_detail_{complaint_id}"):
+        state = entry["state"]
+        with st.container(border=True):
+            new_resolution = st.text_area(
+                "Resolution Plan",
+                value=state.get("remediation_steps", "") or "",
+                height=160,
+                key=f"detail_final_resolution_{complaint_id}",
+            )
+            new_email = st.text_area(
+                "Customer Email",
+                value=state.get("customer_email", "") or "",
+                height=260,
+                key=f"detail_final_email_{complaint_id}",
+            )
+            c1, c2 = st.columns(2)
+            if c1.button("Approve with Final Edits", key=f"detail_final_confirm_{complaint_id}", use_container_width=True):
+                overrides = {}
+                if new_resolution != state.get("remediation_steps"):
+                    overrides["remediation_steps"] = new_resolution
+                if new_email != state.get("customer_email"):
+                    overrides["customer_email"] = new_email
+                resume_pipeline(complaint_id, overrides=overrides or None)
+                st.session_state.pop(f"editing_final_detail_{complaint_id}", None)
+                st.rerun()
+            if c2.button("Cancel", key=f"detail_final_cancel_{complaint_id}", use_container_width=True):
+                st.session_state.pop(f"editing_final_detail_{complaint_id}", None)
                 st.rerun()
 
 
@@ -221,7 +340,7 @@ def _visible_rows(entry: dict, completed_nodes: set[str], next_nodes: set[str]) 
 
 
 def _should_render_email_sequence(entry: dict, completed_nodes: set[str], next_nodes: set[str]) -> bool:
-    email_nodes = {"create_resolution", "create_customer_email", "reflection_agent"}
+    email_nodes = {"create_resolution", "create_customer_email", "reflection_agent", "final_approval"}
     return bool(email_nodes & completed_nodes) or bool(email_nodes & next_nodes)
 
 
@@ -230,6 +349,7 @@ def _render_email_sequence(entry: dict, next_nodes: set[str]):
     resolution_logs = [item for item in agent_log if item["node"] == "create_resolution"]
     draft_logs = [item for item in agent_log if item["node"] == "create_customer_email"]
     review_logs = [item for item in agent_log if item["node"] == "reflection_agent"]
+    final_logs = [item for item in agent_log if item["node"] == "final_approval"]
 
     if resolution_logs:
         st.markdown(
@@ -291,6 +411,30 @@ def _render_email_sequence(entry: dict, next_nodes: set[str]):
             f'<span class="agent-spinner">{phosphor_icon("circle-notch", size=16)}</span>',
             True,
             "reflection_agent",
+            entry,
+            raw_label=True,
+        )
+        return
+
+    if final_logs:
+        if pair_count or resolution_logs:
+            st.markdown('<div class="agent-connector"></div>', unsafe_allow_html=True)
+        st.markdown(
+            _completed_step_html(
+                "Final Outbound Approval",
+                final_logs[-1]["output"],
+                metric=_metric_for_log(entry, final_logs[-1]),
+            ),
+            unsafe_allow_html=True,
+        )
+    elif "final_approval" in next_nodes:
+        if pair_count or resolution_logs:
+            st.markdown('<div class="agent-connector"></div>', unsafe_allow_html=True)
+        _render_in_progress_step(
+            "Awaiting Final Outbound Approval",
+            f'<span class="agent-spinner">{phosphor_icon("circle-notch", size=16)}</span>',
+            True,
+            "final_approval",
             entry,
             raw_label=True,
         )
@@ -412,6 +556,62 @@ def _format_cost(value) -> str:
         return f"${float(value):.4f}"
     except (TypeError, ValueError):
         return "—"
+
+
+def _log_rag_context_to_browser(complaint_id: str, entry: dict):
+    state = entry.get("state", {})
+    raw = entry.get("input", {})
+    latest_reflection = None
+    reflection_logs = [item for item in entry.get("agent_log", []) if item.get("node") == "reflection_agent"]
+    if reflection_logs:
+        latest_reflection = reflection_logs[-1].get("output")
+    rag_results = []
+    if state.get("valid_issue") and state.get("valid_sub_issue") and raw.get("narrative"):
+        try:
+            rag_results = get_rag_results(
+                {
+                    "valid_issue": state.get("valid_issue"),
+                    "valid_sub_issue": state.get("valid_sub_issue"),
+                    "narrative": raw.get("narrative"),
+                }
+            )
+        except Exception as exc:
+            rag_results = [{"error": str(exc)}]
+    payload = {
+        "complaint_id": complaint_id,
+        "status": entry.get("status"),
+        "product": state.get("valid_product") or raw.get("product"),
+        "sub_product": state.get("valid_sub_product") or raw.get("sub_product"),
+        "issue": state.get("valid_issue") or raw.get("issue"),
+        "sub_issue": state.get("valid_sub_issue") or raw.get("sub_issue"),
+        "narrative": raw.get("narrative"),
+        "applicable_regulation": state.get("applicable_regulation"),
+        "citation": state.get("citation"),
+        "compliance_explanation": state.get("compliance_explanation"),
+        "rag_query": f"{state.get('valid_issue', '')} {state.get('valid_sub_issue', '')} {raw.get('narrative', '')}".strip(),
+        "rag_results": rag_results,
+        "final_email": state.get("customer_email"),
+        "reflection_agent": latest_reflection
+        or {
+            "reflection_passed": state.get("reflection_passed"),
+            "reflection_feedback": state.get("reflection_feedback"),
+            "reflection_score": state.get("reflection_score"),
+            "reflection_attempts": state.get("reflection_attempts"),
+        },
+    }
+    serialized = json.dumps(payload).replace("</", "<\\/")
+    components.html(
+        f"""
+        <script>
+          try {{
+            parent.console.log("Complaint debug payload", {serialized});
+          }} catch (err) {{
+            console.log("Complaint debug payload", {serialized});
+          }}
+        </script>
+        """,
+        height=0,
+    )
 
 
 def _render_outputs(entry: dict):

@@ -46,6 +46,8 @@ AGENT_DISPLAY_NAMES = {
     "create_resolution": "Resolution Planning",
     "create_customer_email": "Drafting Customer Email",
     "reflection_agent": "Compliance Email Review",
+    "final_review_router": "Final Review Routing",
+    "final_approval": "Final Outbound Approval",
 }
 
 
@@ -254,18 +256,20 @@ def run_pipeline(complaint_id: str, *, resume_payload: dict | None = None):
 
         _finalize_total_latency(complaint_id)
 
-        if tuple(getattr(graph_state, "next", ()) or ()) == ("human_input",):
+        review_node = _active_review_node(graph, config)
+        if review_node:
             update_complaint(complaint_id, {"status": "needs_review"})
             finish_root_trace(root_trace, outputs={"status": "needs_review"})
             _sync_metrics_cache(complaint_id)
             _log_event(
                 complaint_id,
                 phase="interrupt",
-                node_name="human_input",
+                node_name=review_node,
                 from_status="processing",
                 to_status="needs_review",
                 details={
                     "review_reasons": _COMPLAINTS[complaint_id]["state"].get("review_reasons", []),
+                    "final_approval_reasons": _COMPLAINTS[complaint_id]["state"].get("final_approval_reasons", []),
                 },
             )
         else:
@@ -428,6 +432,7 @@ def _snapshot_entry(entry: dict, complaint_id: str) -> dict:
     config = deepcopy(entry.get("thread_config", {}))
     checkpoint_exists = has_checkpoint(config)
     status = _effective_status(entry, config)
+    active_review_node = _active_review_node(entry["graph"], config)
     legacy_non_resumable = status in {"needs_review", "error"} and bool(entry.get("agent_log")) and not checkpoint_exists
     return {
         "input": deepcopy(entry.get("input", {})),
@@ -451,20 +456,32 @@ def _snapshot_entry(entry: dict, complaint_id: str) -> dict:
         "can_resume_review": status == "needs_review" and checkpoint_exists,
         "can_restart": legacy_non_resumable,
         "checkpoint_exists": checkpoint_exists,
+        "active_review_node": active_review_node,
     }
 
 
 def _effective_status(entry: dict, config: dict) -> str:
     status = entry.get("status")
-    try:
-        graph_state = entry["graph"].get_state(config)
-        next_nodes = tuple(getattr(graph_state, "next", ()) or ())
-        interrupts = getattr(graph_state, "interrupts", ()) or ()
-        if next_nodes == ("human_input",) or interrupts:
-            return "needs_review"
-    except Exception:
-        pass
+    if _active_review_node(entry["graph"], config):
+        return "needs_review"
     return status
+
+
+def _active_review_node(graph, config: dict) -> str | None:
+    try:
+        graph_state = graph.get_state(config)
+        next_nodes = tuple(getattr(graph_state, "next", ()) or ())
+        for node in next_nodes:
+            if node in {"human_input", "final_approval"}:
+                return node
+        interrupts = getattr(graph_state, "interrupts", ()) or ()
+        if interrupts:
+            for node in ("human_input", "final_approval"):
+                if node in next_nodes:
+                    return node
+    except Exception:
+        return None
+    return None
 
 
 def _log_event(

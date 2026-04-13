@@ -1,5 +1,8 @@
 from __future__ import annotations
 
+import csv
+from io import StringIO
+
 import streamlit as st
 
 from app.components.add_complaint_modal import render_add_form
@@ -36,6 +39,15 @@ def main():
         if st.button("+ Add Complaint", type="primary", use_container_width=True):
             st.session_state.show_add_form = True
             st.session_state.selected_complaint = None
+        csv_data = _build_completed_complaints_csv(complaints)
+        if csv_data is not None:
+            st.download_button(
+                "Download Completed CSV",
+                data=csv_data,
+                file_name="completed_complaints.csv",
+                mime="text/csv",
+                use_container_width=True,
+            )
 
     if st.session_state.show_add_form:
         render_add_form()
@@ -143,6 +155,64 @@ def _inject_metric_card_styles() -> None:
         """,
         unsafe_allow_html=True,
     )
+
+
+def _build_completed_complaints_csv(complaints: dict[str, dict]) -> str | None:
+    completed_rows: list[dict[str, object]] = []
+    for complaint_id, entry in complaints.items():
+        if entry.get("status") != "complete":
+            continue
+        state = entry.get("state", {})
+        raw = entry.get("input", {})
+        completed_rows.append(
+            {
+                "complaint_id": complaint_id,
+                "status": entry.get("status"),
+                "input_product": raw.get("product"),
+                "input_sub_product": raw.get("sub_product"),
+                "input_issue": raw.get("issue"),
+                "input_sub_issue": raw.get("sub_issue"),
+                "narrative": raw.get("narrative"),
+                "valid_product": state.get("valid_product"),
+                "valid_sub_product": state.get("valid_sub_product"),
+                "valid_issue": state.get("valid_issue"),
+                "valid_sub_issue": state.get("valid_sub_issue"),
+                "confidence": state.get("confidence"),
+                "root_cause": state.get("root_cause"),
+                "severity": state.get("severity"),
+                "severity_explanation": state.get("severity_explanation"),
+                "compliance": state.get("compliance"),
+                "compliance_explanation": state.get("compliance_explanation"),
+                "applicable_regulation": state.get("applicable_regulation"),
+                "citation": state.get("citation"),
+                "team": state.get("team"),
+                "team_explanation": state.get("team_explanation"),
+                "priority": state.get("priority"),
+                "sla_days": state.get("sla_days"),
+                "sla_deadline": state.get("sla_deadline"),
+                "needs_human_review": state.get("needs_human_review"),
+                "review_reasons": "; ".join(state.get("review_reasons", []) or []),
+                "remediation_steps": state.get("remediation_steps"),
+                "preventative_recommendations": state.get("preventative_recommendations"),
+                "customer_email": state.get("customer_email"),
+                "reflection_score": state.get("reflection_score"),
+                "reflection_passed": state.get("reflection_passed"),
+                "reflection_attempts": state.get("reflection_attempts"),
+                "total_latency_seconds": entry.get("total_latency_seconds"),
+                "total_tokens": entry.get("total_tokens"),
+                "total_cost": entry.get("total_cost"),
+                "created_at": entry.get("created_at"),
+                "updated_at": entry.get("updated_at"),
+            }
+        )
+    if not completed_rows:
+        return None
+
+    output = StringIO()
+    writer = csv.DictWriter(output, fieldnames=list(completed_rows[0].keys()))
+    writer.writeheader()
+    writer.writerows(completed_rows)
+    return output.getvalue()
 
 
 if __name__ == "__main__":

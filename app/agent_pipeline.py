@@ -71,6 +71,8 @@ class State(TypedDict, total=False):
     compliance_explanation: str
     applicable_regulation: str
     citation: str
+    compliance_citation_confidence: float
+    compliance_requires_human_review: bool
     combined_results: str
     needs_human_review: bool
     review_reasons: list[str]
@@ -86,6 +88,9 @@ class State(TypedDict, total=False):
     reflection_score: int
     reflection_passed: bool
     reflection_attempts: int
+    final_approval_required: bool
+    final_approval_reasons: list[str]
+    final_approved: bool
 
 
 class ProductOutput(BaseModel):
@@ -124,6 +129,8 @@ class ComplianceOutput(BaseModel):
         description="The regulation that applies (FCRA, FDCPA, TILA, ECOA, Regulation E, RESPA, Payday Rule, UDAAP, or None)."
     )
     citation: str = Field(description="The specific legal citation.")
+    citation_confidence: float = Field(description="Confidence from 0 to 1 that the chosen citation directly fits the complaint facts.")
+    requires_human_review: bool = Field(description="True if the legal grounding is weak, indirect, or uncertain.")
 
 
 class ReflectionOutput(BaseModel):
@@ -149,8 +156,46 @@ class CustomerEmailOutput(BaseModel):
     customer_email: str = Field(description="The customer email to send.")
 
 
-REVIEWABLE_FIELDS = {"severity", "compliance", "team"}
+class CustomerEmailSectionsOutput(BaseModel):
+    subject_line: str = Field(description="Email subject line including the case reference.")
+    opening_paragraph: str = Field(
+        description="Opening paragraph acknowledging the complaint, case reference, and seriousness without admitting liability."
+    )
+    rights_paragraph: str = Field(
+        description="Paragraph explaining the consumer's rights under the applicable citation in plain language."
+    )
+    next_steps_paragraph: str = Field(
+        description="Paragraph describing the investigation/review next steps and resolution context without promising a specific outcome."
+    )
+    closing_paragraph: str = Field(description="Professional closing paragraph before signature.")
+
+
+TRIAGE_REVIEWABLE_FIELDS = {
+    "valid_product",
+    "valid_sub_product",
+    "valid_issue",
+    "valid_sub_issue",
+    "severity",
+    "compliance",
+    "team",
+    "priority",
+    "sla_days",
+    "sla_deadline",
+}
+FINAL_APPROVAL_REVIEWABLE_FIELDS = {
+    "customer_email",
+    "remediation_steps",
+    "preventative_recommendations",
+    "team",
+    "priority",
+    "sla_days",
+    "sla_deadline",
+}
 _LOCAL_TIMING_BUFFER: ContextVar[dict[str, list[float]] | None] = ContextVar("local_timing_buffer", default=None)
+
+
+def _manual_sla_deadline(sla_days: int) -> str:
+    return f"Must respond within {sla_days} business day(s) — manually approved by human reviewer."
 
 
 def normalize_input_data(input_data: dict) -> dict:
@@ -205,6 +250,43 @@ def _retrieve_regulations(state: State, limit: int = 4):
     return regulation_store.similarity_search(query, k=limit)
 
 
+def _infer_regulation_family(state: State) -> str:
+    text = " ".join(
+        [
+            str(state.get("valid_product", "") or ""),
+            str(state.get("valid_sub_product", "") or ""),
+            str(state.get("valid_issue", "") or ""),
+            str(state.get("valid_sub_issue", "") or ""),
+            str(state.get("narrative", "") or ""),
+        ]
+    ).lower()
+    rules = [
+        ("FDCPA", ["debt collection", "collector", "debt", "time-barred", "very old debt", "threatened to sue"]),
+        ("Regulation E", ["unauthorized transaction", "zelle", "wallet", "debit", "atm", "electronic fund", "funds inaccessible"]),
+        ("FCRA", ["credit report", "credit reporting", "consumer report", "score", "incorrect information on your report"]),
+        ("TILA", ["credit card", "billing dispute", "statement", "apr", "loan disclosure", "finance charge"]),
+        ("RESPA", ["mortgage", "escrow", "servicing", "closing", "loan estimate"]),
+        ("ECOA", ["discrimination", "denied credit", "adverse action"]),
+        ("Payday Rule", ["payday loan", "advance loan", "rollover"]),
+    ]
+    for family, keywords in rules:
+        if any(keyword in text for keyword in keywords):
+            return family
+    return "None"
+
+
+def _retrieve_regulations_for_family(state: State, family: str, limit: int = 4):
+    broader_results = _retrieve_regulations(state, limit=max(limit * 2, 8))
+    if family in {"", "None"}:
+        return broader_results[:limit]
+    filtered = [
+        item
+        for item in broader_results
+        if family.lower() in str(item.metadata.get("regulation", "")).lower()
+    ]
+    return (filtered or broader_results)[:limit]
+
+
 def _render_reg_context(results) -> str:
     return "\n\n---\n\n".join(
         [
@@ -214,6 +296,99 @@ def _render_reg_context(results) -> str:
             for item in results
         ]
     )
+
+
+def get_rag_results(state: State, limit: int = 4) -> list[dict[str, str]]:
+    results = _retrieve_regulations(state, limit=limit)
+    return [
+        {
+            "regulation": str(item.metadata.get("regulation", "")),
+            "citation": str(item.metadata.get("citation", "")),
+            "text": item.page_content,
+        }
+        for item in results
+    ]
+
+
+def _select_regulatory_snippets(state: State, limit: int = 4) -> list[dict[str, str]]:
+    matches = get_rag_results(state, limit=limit)
+    citation = str(state.get("citation", "") or "").strip().lower()
+    regulation = str(state.get("applicable_regulation", "") or "").strip().lower()
+    prioritized = [
+        item
+        for item in matches
+        if citation and citation in item.get("citation", "").lower()
+        or regulation and regulation in item.get("regulation", "").lower()
+    ]
+    if prioritized:
+        return prioritized[:2]
+    return matches[:2]
+
+
+def _render_selected_reg_context(state: State) -> str:
+    results = _select_regulatory_snippets(state)
+    if not results:
+        return "No regulation snippets retrieved."
+    return "\n\n---\n\n".join(
+        [
+            f"Regulation: {item['regulation']}\nCitation: {item['citation']}\nText: {item['text']}"
+            for item in results
+        ]
+    )
+
+
+def _email_policy_facts(state: State) -> dict[str, str]:
+    regulation = str(state.get("applicable_regulation", "") or "").strip().lower()
+    citation = str(state.get("citation", "") or "").strip()
+    timeline_map = {
+        "fcra": "within 30 days of receiving your dispute (45 days if you provide additional information during the investigation)",
+        "fdcpa": "within 5 days of this notice",
+        "tila": "within 2 billing cycles, not to exceed 90 days",
+        "regulation e": "within 10 business days, with provisional credit applied if investigation exceeds that period",
+        "reg e": "within 10 business days, with provisional credit applied if investigation exceeds that period",
+        "ecoa": "within 30 days where adverse action notice or related response timing rules apply",
+        "respa": "within the applicable servicing error resolution or information request window under RESPA",
+        "payday rule": "within the applicable timeframe required by the governing servicing and disclosure rules",
+        "udaap": "we will review this matter promptly under applicable consumer protection requirements",
+        "none": "we will review this matter promptly and in accordance with applicable requirements",
+    }
+    exact_timeline = timeline_map.get(regulation, "we will review this matter promptly and in accordance with applicable requirements")
+    severity = int(state.get("severity", 5) or 5)
+    if severity >= 8:
+        tone = "Urgent, empathetic, and serious."
+    elif severity >= 4:
+        tone = "Professional, clear, and helpful."
+    else:
+        tone = "Friendly, informative, and concise."
+    no_clear_citation = not citation or citation.lower() in {"none", "n/a", "unknown"}
+    return {
+        "exact_timeline": exact_timeline,
+        "tone": tone,
+        "required_phrase": "We cannot guarantee a specific outcome, however...",
+        "contact_block": "[Customer Service Phone: __________]\n[Customer Service Email: __________]\n[Mailing Address: __________]",
+        "no_clear_citation": "true" if no_clear_citation else "false",
+    }
+
+
+def _assemble_customer_email(state: State, sections: CustomerEmailSectionsOutput, policy: dict[str, str]) -> str:
+    subject_line = sections.subject_line.strip()
+    if f"Case Reference: {state['complaint_id']}" not in subject_line:
+        subject_line = f"Case Reference: {state['complaint_id']} — {subject_line}".strip(" —")
+
+    body_parts = [
+        sections.opening_paragraph.strip(),
+        (
+            f"We will review this matter {policy['exact_timeline']}. "
+            f"{policy['required_phrase']}"
+        ),
+        sections.rights_paragraph.strip(),
+        sections.next_steps_paragraph.strip(),
+        "You may use the following contact information for follow-up:",
+        policy["contact_block"],
+        sections.closing_paragraph.strip(),
+        f"Sincerely,\n{state.get('team', 'Compliance Team')}",
+    ]
+    return f"Subject: {subject_line}\n\n" + "\n\n".join(part for part in body_parts if part)
 
 
 @traceable
@@ -332,7 +507,8 @@ Rate the severity 1-10 and explain your reasoning in 1-2 sentences.
 @traceable
 def compliance_assessment(state: State):
     structured_llm = llm.with_structured_output(ComplianceOutput)
-    relevant_regs = _retrieve_regulations(state)
+    inferred_family = _infer_regulation_family(state)
+    relevant_regs = _retrieve_regulations_for_family(state, inferred_family)
     reg_context = _render_reg_context(relevant_regs)
 
     result = structured_llm.invoke(
@@ -346,13 +522,31 @@ Sub-product: {state['valid_sub_product']}
 Issue: {state['valid_issue']}
 Sub-issue: {state['valid_sub_issue']}
 Narrative: {state['narrative']}
+HEURISTIC REGULATION FAMILY PRIOR: {inferred_family}
 
 COMPLIANCE RISK SCALE:
 High (8-10): Specific regulation above was likely violated
 Medium (4-7): Potential violation, regulatory gray area
 Low (1-3): No clear regulatory violation
 
-Rate compliance risk 1-10. Cite the specific regulation and section from above. Explain in 1-2 sentences."""
+STRICT CITATION RULES:
+1. Only cite a specific section if one of the provided snippets directly matches the complaint facts.
+2. If the retrieved evidence is only indirect, broad, or weakly related, set:
+- applicable_regulation = "{inferred_family}" if that family is still directionally right, otherwise "None"
+- citation = "None"
+- citation_confidence < 0.60
+- requires_human_review = true
+3. Do not guess a precise citation just because it is nearby semantically.
+4. In the explanation, explicitly say when the connection is indirect or uncertain.
+
+Return:
+- compliance score 1-10
+- applicable_regulation
+- citation
+- citation_confidence (0-1)
+- requires_human_review
+- explanation in 1-2 sentences.
+"""
     )
 
     return {
@@ -360,6 +554,8 @@ Rate compliance risk 1-10. Cite the specific regulation and section from above. 
         "compliance_explanation": result.compliance_explanation,
         "applicable_regulation": result.applicable_regulation,
         "citation": result.citation,
+        "compliance_citation_confidence": result.citation_confidence,
+        "compliance_requires_human_review": result.requires_human_review,
     }
 
 
@@ -435,6 +631,10 @@ def review_router(state: State):
         reasons.append(f"High severity: {state['severity']}/10")
     if state["compliance"] >= 8:
         reasons.append(f"High compliance risk: {state['compliance']}/10")
+    if state.get("compliance_requires_human_review"):
+        reasons.append("Compliance citation evidence is weak or uncertain")
+    elif float(state.get("compliance_citation_confidence") or 0.0) < 0.60 and state.get("citation") not in {None, "", "None"}:
+        reasons.append(f"Low citation confidence: {float(state.get('compliance_citation_confidence') or 0.0):.0%}")
     return {"needs_human_review": bool(reasons), "review_reasons": reasons}
 
 
@@ -463,7 +663,10 @@ def human_input(state: State):
         overrides = {}
     if not isinstance(overrides, dict):
         raise ValueError("Human review overrides must be a dictionary.")
-    return {key: value for key, value in overrides.items() if key in REVIEWABLE_FIELDS}
+    sanitized = {key: value for key, value in overrides.items() if key in TRIAGE_REVIEWABLE_FIELDS}
+    if "sla_days" in sanitized and "sla_deadline" not in sanitized:
+        sanitized["sla_deadline"] = _manual_sla_deadline(int(sanitized["sla_days"]))
+    return sanitized
 
 
 @traceable
@@ -483,22 +686,22 @@ def create_resolution(state: State):
 
 @traceable
 def create_customer_email(state: State):
-    structured_llm = llm.with_structured_output(CustomerEmailOutput)
-    feedback_section = ""
+    structured_llm = llm.with_structured_output(CustomerEmailSectionsOutput)
+    feedback_section = "No prior review failures."
     if state.get("reflection_feedback"):
         feedback_section = (
-            "PREVIOUS EMAIL FAILED COMPLIANCE REVIEW. YOU MUST FIX THESE SPECIFIC ISSUES:\n"
+            "PREVIOUS EMAIL FAILED COMPLIANCE REVIEW. FIX ONLY THE FAILED AREAS WHILE PRESERVING ANY VALID CONTENT:\n"
             + "\n".join(f"- {item}" for item in state["reflection_feedback"])
-            + "\n\nDo not return the same email. Fix all issues listed above."
+            + f"\n\nPREVIOUS DRAFT:\n{state.get('customer_email', '')}"
         )
 
-    relevant_regs = _retrieve_regulations(state)
-    reg_context = _render_reg_context(relevant_regs)
+    reg_context = _render_selected_reg_context(state)
+    policy = _email_policy_facts(state)
 
-    result = structured_llm.invoke(
-        f"""You are a compliance officer at a fintech company writing a regulatory-compliant customer response email. Your email will be reviewed by a compliance checker before it is sent.
+    sections = structured_llm.invoke(
+        f"""You are drafting sections for a regulatory-compliant customer response email. Do not output a full email body; only fill the requested sections.
 
-OFFICIAL CFPB REGULATIONS (use these to cite consumer rights and timelines):
+USE ONLY THESE REGULATORY SNIPPETS FOR CONSUMER RIGHTS LANGUAGE:
 {reg_context}
 
 COMPLAINT DETAILS:
@@ -511,47 +714,51 @@ Citation: {state['citation']}
 Case Reference: {state['complaint_id']}
 Assigned Team: {state['team']}
 Narrative: {state['narrative']}
-{feedback_section}
+RESOLUTION PLAN:
+{state.get('remediation_steps', '')}
+PREVENTATIVE RECOMMENDATIONS:
+{state.get('preventative_recommendations', '')}
 
-MANDATORY REQUIREMENTS — every single one must appear in the email:
+FIXED POLICY FACTS THAT WILL BE INSERTED IN THE FINAL EMAIL:
+- Exact timeline sentence: {policy['exact_timeline']}
+- Required outcome phrase: {policy['required_phrase']}
+- Contact block:
+{policy['contact_block']}
+- Required tone: {policy['tone']}
+- No clear cited regulation: {policy['no_clear_citation']}
 
-1. CASE REFERENCE — include "Case Reference: {state['complaint_id']}" in the subject line and opening paragraph
-2. REGULATORY TIMELINE — state the exact investigation window:
-- FCRA: "within 30 days of receiving your dispute (45 days if you provide additional information during the investigation)"
-- FDCPA: "within 5 days of this notice"
-- TILA: "within 2 billing cycles, not to exceed 90 days"
-- Reg E: "within 10 business days, with provisional credit applied if investigation exceeds that period"
-3. CONSUMER RIGHTS — explicitly state the consumer's rights under {state['citation']} in plain language.
-4. CONTACT INFORMATION — include these three labeled placeholders:
-[Customer Service Phone: __________]
-[Customer Service Email: __________]
-[Mailing Address: __________]
-5. TONE — severity is {state['severity']}/10:
-- 8-10: Urgent, empathetic, acknowledge seriousness immediately
-- 4-7: Professional, clear, helpful
-- 1-3: Friendly, informative
-6. OUTCOME LANGUAGE — include this exact phrase or equivalent: "We cannot guarantee a specific outcome, however..."
+MANDATORY REQUIREMENTS FOR YOUR SECTION OUTPUTS:
+1. `subject_line` must include "Case Reference: {state['complaint_id']}"
+2. `opening_paragraph` must mention the complaint issue and case reference, but must not admit liability
+3. If `No clear cited regulation` is false, `rights_paragraph` must explain the consumer's rights under {state['citation']} in plain language using the supplied regulatory snippets
+4. If `No clear cited regulation` is true, `rights_paragraph` must explicitly say that no specific violated regulation has yet been confirmed and explain the consumer's right to request review/investigation in plain language without inventing a citation
+5. `next_steps_paragraph` must reference the resolution plan context and investigation/review next steps without promising a specific outcome
+6. `closing_paragraph` should be brief and professional
+7. Do not restate the contact block or exact timeline text; those will be inserted later
+8. Keep each paragraph concise and practical
 
 ABSOLUTE PROHIBITIONS:
 - Do NOT admit liability
 - Do NOT promise a specific outcome
-- Do NOT use vague timelines
 - Do NOT imply the company is at fault before investigation completes
+
+REVIEW FEEDBACK CONTEXT:
+{feedback_section}
 """
     )
-    return {"customer_email": result.customer_email}
+    return {"customer_email": _assemble_customer_email(state, sections, policy)}
 
 
 @traceable
 def reflection_agent(state: State):
     structured_llm = llm.with_structured_output(ReflectionOutput)
-    relevant_regs = _retrieve_regulations(state)
-    reg_context = _render_reg_context(relevant_regs)
+    reg_context = _render_selected_reg_context(state)
+    policy = _email_policy_facts(state)
 
     result = structured_llm.invoke(
         f"""You are a regulatory compliance reviewer. Grade this customer email for compliance violations. Do NOT rewrite it — only identify issues.
 
-OFFICIAL CFPB REGULATIONS:
+OFFICIAL CFPB REGULATORY SNIPPETS:
 {reg_context}
 
 ORIGINAL COMPLAINT:
@@ -566,14 +773,27 @@ Narrative: {state['narrative']}
 EMAIL TO GRADE:
 {state['customer_email']}
 
-CHECK EACH ITEM — fail if ANY are missing or violated:
+EXPECTED FIXED REQUIREMENTS:
+- Case reference required: Case Reference: {state['complaint_id']}
+- Exact timeline phrase required: {policy['exact_timeline']}
+- Required outcome phrase required: {policy['required_phrase']}
+- Contact placeholders required exactly:
+{policy['contact_block']}
+- Required tone: {policy['tone']}
+- No clear cited regulation: {policy['no_clear_citation']}
+
+CHECKLIST — fail if ANY item is missing or violated:
 1. Admits liability or fault? → FAIL if yes
 2. Promises specific outcome? → FAIL if yes
-3. Missing timeline tied to regulation?
-4. Missing case reference number {state['complaint_id']}? → FAIL if missing
-5. Missing contact information for follow-up? → FAIL if missing
+3. Missing the exact required timeline phrase? → FAIL if yes
+4. Missing case reference number {state['complaint_id']} in subject/opening? → FAIL if yes
+5. Missing any required contact placeholder? → FAIL if yes
 6. Tone inappropriate for severity {state['severity']}/10? → FAIL if yes
-7. Missing citation of consumer rights under applicable regulation? → FAIL if missing
+7. If `No clear cited regulation` is false, missing explanation of consumer rights under {state['citation']} in plain language? → FAIL if yes
+8. If `No clear cited regulation` is true, FAIL only if the email falsely claims a confirmed regulation/citation or invents legal rights not supported by the complaint context
+9. Resolution/next-steps language inconsistent with the complaint context or remediation plan? → FAIL if yes
+
+Return only concrete failed checks in feedback. If something passes, do not mention it.
 """
     )
     return {
@@ -587,10 +807,58 @@ CHECK EACH ITEM — fail if ANY are missing or violated:
 @traceable
 def route_reflection(state: State):
     if state.get("reflection_attempts", 0) >= 3:
-        return "end"
+        return "post_review"
     if state["reflection_passed"]:
-        return "end"
+        return "post_review"
     return "retry"
+
+
+@traceable
+def final_review_router(state: State):
+    reasons: list[str] = []
+    if state.get("severity", 0) >= 8:
+        reasons.append(f"High severity: {state['severity']}/10")
+    if state.get("compliance", 0) >= 8:
+        reasons.append(f"High compliance risk: {state['compliance']}/10")
+    if not state.get("reflection_passed", False):
+        reasons.append("Customer email did not pass automated compliance review")
+    return {"final_approval_required": bool(reasons), "final_approval_reasons": reasons}
+
+
+@traceable
+def route_final_review(state: State):
+    return "final_approval" if state.get("final_approval_required") else "end"
+
+
+@traceable
+def final_approval(state: State):
+    decision = interrupt(
+        {
+            "complaint_id": state["complaint_id"],
+            "customer_email": state.get("customer_email"),
+            "remediation_steps": state.get("remediation_steps"),
+            "preventative_recommendations": state.get("preventative_recommendations"),
+            "team": state.get("team"),
+            "priority": state.get("priority"),
+            "sla_days": state.get("sla_days"),
+            "sla_deadline": state.get("sla_deadline"),
+            "final_approval_reasons": state.get("final_approval_reasons", []),
+        }
+    )
+    if not isinstance(decision, dict):
+        raise ValueError("Final approval resume payload must be a dictionary.")
+    if not decision.get("approved"):
+        raise ValueError("Final approval requires an approved decision to resume.")
+    overrides = decision.get("overrides") or {}
+    if overrides is None:
+        overrides = {}
+    if not isinstance(overrides, dict):
+        raise ValueError("Final approval overrides must be a dictionary.")
+    sanitized = {key: value for key, value in overrides.items() if key in FINAL_APPROVAL_REVIEWABLE_FIELDS}
+    if "sla_days" in sanitized and "sla_deadline" not in sanitized:
+        sanitized["sla_deadline"] = _manual_sla_deadline(int(sanitized["sla_days"]))
+    sanitized["final_approved"] = True
+    return sanitized
 
 
 @traceable
@@ -612,6 +880,8 @@ def build_graph():
     graph.add_node("create_resolution", _instrument_node("create_resolution", create_resolution))
     graph.add_node("create_customer_email", _instrument_node("create_customer_email", create_customer_email))
     graph.add_node("reflection_agent", _instrument_node("reflection_agent", reflection_agent))
+    graph.add_node("final_review_router", _instrument_node("final_review_router", final_review_router))
+    graph.add_node("final_approval", _instrument_node("final_approval", final_approval))
 
     graph.add_edge(START, "validate_issue")
     graph.add_edge("validate_issue", "root_cause_analysis")
@@ -628,17 +898,20 @@ def build_graph():
         {"human_input": "human_input", "auto_proceed": "auto_proceed"},
     )
     graph.add_edge("human_input", "create_resolution")
-    graph.add_edge("human_input", "create_customer_email")
     graph.add_edge("auto_proceed", "create_resolution")
-    graph.add_edge("auto_proceed", "create_customer_email")
+    graph.add_edge("create_resolution", "create_customer_email")
     graph.add_edge("create_customer_email", "reflection_agent")
     graph.add_conditional_edges(
         "reflection_agent",
         route_reflection,
-        {"retry": "create_customer_email", "end": END},
+        {"retry": "create_customer_email", "post_review": "final_review_router"},
     )
-    graph.add_edge("create_resolution", END)
-    graph.add_edge("create_customer_email", END)
+    graph.add_conditional_edges(
+        "final_review_router",
+        route_final_review,
+        {"final_approval": "final_approval", "end": END},
+    )
+    graph.add_edge("final_approval", END)
     return graph.compile(checkpointer=checkpointer)
 
 
