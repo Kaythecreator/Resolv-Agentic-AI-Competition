@@ -202,9 +202,90 @@ FINAL_APPROVAL_REVIEWABLE_FIELDS = {
 }
 _LOCAL_TIMING_BUFFER: ContextVar[dict[str, list[float]] | None] = ContextVar("local_timing_buffer", default=None)
 
+CLASSIFICATION_FIELDS = {
+    "valid_product",
+    "valid_sub_product",
+    "valid_issue",
+    "valid_sub_issue",
+}
+ROUTING_FIELDS = {
+    "team",
+    "priority",
+    "sla_days",
+    "sla_deadline",
+}
+
 
 def _manual_sla_deadline(sla_days: int) -> str:
     return f"Must respond within {sla_days} business day(s) — manually approved by human reviewer."
+
+
+def _build_combined_results(state: State) -> str:
+    return (
+        f"Issue: {state['valid_issue']}\n"
+        f"Product: {state['valid_product']}\n"
+        f"Root Cause: {state.get('root_cause', '')}\n"
+        f"Severity: {state['severity']}/10 — {state.get('severity_explanation', '')}\n"
+        f"Compliance Risk: {state['compliance']}/10 — {state.get('compliance_explanation', '')}"
+    )
+
+
+def _apply_triage_overrides(state: State, overrides: dict) -> dict:
+    if not overrides:
+        return {}
+
+    updated_state: State = dict(state)
+    updated_state.update(overrides)
+
+    classification_changed = any(field in overrides for field in CLASSIFICATION_FIELDS)
+    severity_changed = "severity" in overrides
+    compliance_changed = "compliance" in overrides
+    routing_changed = any(field in overrides for field in ROUTING_FIELDS)
+
+    derived_updates: dict = {}
+
+    if classification_changed:
+        derived_updates.update(root_cause_analysis(updated_state))
+        updated_state.update(derived_updates)
+
+        compliance_refresh = compliance_assessment(updated_state)
+        if compliance_changed:
+            compliance_refresh["compliance"] = overrides["compliance"]
+        derived_updates.update(compliance_refresh)
+        updated_state.update(derived_updates)
+
+        if not severity_changed:
+            severity_refresh = severity_assessment(updated_state)
+            derived_updates.update(severity_refresh)
+            updated_state.update(derived_updates)
+
+    if (severity_changed or compliance_changed or classification_changed) and not routing_changed:
+        routing_refresh = assign_role(updated_state)
+        derived_updates.update(routing_refresh)
+        updated_state.update(derived_updates)
+
+    final_updates = {**derived_updates, **overrides}
+
+    if classification_changed:
+        final_updates["confidence"] = 1.0
+
+    if severity_changed:
+        final_updates["severity_explanation"] = (
+            f"Human reviewer adjusted severity to {final_updates['severity']}/10 during triage review."
+        )
+
+    if compliance_changed:
+        final_updates["compliance_explanation"] = (
+            f"Human reviewer adjusted compliance risk to {final_updates['compliance']}/10 during triage review."
+        )
+
+    if routing_changed:
+        final_updates["team_explanation"] = "Human reviewer assigned routing during triage review."
+
+    recomputed_state: State = dict(updated_state)
+    recomputed_state.update(final_updates)
+    final_updates["combined_results"] = _build_combined_results(recomputed_state)
+    return final_updates
 
 
 def normalize_input_data(input_data: dict) -> dict:
@@ -711,14 +792,7 @@ Return:
 
 @traceable
 def aggregate_results(state: State):
-    combined = (
-        f"Issue: {state['valid_issue']}\n"
-        f"Product: {state['valid_product']}\n"
-        f"Root Cause: {state['root_cause']}\n"
-        f"Severity: {state['severity']}/10 — {state['severity_explanation']}\n"
-        f"Compliance Risk: {state['compliance']}/10 — {state['compliance_explanation']}"
-    )
-    return {"combined_results": combined}
+    return {"combined_results": _build_combined_results(state)}
 
 
 @traceable
@@ -816,7 +890,7 @@ def human_input(state: State):
     sanitized = {key: value for key, value in overrides.items() if key in TRIAGE_REVIEWABLE_FIELDS}
     if "sla_days" in sanitized and "sla_deadline" not in sanitized:
         sanitized["sla_deadline"] = _manual_sla_deadline(int(sanitized["sla_days"]))
-    return sanitized
+    return _apply_triage_overrides(state, sanitized)
 
 
 @traceable
