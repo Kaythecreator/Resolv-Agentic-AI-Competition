@@ -141,6 +141,8 @@ Use the batch runner to process a CSV of complaints:
 .venv/bin/python run_batch_eval.py path/to/complaints.csv
 ```
 
+A sample file is included at [CFPB_Sample.csv](/Users/kavinseralathan/Agent/CFPB_Sample.csv:1) so reviewers can quickly test the agent without preparing their own dataset. This sample data is taken directly from the CFPB website.
+
 The runner now processes complaints in parallel with `4` workers by default.
 
 You can override the worker count:
