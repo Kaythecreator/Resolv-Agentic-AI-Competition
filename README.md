@@ -82,6 +82,14 @@ cp .env.example .env
 
 4. Fill in the required keys in `.env`.
 
+5. Run the entire [Test.ipynb](/Users/kavinseralathan/Agent/Test.ipynb:1) notebook.
+
+This will:
+
+- download CFPB regulations
+- parse the regulation source files
+- create the vector database in `regulation_index/` used for RAG processes
+
 ## Environment Variables
 
 The app loads environment variables from `.env` inside [app/agent_pipeline.py](/Users/kavinseralathan/Agent/app/agent_pipeline.py:1) and [app/langsmith_metrics.py](/Users/kavinseralathan/Agent/app/langsmith_metrics.py:1).
