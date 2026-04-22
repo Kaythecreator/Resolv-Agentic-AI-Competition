@@ -8,6 +8,7 @@ import time
 from collections import defaultdict
 from contextvars import ContextVar
 from pathlib import Path
+from typing import Literal
 
 from dotenv import load_dotenv
 from pydantic import BaseModel, Field
@@ -42,6 +43,7 @@ OPENAI_EMAIL_MODEL = os.environ.get("OPENAI_EMAIL_MODEL", "gpt-5.4")
 llm = ChatOpenAI(model=OPENAI_MODEL, temperature=0.7, api_key=OPENAI_API_KEY)
 compliance_llm = ChatOpenAI(model=OPENAI_COMPLIANCE_MODEL, temperature=0.7, api_key=OPENAI_API_KEY)
 email_llm = ChatOpenAI(model=OPENAI_EMAIL_MODEL, temperature=0.7, api_key=OPENAI_API_KEY)
+ARABIC_SCRIPT_RE = re.compile(r"[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]+")
 
 with (BASE_DIR / "taxonomy.json").open("r", encoding="utf-8") as handle:
     taxonomy = json.load(handle)
@@ -94,6 +96,7 @@ class State(TypedDict, total=False):
     preventative_recommendations: str
     customer_email: str
     reflection_feedback: list[str]
+    reflection_check_results: list[str]
     reflection_score: int
     reflection_passed: bool
     reflection_attempts: int
@@ -142,10 +145,35 @@ class ComplianceOutput(BaseModel):
     requires_human_review: bool = Field(description="True if the legal grounding is weak, indirect, or uncertain.")
 
 
-class ReflectionOutput(BaseModel):
-    passed: bool = Field(description="True if email is fully compliant, False otherwise.")
-    feedback: list[str] = Field(description="Specific issues to fix. Empty if passed.")
-    compliance_score: int = Field(description="Score 1-5. 5 = fully compliant.")
+class ReflectionChecklistOutput(BaseModel):
+    admits_liability_status: Literal["pass", "fail"] = Field(description="FAIL if the email admits liability or fault.")
+    admits_liability_reason: str = Field(default="", description="Reason if admits_liability_status is fail.")
+
+    promises_outcome_status: Literal["pass", "fail"] = Field(
+        description="FAIL if the email promises a specific outcome."
+    )
+    promises_outcome_reason: str = Field(default="", description="Reason if promises_outcome_status is fail.")
+
+    timeline_status: Literal["pass", "fail", "skipped"] = Field(
+        description="Timeline check result. Use skipped only when timeline check is optional."
+    )
+    timeline_reason: str = Field(default="", description="Reason if timeline_status is fail or skipped.")
+
+    case_reference_status: Literal["pass", "fail", "skipped"] = Field(
+        description="Case reference check result. Use skipped only when case reference check is optional."
+    )
+    case_reference_reason: str = Field(default="", description="Reason if case_reference_status is fail or skipped.")
+
+    contact_info_status: Literal["pass", "fail"] = Field(description="FAIL if required contact placeholders are missing.")
+    contact_info_reason: str = Field(default="", description="Reason if contact_info_status is fail.")
+
+    tone_status: Literal["pass", "fail"] = Field(description="FAIL if tone is inappropriate for severity.")
+    tone_reason: str = Field(default="", description="Reason if tone_status is fail.")
+
+    rights_citation_status: Literal["pass", "fail"] = Field(
+        description="FAIL if rights/citation handling does not match the no_clear_citation policy."
+    )
+    rights_citation_reason: str = Field(default="", description="Reason if rights_citation_status is fail.")
 
 
 class TeamOutput(BaseModel):
@@ -569,7 +597,7 @@ def _email_policy_facts(state: State) -> dict[str, str]:
         "respa": "within the applicable servicing error resolution or information request window under RESPA",
         "payday rule": "within the applicable timeframe required by the governing servicing and disclosure rules",
         "udaap": "we will review this matter promptly under applicable consumer protection requirements",
-        "none": "we will review this matter promptly and in accordance with applicable requirements",
+        "none": "promptly and in accordance with applicable requirements",
     }
     exact_timeline = timeline_map.get(regulation, "we will review this matter promptly and in accordance with applicable requirements")
     severity = int(state.get("severity", 5) or 5)
@@ -579,7 +607,16 @@ def _email_policy_facts(state: State) -> dict[str, str]:
         tone = "Professional, clear, and helpful."
     else:
         tone = "Friendly, informative, and concise."
-    no_clear_citation = not citation or citation.lower() in {"none", "n/a", "unknown"}
+    try:
+        citation_confidence = float(state.get("compliance_citation_confidence") or 1.0)
+    except (TypeError, ValueError):
+        citation_confidence = 1.0
+    no_clear_citation = (
+        not citation
+        or citation.lower() in {"none", "n/a", "unknown"}
+        or bool(state.get("compliance_requires_human_review"))
+        or citation_confidence < 0.60
+    )
     return {
         "exact_timeline": exact_timeline,
         "tone": tone,
@@ -589,22 +626,37 @@ def _email_policy_facts(state: State) -> dict[str, str]:
     }
 
 
+def _clean_generated_text(text: str) -> str:
+    cleaned = ARABIC_SCRIPT_RE.sub("", text or "")
+    cleaned = re.sub(r"[ \t]{2,}", " ", cleaned)
+    cleaned = re.sub(r"\n{3,}", "\n\n", cleaned)
+    return cleaned.strip()
+
+
 def _assemble_customer_email(state: State, sections: CustomerEmailSectionsOutput, policy: dict[str, str]) -> str:
-    subject_line = sections.subject_line.strip()
+    subject_line = _clean_generated_text(sections.subject_line)
     if f"Case Reference: {state['complaint_id']}" not in subject_line:
         subject_line = f"Case Reference: {state['complaint_id']} — {subject_line}".strip(" —")
 
+    timeline_text = policy["exact_timeline"].strip()
+    if timeline_text.lower().startswith("within "):
+        timeline_sentence = f"We will review this matter {timeline_text}."
+    else:
+        timeline_sentence = timeline_text
+        if not timeline_sentence.endswith("."):
+            timeline_sentence += "."
+
     body_parts = [
-        sections.opening_paragraph.strip(),
+        _clean_generated_text(sections.opening_paragraph),
         (
-            f"We will review this matter {policy['exact_timeline']}. "
+            f"{timeline_sentence} "
             f"{policy['required_phrase']}"
         ),
-        sections.rights_paragraph.strip(),
-        sections.next_steps_paragraph.strip(),
+        _clean_generated_text(sections.rights_paragraph),
+        _clean_generated_text(sections.next_steps_paragraph),
         "You may use the following contact information for follow-up:",
         policy["contact_block"],
-        sections.closing_paragraph.strip(),
+        _clean_generated_text(sections.closing_paragraph),
         f"Sincerely,\n{state.get('team', 'Compliance Team')}",
     ]
     return f"Subject: {subject_line}\n\n" + "\n\n".join(part for part in body_parts if part)
@@ -960,6 +1012,7 @@ MANDATORY REQUIREMENTS FOR YOUR SECTION OUTPUTS:
 6. `closing_paragraph` should be brief and professional
 7. Do not restate the contact block or exact timeline text; those will be inserted later
 8. Keep each paragraph concise and practical
+9. Write in English only using plain U.S. business English; do not include non-English words or non-Latin scripts
 
 ABSOLUTE PROHIBITIONS:
 - Do NOT admit liability
@@ -975,12 +1028,24 @@ REVIEW FEEDBACK CONTEXT:
 
 @traceable
 def reflection_agent(state: State):
-    structured_llm = llm.with_structured_output(ReflectionOutput)
+    structured_llm = llm.with_structured_output(ReflectionChecklistOutput)
     reg_context = _render_selected_reg_context(state)
     policy = _email_policy_facts(state)
+    regulation = str(state.get("applicable_regulation", "") or "").strip().lower()
+
+    timeline_rules = {
+        "fcra": "must mention 30-day investigation window",
+        "fdcpa": "must mention 5-day validation notice window",
+        "tila": "must mention 2 billing cycle resolution window",
+        "regulation e": "must mention 10 business day provisional credit/investigation timing",
+        "reg e": "must mention 10 business day provisional credit/investigation timing",
+    }
+    timeline_rule = timeline_rules.get(regulation, "")
+    timeline_check_required = bool(timeline_rule)
+    case_reference_required = bool(state.get("complaint_id"))
 
     result = structured_llm.invoke(
-        f"""You are a regulatory compliance reviewer. Grade this customer email for compliance violations. Do NOT rewrite it — only identify issues.
+        f"""You are a regulatory compliance reviewer. Evaluate this email using a strict checklist. Do NOT rewrite the email.
 
 OFFICIAL CFPB REGULATORY SNIPPETS:
 {reg_context}
@@ -1005,25 +1070,137 @@ EXPECTED FIXED REQUIREMENTS:
 {policy['contact_block']}
 - Required tone: {policy['tone']}
 - No clear cited regulation: {policy['no_clear_citation']}
+- Timeline check required: {timeline_check_required}
+- Case reference check required: {case_reference_required}
 
-CHECKLIST — fail if ANY item is missing or violated:
-1. Admits liability or fault? → FAIL if yes
-2. Promises specific outcome? → FAIL if yes
-3. Missing the exact required timeline phrase? → FAIL if yes
-4. Missing case reference number {state['complaint_id']} in subject/opening? → FAIL if yes
-5. Missing any required contact placeholder? → FAIL if yes
-6. Tone inappropriate for severity {state['severity']}/10? → FAIL if yes
-7. If `No clear cited regulation` is false, missing explanation of consumer rights under {state['citation']} in plain language? → FAIL if yes
-8. If `No clear cited regulation` is true, FAIL only if the email falsely claims a confirmed regulation/citation or invents legal rights not supported by the complaint context
-9. Resolution/next-steps language inconsistent with the complaint context or remediation plan? → FAIL if yes
+CHECKLIST:
+1) admits_liability_status:
+- pass unless the email admits liability or fault
+- fail if it admits liability/fault
+2) promises_outcome_status:
+- pass unless the email promises a specific outcome
+- fail if it promises a specific outcome
+3) timeline_status:
+- if Timeline check required is false, set timeline_status=skipped
+- if Timeline check required is true, fail if timeline language does not satisfy: {timeline_rule or "N/A"}
+4) case_reference_status:
+- if Case reference check required is false, set case_reference_status=skipped
+- if Case reference check required is true, fail if case reference {state['complaint_id']} is missing in subject/opening
+5) contact_info_status:
+- fail if any required contact placeholder is missing
+6) tone_status:
+- fail if tone is inappropriate for severity {state['severity']}/10
+7) rights_citation_status:
+- if `No clear cited regulation` is false, fail if consumer rights under {state['citation']} are missing or unclear
+- if `No clear cited regulation` is true, fail only if the email claims a confirmed citation/regulation or invents unsupported legal rights
 
-Return only concrete failed checks in feedback. If something passes, do not mention it.
+OUTPUT RULES:
+- Return only structured fields.
+- Each status must be one of: pass, fail, skipped.
+- Use skipped only for optional checks described above.
+- Provide concise *_reason only when status is fail (or skipped for optional checks). Otherwise return an empty reason.
 """
     )
+
+    check_specs = [
+        (
+            "admits_liability_status",
+            "admits_liability_reason",
+            True,
+            "The email appears to admit liability or fault; keep language neutral pending investigation.",
+            "Admits liability or fault",
+        ),
+        (
+            "promises_outcome_status",
+            "promises_outcome_reason",
+            True,
+            "The email appears to promise a specific outcome; avoid commitment language.",
+            "Promises specific outcome",
+        ),
+        (
+            "timeline_status",
+            "timeline_reason",
+            timeline_check_required,
+            f"Timeline language is missing or does not satisfy requirement: {timeline_rule}.",
+            "Timeline requirement",
+        ),
+        (
+            "case_reference_status",
+            "case_reference_reason",
+            case_reference_required,
+            f"Case reference {state.get('complaint_id')} is missing in subject/opening.",
+            "Case reference present",
+        ),
+        (
+            "contact_info_status",
+            "contact_info_reason",
+            True,
+            "Required contact placeholders are missing or incomplete.",
+            "Contact placeholders present",
+        ),
+        (
+            "tone_status",
+            "tone_reason",
+            True,
+            f"Tone is not appropriate for severity {state.get('severity')}/10.",
+            "Tone appropriate for severity",
+        ),
+        (
+            "rights_citation_status",
+            "rights_citation_reason",
+            True,
+            "Rights/citation language does not match the no_clear_citation policy.",
+            "Rights/citation handling",
+        ),
+    ]
+
+    feedback: list[str] = []
+    checklist_results: list[str] = []
+    required_checks = 0
+    required_passes = 0
+    has_required_failure = False
+    for status_field, reason_field, required, fallback, label in check_specs:
+        status = getattr(result, status_field)
+        reason = str(getattr(result, reason_field) or "").strip()
+        requirement = "required" if required else "optional"
+        if status == "pass":
+            checklist_results.append(f"{label}: PASS ({requirement})")
+        elif status == "fail":
+            checklist_results.append(f"{label}: FAIL ({requirement}) — {reason or fallback}")
+        else:
+            checklist_results.append(f"{label}: SKIPPED ({requirement}) — {reason or 'Not required for this complaint context.'}")
+        if status == "skipped":
+            if required:
+                has_required_failure = True
+                required_checks += 1
+                feedback.append(reason or fallback)
+            continue
+        if required:
+            required_checks += 1
+            if status == "pass":
+                required_passes += 1
+                continue
+            has_required_failure = True
+            feedback.append(reason or fallback)
+        elif status == "fail":
+            feedback.append(f"(Optional) {reason or fallback}")
+
+    passed = not has_required_failure
+    if required_checks <= 0:
+        score = 5
+    else:
+        score = max(1, round(1 + (required_passes / required_checks) * 4))
+        if not passed:
+            score = min(score, 4)
+
+    if passed:
+        feedback = []
+
     return {
-        "reflection_passed": result.passed,
-        "reflection_feedback": result.feedback,
-        "reflection_score": result.compliance_score,
+        "reflection_passed": passed,
+        "reflection_feedback": feedback,
+        "reflection_check_results": checklist_results,
+        "reflection_score": score,
         "reflection_attempts": state.get("reflection_attempts", 0) + 1,
     }
 

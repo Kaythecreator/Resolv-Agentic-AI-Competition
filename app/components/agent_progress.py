@@ -57,6 +57,7 @@ OUTPUT_LABELS = {
     "preventative_recommendations": "Preventative Recommendations",
     "customer_email": "Customer Email",
     "reflection_feedback": "Reflection Feedback",
+    "reflection_check_results": "Reflection Checklist",
     "reflection_score": "Reflection Score",
     "reflection_passed": "Reflection Passed",
     "reflection_attempts": "Reflection Attempts",
@@ -529,6 +530,8 @@ def _format_output_value(key: str, value):
     if isinstance(value, float) and key == "confidence":
         return f"{value:.0%}"
     if isinstance(value, list):
+        if key == "reflection_check_results":
+            return "<br>".join(html.escape(str(item)) for item in value) if value else "None"
         return "; ".join(str(item) for item in value) if value else "None"
     if isinstance(value, str):
         return value.replace("\n", "<br>")
@@ -621,6 +624,7 @@ def _log_rag_context_to_browser(complaint_id: str, entry: dict):
         or {
             "reflection_passed": state.get("reflection_passed"),
             "reflection_feedback": state.get("reflection_feedback"),
+            "reflection_check_results": state.get("reflection_check_results"),
             "reflection_score": state.get("reflection_score"),
             "reflection_attempts": state.get("reflection_attempts"),
         },
