@@ -384,6 +384,29 @@ def _has_clear_citation(value: object) -> bool:
     return normalized not in {"", "none", "n/a", "na", "unknown", "null"}
 
 
+def _resolve_taxonomy_option(predicted: object, valid_options: list[str], fallback: object = "") -> str:
+    if not valid_options:
+        return ""
+
+    option_map = {str(opt).strip().casefold(): opt for opt in valid_options}
+
+    predicted_value = str(predicted or "").strip()
+    if predicted_value in valid_options:
+        return predicted_value
+    normalized_predicted = predicted_value.casefold()
+    if normalized_predicted in option_map:
+        return option_map[normalized_predicted]
+
+    fallback_value = str(fallback or "").strip()
+    if fallback_value in valid_options:
+        return fallback_value
+    normalized_fallback = fallback_value.casefold()
+    if normalized_fallback in option_map:
+        return option_map[normalized_fallback]
+
+    return valid_options[0]
+
+
 def _infer_part_filters(valid_product: str, valid_sub_product: str) -> list[str]:
     p = (valid_product or "").lower()
     sp = (valid_sub_product or "").lower()
@@ -728,33 +751,50 @@ def validate_issue(state: State):
     product_result = product_llm.invoke(
         f"Given the following narrative:\n{state['narrative']}\n\nAnd the classifications:\nProduct: {state['product']}\nSub-product: {state['sub_product']}\nIssue: {state['issue']}\nSub-issue: {state['sub_issue']}\n\nAre these classifications appropriate for the narrative? If not, suggest the most accurate options from this list: {products}."
     )
-    chosen_product = product_result.valid_product
+    chosen_product = _resolve_taxonomy_option(
+        product_result.valid_product,
+        products,
+        fallback=state.get("product", ""),
+    )
 
     # Step 2 — Sub-product (4-12 options)
     sub_products = list(taxonomy[chosen_product].keys())
     sub_product_result = sub_product_llm.invoke(
         f"Given the following narrative:\n{state['narrative']}\n\nAnd the classifications:\nProduct: {state['product']}\nSub-product: {state['sub_product']}\nIssue: {state['issue']}\nSub-issue: {state['sub_issue']}\n\nAre these classifications appropriate for the narrative? If not, suggest the most accurate options from this list: {sub_products}."
     )
-    chosen_sub_product = sub_product_result.valid_sub_product
+    chosen_sub_product = _resolve_taxonomy_option(
+        sub_product_result.valid_sub_product,
+        sub_products,
+        fallback=state.get("sub_product", ""),
+    )
 
     # Step 3 — Issue (4-16 options scoped to sub-product)
     issues = list(taxonomy[chosen_product][chosen_sub_product].keys())
     issue_result = issue_llm.invoke(
         f"Given the following narrative:\n{state['narrative']}\n\nAnd the classifications:\nProduct: {state['product']}\nSub-product: {state['sub_product']}\nIssue: {state['issue']}\nSub-issue: {state['sub_issue']}\n\nAre these classifications appropriate for the narrative? If not, suggest the most accurate options from this list: {issues}."
     )
-    chosen_issue = issue_result.valid_issue
+    chosen_issue = _resolve_taxonomy_option(
+        issue_result.valid_issue,
+        issues,
+        fallback=state.get("issue", ""),
+    )
 
     # Step 4 — Sub-issue (2-6 options)
     sub_issues = taxonomy[chosen_product][chosen_sub_product][chosen_issue]
     sub_issue_result = sub_issue_llm.invoke(
         f"Given the following narrative:\n{state['narrative']}\n\nAnd the classifications:\nProduct: {state['product']}\nSub-product: {state['sub_product']}\nIssue: {state['issue']}\nSub-issue: {state['sub_issue']}\n\nAre these classifications appropriate for the narrative? If not, suggest the most accurate options from this list: {sub_issues}."
     )
+    chosen_sub_issue = _resolve_taxonomy_option(
+        sub_issue_result.valid_sub_issue,
+        sub_issues,
+        fallback=state.get("sub_issue", ""),
+    )
 
     return {
         "valid_product": chosen_product,
         "valid_sub_product": chosen_sub_product,
         "valid_issue": chosen_issue,
-        "valid_sub_issue": sub_issue_result.valid_sub_issue,
+        "valid_sub_issue": chosen_sub_issue,
         "confidence": min(
             product_result.confidence,
             sub_product_result.confidence,
