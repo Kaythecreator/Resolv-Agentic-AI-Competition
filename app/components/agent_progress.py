@@ -45,6 +45,8 @@ OUTPUT_LABELS = {
     "compliance_explanation": "Compliance Explanation",
     "applicable_regulation": "Regulation",
     "citation": "Citation",
+    "candidate_citation": "Candidate Citation",
+    "confirmed_citation": "Confirmed Citation",
     "combined_results": "Summary",
     "needs_human_review": "Needs Human Review",
     "review_reasons": "Review Reasons",
@@ -188,6 +190,16 @@ def _render_review_panel(complaint_id: str, entry: dict):
                 index=severity_options.index(current_compliance),
                 key=f"detail_compliance_{complaint_id}",
             )
+            new_regulation = st.text_input(
+                "Applicable Regulation",
+                value=str(state.get("applicable_regulation", "") or ""),
+                key=f"detail_regulation_{complaint_id}",
+            )
+            new_citation = st.text_input(
+                "Citation",
+                value=str(state.get("citation", "") or ""),
+                key=f"detail_citation_{complaint_id}",
+            )
 
             team_options = get_internal_teams()
             current_team = state.get("team", "") or team_options[0]
@@ -223,6 +235,10 @@ def _render_review_panel(complaint_id: str, entry: dict):
                     overrides["severity"] = new_severity
                 if new_compliance != state.get("compliance"):
                     overrides["compliance"] = new_compliance
+                if new_regulation != (state.get("applicable_regulation") or ""):
+                    overrides["applicable_regulation"] = new_regulation.strip()
+                if new_citation != (state.get("citation") or ""):
+                    overrides["citation"] = new_citation.strip()
                 if new_team != state.get("team"):
                     overrides["team"] = new_team
                 if new_priority != state.get("priority"):
@@ -542,6 +558,13 @@ def _metric_for_log(entry: dict, log: dict) -> dict | None:
     return entry.get("agent_metrics", {}).get((log["node"], log.get("occurrence_index")))
 
 
+def _has_clear_citation(value: object) -> bool:
+    if value is None:
+        return False
+    normalized = str(value).strip().lower()
+    return normalized not in {"", "none", "n/a", "na", "unknown", "null"}
+
+
 def _complaint_metrics_caption(entry: dict) -> str:
     has_final_langsmith_metrics = entry.get("status") in {"complete", "error"} and bool(entry.get("metrics_last_synced_at"))
     latency = _format_latency(entry.get("total_latency_seconds")) if has_final_langsmith_metrics else "—"
@@ -616,6 +639,8 @@ def _log_rag_context_to_browser(complaint_id: str, entry: dict):
         "narrative": raw.get("narrative"),
         "applicable_regulation": state.get("applicable_regulation"),
         "citation": state.get("citation"),
+        "candidate_citation": state.get("candidate_citation"),
+        "confirmed_citation": state.get("confirmed_citation"),
         "compliance_explanation": state.get("compliance_explanation"),
         "rag_query": rag_debug_payload.get("rag_query", ""),
         "rag_results": rag_debug_payload.get("rag_results", []),
@@ -661,6 +686,27 @@ def _render_outputs(entry: dict):
                 st.json(events)
         return
 
+    candidate_citation = str(
+        state.get("candidate_citation", state.get("citation", "")) or ""
+    ).strip()
+    if not _has_clear_citation(candidate_citation):
+        candidate_citation = "None"
+
+    confirmed_citation = str(
+        state.get("confirmed_citation", state.get("citation", "")) or ""
+    ).strip()
+    try:
+        citation_confidence = float(state.get("compliance_citation_confidence") or 0.0)
+    except (TypeError, ValueError):
+        citation_confidence = 0.0
+    pending_human_review = bool(state.get("compliance_requires_human_review")) or citation_confidence < 0.60
+    if _has_clear_citation(confirmed_citation):
+        confirmed_citation_display = confirmed_citation
+        citation_status = "Confirmed"
+    else:
+        confirmed_citation_display = "Pending Human Review" if pending_human_review else "None"
+        citation_status = "Pending Human Review" if pending_human_review else "Not Available"
+
     summary_html = "".join(
         [
             '<div class="summary-panel">',
@@ -694,7 +740,9 @@ def _render_outputs(entry: dict):
                 [
                     ("Score", state.get("compliance")),
                     ("Regulation", state.get("applicable_regulation")),
-                    ("Citation", state.get("citation")),
+                    ("Candidate Citation", candidate_citation),
+                    ("Confirmed Citation", confirmed_citation_display),
+                    ("Citation Status", citation_status),
                 ],
                 callout=state.get("compliance_explanation"),
             ),

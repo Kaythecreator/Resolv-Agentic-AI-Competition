@@ -41,7 +41,8 @@ OPENAI_COMPLIANCE_MODEL = os.environ.get("OPENAI_COMPLIANCE_MODEL", "gpt-5.4")
 OPENAI_EMAIL_MODEL = os.environ.get("OPENAI_EMAIL_MODEL", "gpt-5.4")
 
 llm = ChatOpenAI(model=OPENAI_MODEL, temperature=0.7, api_key=OPENAI_API_KEY)
-compliance_llm = ChatOpenAI(model=OPENAI_COMPLIANCE_MODEL, temperature=0.7, api_key=OPENAI_API_KEY)
+# Keep compliance analysis lower-temperature for stable, reproducible legal outputs.
+compliance_llm = ChatOpenAI(model=OPENAI_COMPLIANCE_MODEL, temperature=0.3, api_key=OPENAI_API_KEY)
 email_llm = ChatOpenAI(model=OPENAI_EMAIL_MODEL, temperature=0.7, api_key=OPENAI_API_KEY)
 ARABIC_SCRIPT_RE = re.compile(r"[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]+")
 
@@ -80,6 +81,8 @@ class State(TypedDict, total=False):
     compliance_explanation: str
     applicable_regulation: str
     citation: str
+    candidate_citation: str
+    confirmed_citation: str
     rag_query: str
     rag_results: list[dict[str, str | int | None]]
     compliance_citation_confidence: float
@@ -214,6 +217,8 @@ TRIAGE_REVIEWABLE_FIELDS = {
     "valid_sub_issue",
     "severity",
     "compliance",
+    "applicable_regulation",
+    "citation",
     "team",
     "priority",
     "sla_days",
@@ -372,11 +377,19 @@ def _normalize_text(s: str) -> str:
     return " ".join(s.split()).strip().lower()
 
 
+def _has_clear_citation(value: object) -> bool:
+    if value is None:
+        return False
+    normalized = str(value).strip().lower()
+    return normalized not in {"", "none", "n/a", "na", "unknown", "null"}
+
+
 def _infer_part_filters(valid_product: str, valid_sub_product: str) -> list[str]:
     p = (valid_product or "").lower()
     sp = (valid_sub_product or "").lower()
     if "credit reporting" in p or "credit reporting" in sp:
-        return ["12 CFR Part 1022"]
+        # Include both CFPB Reg V text and FCRA statutory text when available.
+        return ["12 CFR Part 1022", "15 U.S.C. Chapter 41, Subchapter III"]
     if "debt collection" in p or "debt collection" in sp:
         return ["12 CFR Part 1006"]
     if "money transfer" in p or "electronic" in p or "wallet" in p or "wallet" in sp:
@@ -418,6 +431,29 @@ Complaint:
         return base_query
 
 
+def _build_hyde_regulation_query(state: State) -> str:
+    base_query = _build_compliance_base_query(state)
+    hyde_prompt = f"""
+Write one hypothetical legal analysis paragraph for retrieval only.
+Goal: maximize matching against CFPB regulation text in a vector database.
+Rules:
+- Use only facts present in the complaint context below.
+- Mention likely legal concepts, duties, timelines, and likely regulation families.
+- Include likely citation-style tokens when plausible (for example: 12 CFR Part 1022, 15 U.S.C. 1681i, 12 CFR 1005.11).
+- Do not claim facts that are not stated; use alleged/claimed language when needed.
+- 90-150 words.
+- Return only the paragraph text.
+
+Complaint context:
+{base_query}
+""".strip()
+    try:
+        hyde = llm.invoke(hyde_prompt).content.strip()
+        return hyde or _rewrite_regulation_query(state)
+    except Exception:
+        return _rewrite_regulation_query(state)
+
+
 def _dedupe_results(results):
     seen = set()
     deduped = []
@@ -433,7 +469,8 @@ def _dedupe_results(results):
 
 
 def _retrieve_compliance_regulations(state: State, k: int = 6, fetch_k: int = 40, lambda_mult: float = 0.4):
-    query = _rewrite_regulation_query(state)
+    query = _build_hyde_regulation_query(state)
+    fallback_query = _rewrite_regulation_query(state)
     parts = _infer_part_filters(state["valid_product"], state["valid_sub_product"])
     search_kwargs = {
         "query": query,
@@ -446,7 +483,23 @@ def _retrieve_compliance_regulations(state: State, k: int = 6, fetch_k: int = 40
     try:
         raw_results = regulation_store.max_marginal_relevance_search(**search_kwargs)
     except Exception:
-        raw_results = _retrieve_regulations(state, limit=k)
+        raw_results = []
+
+    if not raw_results:
+        fallback_kwargs = {
+            "query": fallback_query,
+            "k": k,
+            "fetch_k": fetch_k,
+            "lambda_mult": lambda_mult,
+        }
+        if parts:
+            fallback_kwargs["filter"] = {"part": parts[0]} if len(parts) == 1 else {"$or": [{"part": x} for x in parts]}
+        try:
+            raw_results = regulation_store.max_marginal_relevance_search(**fallback_kwargs)
+            query = fallback_query
+        except Exception:
+            raw_results = _retrieve_regulations(state, limit=k)
+            query = fallback_query
     return query, _dedupe_results(raw_results)
 
 
@@ -820,11 +873,33 @@ Return:
 """
     )
 
+    try:
+        citation_confidence = float(result.citation_confidence or 0.0)
+    except (TypeError, ValueError):
+        citation_confidence = 0.0
+
+    model_citation = str(result.citation or "").strip()
+    candidate_citation = model_citation if _has_clear_citation(model_citation) else "None"
+    if candidate_citation == "None" and relevant_regs:
+        top_rag_citation = str(relevant_regs[0].metadata.get("citation", "") or "").strip()
+        candidate_citation = top_rag_citation if _has_clear_citation(top_rag_citation) else "None"
+
+    confirmed_citation = (
+        model_citation
+        if _has_clear_citation(model_citation)
+        and citation_confidence >= 0.60
+        and not bool(result.requires_human_review)
+        else "None"
+    )
+
     return {
         "compliance": result.compliance,
         "compliance_explanation": result.compliance_explanation,
         "applicable_regulation": result.applicable_regulation,
-        "citation": result.citation,
+        # Preserve backward compatibility: `citation` remains the confirmed citation.
+        "citation": confirmed_citation,
+        "candidate_citation": candidate_citation,
+        "confirmed_citation": confirmed_citation,
         "rag_query": rewritten_query,
         "rag_results": [
             {
@@ -837,7 +912,7 @@ Return:
             }
             for item in relevant_regs
         ],
-        "compliance_citation_confidence": result.citation_confidence,
+        "compliance_citation_confidence": citation_confidence,
         "compliance_requires_human_review": result.requires_human_review,
     }
 
@@ -940,6 +1015,30 @@ def human_input(state: State):
     if not isinstance(overrides, dict):
         raise ValueError("Human review overrides must be a dictionary.")
     sanitized = {key: value for key, value in overrides.items() if key in TRIAGE_REVIEWABLE_FIELDS}
+    effective_citation = str(
+        sanitized.get(
+            "citation",
+            state.get("confirmed_citation", state.get("citation", "")),
+        )
+        or ""
+    ).strip()
+    if not _has_clear_citation(effective_citation):
+        candidate = str(state.get("candidate_citation", "") or "").strip()
+        if _has_clear_citation(candidate):
+            # Approval without explicit override promotes the surfaced candidate citation.
+            effective_citation = candidate
+            sanitized.setdefault("citation", candidate)
+            sanitized.setdefault("confirmed_citation", candidate)
+    if _has_clear_citation(effective_citation):
+        # Human approval confirms the working citation for downstream email generation.
+        sanitized.setdefault("compliance_requires_human_review", False)
+        try:
+            current_conf = float(state.get("compliance_citation_confidence") or 0.0)
+        except (TypeError, ValueError):
+            current_conf = 0.0
+        sanitized.setdefault("compliance_citation_confidence", max(0.60, current_conf))
+        sanitized.setdefault("citation", effective_citation)
+        sanitized.setdefault("confirmed_citation", effective_citation)
     if "sla_days" in sanitized and "sla_deadline" not in sanitized:
         sanitized["sla_deadline"] = _manual_sla_deadline(int(sanitized["sla_days"]))
     return _apply_triage_overrides(state, sanitized)
