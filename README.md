@@ -1,4 +1,20 @@
-# Resolv Agentic AI Complaint Dashboard
+# Resolv: Agentic AI Complaint Triage
+
+**Resolv** is an 8-agent LangGraph pipeline that triages CFPB consumer complaints: it categorizes each complaint, routes it to the right internal team, and verifies compliance risk against CFPB regulations using retrieval-augmented generation (RAG).
+
+**Results:** Placed 3rd of 330 students at Smith's first Agentic AI Challenge. Truist leadership received the solution well and is considering prototyping a similar one in-house.
+
+📣 [Read the LinkedIn post](https://lnkd.in/p/eeGV7Kyw)
+
+## Demo
+
+![Complaint dashboard with sample data](docs/screenshots/dashboard.png)
+
+![Complaint detail view](docs/screenshots/complaint_detail.png)
+
+_Screenshots use the synthetic records in [`sample_data/`](sample_data/sample_complaints.json). They are sample data, not real consumer complaints, and the analysis values shown are illustrative placeholders, not model output. Latency, token, and cost figures are empty because these records were not run through the live pipeline._
+
+## Overview
 
 Resolv is a CFPB complaint triage prototype built for the complaint categorization competition. It classifies complaints, analyzes severity and compliance risk, routes cases to an internal team, generates resolution guidance, drafts a customer email, and exposes the full workflow in a Streamlit dashboard with LangGraph-driven step tracing.
 
@@ -44,6 +60,7 @@ Resolv is a CFPB complaint triage prototype built for the complaint categorizati
 │   └── ui/
 │       └── icons.py
 ├── regulation_index/             # Persisted Chroma vector store
+├── sample_data/                  # Synthetic demo complaints (not real data)
 ├── Rules/                        # CFPB regulation XML source files
 ├── taxonomy.json                 # Complaint taxonomy
 ├── Test.ipynb                    # Notebook prototype and prompt iteration
@@ -57,7 +74,7 @@ Resolv is a CFPB complaint triage prototype built for the complaint categorizati
 - OpenAI API access
 - Optional LangSmith project for tracing, token, and cost metrics
 
-The current dependency set is in [requirements.txt](/Users/kavinseralathan/Agent/requirements.txt:1).
+The current dependency set is in [requirements.txt](requirements.txt).
 
 ## Setup
 
@@ -82,7 +99,7 @@ cp .env.example .env
 
 4. Fill in the required keys in `.env`.
 
-5. Run the entire [Test.ipynb](/Users/kavinseralathan/Agent/Test.ipynb:1) notebook.
+5. Run the entire [Test.ipynb](Test.ipynb) notebook.
 
 This will:
 
@@ -92,7 +109,7 @@ This will:
 
 ## Environment Variables
 
-The app loads environment variables from `.env` inside [app/agent_pipeline.py](/Users/kavinseralathan/Agent/app/agent_pipeline.py:1) and [app/langsmith_metrics.py](/Users/kavinseralathan/Agent/app/langsmith_metrics.py:1).
+The app loads environment variables from `.env` inside [app/agent_pipeline.py](app/agent_pipeline.py) and [app/langsmith_metrics.py](app/langsmith_metrics.py).
 
 Required:
 
@@ -141,7 +158,7 @@ Use the batch runner to process a CSV of complaints:
 .venv/bin/python run_batch_eval.py path/to/complaints.csv
 ```
 
-A sample file is included at [CFPB_Sample.csv](/Users/kavinseralathan/Agent/CFPB_Sample.csv:1) so reviewers can quickly test the agent without preparing their own dataset. This sample data is taken directly from the CFPB website.
+A sample file is included at [CFPB_Sample.csv](CFPB_Sample.csv) so reviewers can quickly test the agent without preparing their own dataset. This sample data is taken directly from the CFPB website.
 
 The runner now processes complaints in parallel with `4` workers by default.
 
@@ -199,6 +216,12 @@ Behavior:
 - complaint header metrics are populated after LangSmith reconciliation
 - local fallback timing is used internally where needed, but final complaint totals prefer LangSmith
 
+## Sample Data
+
+On first run, if `complaints.db` is empty, the dashboard loads 12 synthetic complaints from [sample_data/sample_complaints.json](sample_data/sample_complaints.json) so there is something to explore before you process your own complaints. (The app still needs `OPENAI_API_KEY` set to start.) These are **sample data, not real consumer complaints**: the narratives were written by hand, and the analysis fields (scores, teams, emails) are illustrative placeholders, not model output.
+
+To start with an empty dashboard instead, set `RESOLV_SKIP_SAMPLE_DATA=1`.
+
 ## Local Data Files
 
 The app creates and uses these local SQLite files:
@@ -219,19 +242,19 @@ Then restart Streamlit.
 - `regulation_index/chroma.sqlite3` is large and may eventually need Git LFS.
 - LangSmith metrics require valid tracing configuration and internet access.
 - If LangSmith is unavailable, some token/cost metrics may remain blank.
-- The notebook in [Test.ipynb](/Users/kavinseralathan/Agent/Test.ipynb:1) is still the main experimentation surface for prompt iteration.
+- The notebook in [Test.ipynb](Test.ipynb) is still the main experimentation surface for prompt iteration.
 
 ## Development Notes
 
 Useful entrypoints:
 
-- [app/streamlit_app.py](/Users/kavinseralathan/Agent/app/streamlit_app.py:1)
-- [app/agent_pipeline.py](/Users/kavinseralathan/Agent/app/agent_pipeline.py:1)
-- [app/state_store.py](/Users/kavinseralathan/Agent/app/state_store.py:1)
-- [run_batch_eval.py](/Users/kavinseralathan/Agent/run_batch_eval.py:1)
+- [app/streamlit_app.py](app/streamlit_app.py)
+- [app/agent_pipeline.py](app/agent_pipeline.py)
+- [app/state_store.py](app/state_store.py)
+- [run_batch_eval.py](run_batch_eval.py)
 
 If you change the taxonomy or regulatory corpus, review:
 
-- [taxonomy.json](/Users/kavinseralathan/Agent/taxonomy.json:1)
-- [regulation_index](/Users/kavinseralathan/Agent/regulation_index)
-- [Rules](/Users/kavinseralathan/Agent/Rules)
+- [taxonomy.json](taxonomy.json)
+- [regulation_index](regulation_index)
+- [Rules](Rules)

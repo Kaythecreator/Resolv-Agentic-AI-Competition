@@ -26,6 +26,7 @@ from app.db import (
     fetch_trace_metrics,
     init_db,
     log_debug_event,
+    seed_sample_data_if_empty,
     upsert_agent_metric,
     upsert_complaint,
     upsert_trace_metric,
@@ -57,6 +58,7 @@ _COMPLAINTS: dict[str, dict] = {}
 
 def init_store():
     init_db()
+    seed_sample_data_if_empty()
     if "_store_loaded" not in st.session_state:
         st.session_state._store_loaded = True
     sync_from_db()
