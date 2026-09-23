@@ -1,12 +1,14 @@
 from __future__ import annotations
 
 import json
+import os
 import sqlite3
 from pathlib import Path
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 DB_PATH = BASE_DIR / "complaints.db"
+SAMPLE_DATA_PATH = BASE_DIR / "sample_data" / "sample_complaints.json"
 
 
 def _connect():
@@ -94,6 +96,24 @@ def init_db():
             """
         )
         conn.commit()
+
+
+def seed_sample_data_if_empty():
+    """Load the synthetic demo complaints on first run so the dashboard isn't empty.
+
+    Skipped when the database already has complaints, when the sample file is missing,
+    or when RESOLV_SKIP_SAMPLE_DATA is set.
+    """
+    if os.environ.get("RESOLV_SKIP_SAMPLE_DATA", "").lower() in {"1", "true", "yes", "on"}:
+        return
+    if not SAMPLE_DATA_PATH.exists():
+        return
+    with _connect() as conn:
+        if conn.execute("SELECT 1 FROM complaints LIMIT 1").fetchone():
+            return
+    samples = json.loads(SAMPLE_DATA_PATH.read_text(encoding="utf-8"))
+    for record in samples.get("complaints", []):
+        upsert_complaint(record)
 
 
 def upsert_complaint(record: dict):
